@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/fix/listener-sessions
-lastmod: 2026-09-14T18:17:55.110Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -64,3 +63,6 @@ Listener sessions are strictly read-only. The following message types will be **
 * OrderMassCancelRequest (35=q)
 * QuoteRequest / RFQ creation
 * Quote acceptance
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

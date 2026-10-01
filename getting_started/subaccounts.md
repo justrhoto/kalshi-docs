@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/getting_started/subaccounts
-lastmod: 2026-08-16T23:46:21.438Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -61,3 +60,6 @@ addressable per subaccount. Endpoints outside its allowed set return
 this endpoint`. On FIX, restricted keys support order entry and the maker
 quote lifecycle only — RFQ creation (35=R) and quote acceptance (35=UA) are
 not available to restricted FIX sessions.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

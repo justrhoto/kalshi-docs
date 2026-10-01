@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/api-reference/market/get-series
-lastmod: 2026-09-30T16:39:25.251Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -287,3 +286,5 @@ components:
             $ref: '#/components/schemas/ErrorResponse'
 
 ````
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

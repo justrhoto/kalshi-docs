@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/margin-rest/portfolio/get-positions
-lastmod: 2026-09-30T16:39:27.557Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -242,3 +241,5 @@ components:
         tokens do not grant access.
 
 ````
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/api-reference/exchange/get-exchange-status
-lastmod: 2026-09-30T16:39:24.365Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -171,3 +170,5 @@ components:
       example: 0
 
 ````
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

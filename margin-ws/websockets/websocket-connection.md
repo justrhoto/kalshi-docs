@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/margin-ws/websockets/websocket-connection
-lastmod: 2026-05-31T16:40:03.791Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -1108,3 +1107,5 @@ securitySchemes:
     extensions: []
 
 ````
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

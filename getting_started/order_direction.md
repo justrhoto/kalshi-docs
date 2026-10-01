@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/getting_started/order_direction
-lastmod: 2026-06-01T19:43:33.338Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -99,3 +98,6 @@ no-leg pricing once the flag is removed. We will announce concrete
 dates for both steps before they happen; integrations that depend on
 the legacy no-leg pricing should plan to migrate before the default
 flip.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

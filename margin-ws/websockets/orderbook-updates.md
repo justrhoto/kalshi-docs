@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/margin-ws/websockets/orderbook-updates
-lastmod: 2026-09-14T21:53:17.020Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -388,3 +387,5 @@ securitySchemes:
     extensions: []
 
 ````
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

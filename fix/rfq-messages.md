@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/fix/rfq-messages
-lastmod: 2026-09-30T16:39:31.674Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -439,3 +438,6 @@ Exchange notifies that an RFQ creation request was rejected or that a quote requ
   8=FIXT.1.1|35=U8|117=quote-789|21010=0|
   ```
 </CodeGroup>
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

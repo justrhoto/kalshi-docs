@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/margin-rest/risk/get-risk-parameters
-lastmod: 2026-09-30T16:39:27.414Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -96,3 +95,5 @@ components:
             value.
 
 ````
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

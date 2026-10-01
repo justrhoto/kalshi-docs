@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/fix-margin/order-entry
-lastmod: 2026-09-29T01:41:19.618Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -274,3 +273,6 @@ Response to mass cancel request.
 <Note>
   Individual ExecutionReports follow for each cancelled order.
 </Note>
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

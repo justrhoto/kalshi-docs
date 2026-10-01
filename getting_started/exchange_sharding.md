@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/getting_started/exchange_sharding
-lastmod: 2026-09-03T13:47:21.157Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -104,3 +103,6 @@ The following assignments determine the shard where new events will be created. 
 * Subaccount balances are local to a specific exchange instance.
 * Order groups do not function across exchange instances.
 * [`KXMVECROSSCATEGORY-SHARD1-R`](https://demo-api.kalshi.co/trade-api/v2/multivariate_event_collections/KXMVECROSSCATEGORY-SHARD1-R) is live in demo for testing.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

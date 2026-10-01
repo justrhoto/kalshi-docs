@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/getting_started/pagination
-lastmod: 2026-05-05T21:10:39.084Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -162,3 +161,6 @@ To check for new items since your last fetch:
 ## Next Steps
 
 Now that you understand pagination, you can efficiently work with large datasets in the Kalshi API. For more details on specific endpoints, check the [API Reference](/api-reference).
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

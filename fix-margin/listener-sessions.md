@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/fix-margin/listener-sessions
-lastmod: 2026-09-14T18:17:55.114Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -56,3 +55,6 @@ Listener sessions are strictly read-only. The following message types will be **
 * OrderCancelRequest (35=F)
 * OrderCancelReplaceRequest (35=G)
 * OrderMassCancelRequest (35=q)
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/fix/subpenny-pricing
-lastmod: 2026-09-13T00:51:17.166Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -73,3 +72,6 @@ Affected Tags:
   ^^ avgPx        ^^ lastPx                        ^^ price
   ```
 </CodeGroup>
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

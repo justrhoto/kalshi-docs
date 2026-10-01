@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/margin-rest/portfolio/intra-account-transfer
-lastmod: 2026-09-30T16:39:27.726Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -193,3 +192,5 @@ components:
       description: Request timestamp in milliseconds
 
 ````
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

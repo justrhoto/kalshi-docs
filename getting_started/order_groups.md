@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/getting_started/order_groups
-lastmod: 2026-04-30T03:43:38.625Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -44,3 +43,6 @@ Business-logic errors (e.g. order group not found) are returned as rejects. Refe
 
 * [FIX Order Group Messages](/fix/order-groups)
 * [REST Order Group Endpoints](/api-reference/order-groups/get-order-groups)
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

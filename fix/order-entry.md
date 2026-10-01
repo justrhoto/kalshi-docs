@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/fix/order-entry
-lastmod: 2026-09-29T01:41:19.627Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -320,3 +319,6 @@ Response to mass cancel request.
 <Note>
   Individual ExecutionReports will follow for each canceled order.
 </Note>
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/api-reference/order-groups/get-order-group
-lastmod: 2026-09-30T16:39:26.246Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -200,3 +199,5 @@ components:
       description: Request timestamp in milliseconds
 
 ````
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

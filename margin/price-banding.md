@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/margin/price-banding
-lastmod: 2026-06-03T18:50:46.352Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -17,3 +16,6 @@ For perpetual markets, prices move in `0.0001` dollar ticks. Bids must be at lea
 * Resting orders will not be canceled due to the price band movement.
 * If there are no resting orders on that side, there is no band limit for that side.
 * Order amends outside the price band are not allowed.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

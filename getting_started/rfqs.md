@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/getting_started/rfqs
-lastmod: 2026-09-30T16:39:31.612Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -119,3 +118,6 @@ maker quote lifecycle only.
 | `RFQ_CLOSED` | RFQ was deleted, expired, or already executed |
 | `INSUFFICIENT_BALANCE` | Not enough funds for the trade |
 | `409 Conflict` | Open RFQ already exists on this market ticker |
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

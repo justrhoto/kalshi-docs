@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/api-reference/live-data/get-event-live-data
-lastmod: 2026-09-30T16:39:26.908Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -143,3 +142,5 @@ components:
           description: Chart range menu options. Omitted when unset.
 
 ````
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

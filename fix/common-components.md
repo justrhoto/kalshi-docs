@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/fix/common-components
-lastmod: 2026-09-14T18:17:55.109Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -129,3 +128,6 @@ After an EventResendRequest, the server replays the matching historical order up
 | U8 | QuoteConfirmStatus | KalshiRFQ | Server -> Client |
 | UE | RFQCancel | KalshiRT | Client -> Server |
 | UB | RFQCancelStatus | KalshiRT | Server -> Client |
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

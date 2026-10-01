@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/getting_started/making_your_first_request
-lastmod: 2026-04-26T15:27:38.165Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -17,3 +16,6 @@ The following resources might help you on your journey to exploring Kalshi's mar
 * [**Quick Start: Market Data**](/getting_started/quick_start_market_data)
 * [**Quick Start: Authenticated Requests**](/getting_started/quick_start_authenticated_requests)
 * [**Discord**](https://discord.gg/kalshi) and check out #dev and #support
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

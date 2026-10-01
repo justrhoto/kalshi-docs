@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/websockets/cfbenchmarks-value-5hz
-lastmod: 2026-09-09T16:10:57.335Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -436,3 +435,5 @@ securitySchemes:
     extensions: []
 
 ````
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

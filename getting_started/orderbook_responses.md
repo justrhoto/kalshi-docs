@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/getting_started/orderbook_responses
-lastmod: 2026-08-04T00:52:32.775Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -258,3 +257,6 @@ def calculate_depth(orderbook_data, depth_dollars="0.05"):
 * Learn about [making authenticated requests](/getting_started/api_keys) to place orders
 * Explore [WebSocket connections](/websockets) for real-time orderbook updates
 * Read about [market mechanics](https://kalshi.com/learn) on the Kalshi website
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

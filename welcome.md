@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/welcome
-lastmod: 2026-06-25T16:39:29.738Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -99,3 +98,6 @@ lastmod: 2026-06-25T16:39:29.738Z
     </Card>
   </CardGroup>
 </div>
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/api-reference/exchange/get-exchange-schedule
-lastmod: 2026-09-30T16:39:25.089Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -195,3 +194,5 @@ components:
           description: Closing time in ET (Eastern Time) format HH:MM.
 
 ````
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

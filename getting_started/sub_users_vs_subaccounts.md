@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/getting_started/sub_users_vs_subaccounts
-lastmod: 2026-09-23T18:40:46.346Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -81,3 +80,6 @@ account owner can create API keys.
 | Keep each strategy's balance and positions separate | One subaccount per strategy |
 | Give a bot or API trader a fixed amount of capital | A subaccount funded with that amount, plus an API key restricted to it |
 | Remove a person's access without moving funds | Revoke their sub-user |
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

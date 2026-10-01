@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/getting_started/historical_data
-lastmod: 2026-09-30T04:03:00.858Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -75,3 +74,6 @@ The following live endpoints stop returning records after those records move to 
 <Info>
   The historical endpoints support the same [cursor-based pagination](/getting_started/pagination) as their live counterparts.
 </Info>
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

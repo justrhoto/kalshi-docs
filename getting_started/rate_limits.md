@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/getting_started/rate_limits
-lastmod: 2026-09-22T20:13:35.165Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -168,3 +167,6 @@ Fetch your grants from [`GET /account/limits`](/api-reference/account/get-accoun
 ```
 
 A grant with no `expires_ts` is permanent. You keep your best grant at each level: a longer-lived manual grant is never shortened by a volume grant, and if you qualify by volume while holding a manual grant near expiry, the grant is extended to a fresh 30 days.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

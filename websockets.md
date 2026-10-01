@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/websockets
-lastmod: 2026-07-13T19:43:31.361Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -24,3 +23,6 @@ WebSocket connections use the same API key authentication and signing path as be
 * To generate clients or inspect channel payloads directly, download the [AsyncAPI specification](/asyncapi.yaml).
 * For detailed CF Benchmarks channel usage (`cfbenchmarks_value`), see [CF Benchmarks Value Feed](/websockets/cfbenchmarks-value).
 * For real-time Pyth prices (`pyth_value`), see [Pyth Value Feed](/websockets/pyth-value).
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

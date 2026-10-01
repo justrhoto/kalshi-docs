@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/fix-margin/drop-copy
-lastmod: 2026-09-14T18:17:55.114Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -56,3 +55,6 @@ Sent when a resend request cannot be fulfilled.
 | - | - | - | - |
 | 45 | RefSeqNum | MsgSeqNum of the EventResendRequest | Yes |
 | 21004 | EventResendRejectReason | Rejection code: `1`=Too many resend requests, `2`=Server error, `3`=BeginExecID too small (outside window), `4`=EndExecID too large, `5`=User not allowlisted for historical replay | Yes |
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

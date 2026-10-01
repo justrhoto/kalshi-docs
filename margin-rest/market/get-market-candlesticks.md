@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/margin-rest/market/get-market-candlesticks
-lastmod: 2026-09-30T16:39:27.535Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -321,3 +320,5 @@ components:
             $ref: '#/components/schemas/ErrorResponse'
 
 ````
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

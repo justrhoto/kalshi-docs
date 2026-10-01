@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/fix/market-settlement
-lastmod: 2026-09-22T20:23:31.037Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -128,3 +127,6 @@ Large settlement batches may span multiple messages:
   **Important:** The `MarketSettlementReportID` (tag 20105) will be different across paginated responses.
   Each page of results generates a new unique settlement ID. Use the `Symbol` (tag 55) ticker to identify fragments belonging to the same paginated settlement.
 </Warning>
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

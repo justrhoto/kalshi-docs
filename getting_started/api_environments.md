@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/getting_started/api_environments
-lastmod: 2026-08-20T15:18:43.535Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -69,3 +68,6 @@ sign:
 ```
 
 not the hostname and not the query string.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

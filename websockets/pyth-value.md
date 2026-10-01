@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/websockets/pyth-value
-lastmod: 2026-09-18T14:24:29.982Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -691,3 +690,5 @@ securitySchemes:
     extensions: []
 
 ````
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

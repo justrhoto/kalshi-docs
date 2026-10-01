@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/fix-margin/order-groups
-lastmod: 2026-04-30T03:43:38.546Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -111,3 +110,6 @@ Response to order group management requests.
 <Note>
   Business-logic errors (e.g. order group not found, exchange-returned errors) are returned as BusinessMessageReject (35=j) messages. Malformed fields (e.g. invalid UUID format for OrderGroupID) produce a session-level Reject (35=3).
 </Note>
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

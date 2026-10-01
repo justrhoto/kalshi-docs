@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/getting_started/maintenance_and_pauses
-lastmod: 2026-04-30T03:43:38.626Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -40,3 +39,6 @@ Set this field on order creation:
 
 * **REST**: `cancel_order_on_pause` field on the create order request
 * **FIX**: Tag `21006` (CancelOrderOnPause) on New Order Single (35=D) messages
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/fix/connectivity
-lastmod: 2026-09-14T18:17:55.107Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -108,3 +107,6 @@ To control what happens to your resting orders during a [pause](/getting_started
 | - | - |
 | Y | Order is automatically cancelled when a trading or exchange pause begins |
 | N (default) | Order remains resting on the book and resumes when activity reopens |
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

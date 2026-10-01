@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/websockets/order-group-updates
-lastmod: 2026-05-06T00:22:37.457Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -231,3 +230,5 @@ securitySchemes:
     extensions: []
 
 ````
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

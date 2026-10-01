@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/websockets/market-and-event-lifecycle
-lastmod: 2026-05-31T16:40:12.341Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -1063,3 +1062,5 @@ securitySchemes:
     extensions: []
 
 ````
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

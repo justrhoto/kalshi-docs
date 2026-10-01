@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/api-reference/live-data/get-live-data-with-type
-lastmod: 2026-09-30T16:39:26.876Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -138,3 +137,5 @@ components:
           description: Milestone ID
 
 ````
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

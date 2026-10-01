@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/getting_started/quick_start_create_order
-lastmod: 2026-06-02T19:56:58.429Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -176,3 +175,6 @@ For more information, check out:
 
 * [API Reference Documentation](https://docs.kalshi.com/api-reference)
 * [Kalshi Discord Community](https://discord.gg/kalshi)
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

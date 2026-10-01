@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/getting_started/api_keys
-lastmod: 2026-10-01T02:15:45.446Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -240,3 +239,6 @@ axios.get(baseUrl + path, { headers })
         console.error('Error:', error);
     });
 ```
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

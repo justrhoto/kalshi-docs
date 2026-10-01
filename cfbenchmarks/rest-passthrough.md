@@ -1,6 +1,5 @@
 ---
 url: https://docs.kalshi.com/cfbenchmarks/rest-passthrough
-lastmod: 2026-09-09T16:10:57.365Z
 ---
 > ## Documentation Index
 > Fetch the complete documentation index at: https://docs.kalshi.com/llms.txt
@@ -117,3 +116,6 @@ The passthrough maps upstream conditions to standard Kalshi error responses:
 | Upstream rate limit exceeded | `429 too_many_requests` |
 | Upstream authorization failure, server error, or timeout | `503 service_unavailable` |
 | Other upstream client errors | `400 bad_request` (with upstream detail) |
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.
