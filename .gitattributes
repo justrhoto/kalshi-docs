@@ -1,0 +1,4 @@
+# The mirror must stay byte-identical to upstream, so Git must never translate line
+# endings. Without this, a clone on Windows rewrites every file to CRLF and the next
+# sync reports every page as modified, on every run, forever.
+* -text

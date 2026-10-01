@@ -5,7 +5,7 @@
 
 An automated repository that downloads and archives all Kalshi documentation from their sitemap as markdown.
 
-Updated nightly via GitHub Actions.
+Updated nightly via GitHub Actions. A file is only rewritten when its content changes upstream, and pages Kalshi removes are deleted, so each commit's diff shows exactly what changed in the docs. To sync locally, run `bun run update.ts`.
 
 ## Usage
 

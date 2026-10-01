@@ -4,51 +4,53 @@ on:
   # Run every night at 2 AM UTC
   schedule:
     - cron: '0 2 * * *'
-  
+
   # Allow manual trigger
   workflow_dispatch:
 
 permissions:
   contents: write
 
+concurrency:
+  group: update-docs
+  cancel-in-progress: false
+
 jobs:
   update-docs:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      
+
+      # update.ts has no dependencies, so there is nothing to install.
       - name: Setup Bun
         uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest
-      
-      - name: Install dependencies
-        run: bun install
-      
-      - name: Download documentation
-        run: bun run update
-      
-      - name: Check for changes
-        id: git-check
-        run: |
-          git diff --exit-code || echo "changes=true" >> $GITHUB_OUTPUT
-      
+
+      # Only writes files whose content changed, and reports changed/summary as step outputs.
+      # Fails the job (writing nothing) if upstream is unreachable, serves the wrong format,
+      # or the page count drops by more than 10%.
+      - name: Sync documentation
+        id: sync
+        run: bun run update.ts
+
       - name: Commit and push changes
-        if: steps.git-check.outputs.changes == 'true'
+        if: steps.sync.outputs.changed == 'true'
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add .
-          # Using @next intentionally to catch Mux issues early
-          bunx mux@next run -m openai:gpt-5.2 "Review the staged git changes and create a commit with a relevant, descriptive title summarizing what documentation changed. Use conventional commit format starting with 'docs:'. Do not include a body, just the title."
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          # Describe the change with an LLM when a key is configured; fall back to a plain summary.
+          if [ -n "$OPENAI_API_KEY" ]; then
+            bunx mux@next run -m openai:gpt-5.2 "Review the staged git changes and create a commit with a relevant, descriptive title summarizing what documentation changed. Use conventional commit format starting with 'docs:'. Do not include a body, just the title." || true
+          fi
+          git diff --cached --quiet || git commit -m "docs: sync $(date -u +%F) (${{ steps.sync.outputs.summary }})"
           git push
-      
+
       - name: No changes detected
-        if: steps.git-check.outputs.changes != 'true'
+        if: steps.sync.outputs.changed != 'true'
         run: echo "✓ Documentation is up to date, no changes to commit"

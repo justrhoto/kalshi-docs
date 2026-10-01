@@ -1,265 +1,193 @@
 #!/usr/bin/env bun
-
 /**
- * Download Kalshi documentation from their sitemap.
- * 
+ * Syncs the local mirror with the Kalshi documentation.
+ *
+ * Upstream is a Mintlify site: `sitemap.xml` enumerates every page, each page has a clean `.md`
+ * twin, and the WebSocket API is published as `asyncapi.yaml`. Pages are stored at a path
+ * mirroring their URL, behind a one-line `url:` frontmatter, and are only written when their
+ * content actually changed, so a `git diff` shows exactly what Kalshi changed and nothing else.
+ *
+ * The sitemap's `<lastmod>` is deliberately ignored: Mintlify bumps it on every deploy for every
+ * page, so storing it would touch every file on every run.
+ *
+ * Run order matters. Every file is fetched and validated before anything touches the working
+ * tree, and pruning runs last: the failure mode this protects against is upstream serving a
+ * truncated sitemap, which a prune-first script would turn into a mass deletion.
+ *
  * Usage:
  *   bun run update.ts
- *   # or with Node.js:
- *   npx tsx update.ts
- *   # or with Deno:
- *   deno run --allow-net --allow-write update.ts
+ *   # or with Node.js >= 22.18 (native type stripping):
+ *   node update.ts
+ *   # after confirming a large upstream removal is genuine:
+ *   bun run update.ts --allow-shrink
  */
-
-import { writeFile, mkdir } from 'node:fs/promises';
-import { join, dirname } from 'node:path';
+import { mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises';
+import { dirname, join, posix, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const BASE = 'https://docs.kalshi.com/';
+const SITEMAP_URL = `${BASE}sitemap.xml`;
+const ASYNCAPI_URL = `${BASE}asyncapi.yaml`;
+const ASYNCAPI_FILE = 'asyncapi.yaml';
+const OUTPUT_DIR = dirname(fileURLToPath(import.meta.url)); // Save docs to repo root
+const USER_AGENT = 'kalshi-docs/1.0 (+https://github.com/justrhoto/kalshi-docs; docs mirror)';
 
-const SITEMAP_URL = 'https://docs.kalshi.com/sitemap.xml';
-const ASYNCAPI_URL = 'https://docs.kalshi.com/asyncapi.yaml';
-const OUTPUT_DIR = __dirname; // Save docs to repo root
+/** Fail the run rather than prune if the file count falls by more than this fraction. */
+const SHRINK_TOLERANCE = 0.1;
+const CONCURRENCY = 8;
+const MAX_ATTEMPTS = 3;
 
-interface SitemapUrl {
-  loc: string;
-  lastmod?: string;
-}
+/** Directories never scanned for mirrored files. */
+const SKIP_DIRS = new Set(['.git', '.github', 'node_modules']);
 
-/**
- * Parse XML sitemap and extract URLs
- */
-function parseSitemap(xml: string): SitemapUrl[] {
-  const urls: SitemapUrl[] = [];
-  
-  // Match all <url> blocks
-  const urlRegex = /<url>([\s\S]*?)<\/url>/g;
-  let urlMatch;
-  
-  while ((urlMatch = urlRegex.exec(xml)) !== null) {
-    const urlBlock = urlMatch[1];
-    
-    // Extract <loc> tag
-    const locMatch = /<loc>(.*?)<\/loc>/.exec(urlBlock);
-    if (!locMatch) continue;
-    
-    const loc = locMatch[1];
-    
-    // Extract optional <lastmod> tag
-    const lastmodMatch = /<lastmod>(.*?)<\/lastmod>/.exec(urlBlock);
-    const lastmod = lastmodMatch ? lastmodMatch[1] : undefined;
-    
-    urls.push({ loc, lastmod });
+/** A file we mirror: repo-relative posix path and the exact bytes to store. */
+type Page = { url: string; path: string; content: string };
+
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+async function fetchText(url: string): Promise<string> {
+  let lastError: unknown;
+  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+    try {
+      const res = await fetch(url, { headers: { 'user-agent': USER_AGENT } });
+      if (res.status === 429 || res.status >= 500) throw new Error(`HTTP ${res.status}`);
+      // Other 4xx will not fix themselves; fail fast instead of burning retries.
+      if (!res.ok) throw Object.assign(new Error(`HTTP ${res.status}`), { fatal: true });
+      return await res.text();
+    } catch (error) {
+      lastError = error;
+      if ((error as { fatal?: boolean }).fatal || attempt === MAX_ATTEMPTS) break;
+      await sleep(500 * 2 ** (attempt - 1));
+    }
   }
-  
-  return urls;
+  throw new Error(`Failed to fetch ${url}: ${lastError}`);
 }
 
-/**
- * Convert URL to filesystem path relative to OUTPUT_DIR
- * Example: https://docs.kalshi.com/api-reference/communications/get-quote
- *   -> api-reference/communications/get-quote.md
- * Example: https://docs.kalshi.com/getting-started/intro
- *   -> getting-started/intro.md
- */
+/** Every `<loc>` in the sitemap that is a docs page (the homepage has no `.md` twin). */
+function parseSitemap(xml: string): string[] {
+  const urls = new Set<string>();
+  for (const [, loc] of xml.matchAll(/<loc>\s*(.*?)\s*<\/loc>/g)) {
+    const url = loc.replace(/\/$/, '');
+    if (url.startsWith(BASE) && url.length > BASE.length) urls.add(url);
+  }
+  return [...urls];
+}
+
+/** `https://docs.kalshi.com/api-reference/x/get-y` -> `api-reference/x/get-y.md` */
 function urlToPath(url: string): string {
-  // Remove protocol and domain
-  let path = url.replace(/^https?:\/\/[^/]+/, '');
-  
-  // Remove leading slash
-  path = path.replace(/^\//, '');
-  
-  // Remove trailing slash
-  path = path.replace(/\/$/, '');
-  
-  // Skip root/homepage
-  if (!path) {
-    return '';
-  }
-  
-  // Add .md extension if not present
-  if (!path.endsWith('.md')) {
-    path += '.md';
-  }
-  
-  return path;
+  const path = url.slice(BASE.length);
+  return path.endsWith('.md') ? path : `${path}.md`;
 }
 
+/** The frontmatter is just the source URL: it never changes unless the page moves. */
+const withFrontmatter = (url: string, body: string) => `---\nurl: ${url}\n---\n${body}`;
+
+/** Mirrored pages are recognised by their frontmatter, so hand-written files are never pruned. */
+const isMirrored = (content: string) => /^---\r?\nurl: https:\/\/docs\.kalshi\.com\//.test(content);
+
 /**
- * Download markdown content from URL
+ * A 200 is not proof of content: a misbehaving CDN or a site-wide error page can serve HTML
+ * for every URL. Reject anything that is not the format we asked for, before any write.
  */
-async function downloadMarkdown(url: string): Promise<string | null> {
-  const mdUrl = url.endsWith('.md') ? url : `${url}.md`;
-  
-  try {
-    console.log(`  Downloading: ${mdUrl}`);
-    const response = await fetch(mdUrl);
-    
-    if (!response.ok) {
-      console.error(`  ❌ Failed to download ${mdUrl}: ${response.status} ${response.statusText}`);
-      return null;
+function validate(url: string, body: string): void {
+  if (!body.trim()) throw new Error(`Empty body from ${url}`);
+  if (/^\s*<(!doctype|html)/i.test(body)) throw new Error(`Got HTML instead of text from ${url}`);
+  if (url === ASYNCAPI_URL && !/^asyncapi:/m.test(body)) {
+    throw new Error(`${url} does not look like an AsyncAPI document`);
+  }
+}
+
+/** Every existing mirrored page, as posix-style repo-relative paths. */
+async function existingPages(): Promise<string[]> {
+  const out: string[] = [];
+  const walk = async (dir: string) => {
+    for (const item of await readdir(dir, { withFileTypes: true })) {
+      const full = join(dir, item.name);
+      if (item.isDirectory()) {
+        if (!SKIP_DIRS.has(item.name)) await walk(full);
+      } else if (item.name.endsWith('.md') && isMirrored(await readFile(full, 'utf8'))) {
+        out.push(relative(OUTPUT_DIR, full).split(sep).join(posix.sep));
+      }
     }
-    
-    const content = await response.text();
-    console.log(`  ✓ Downloaded ${content.length} bytes`);
-    return content;
-  } catch (error) {
-    console.error(`  ❌ Error downloading ${mdUrl}:`, error);
-    return null;
-  }
+  };
+  await walk(OUTPUT_DIR);
+  return out;
 }
 
-/**
- * Add YAML frontmatter to markdown content
- */
-function addFrontmatter(content: string, url: string, lastmod?: string): string {
-  const frontmatter = [
-    '---',
-    `url: ${url}`,
-  ];
-  
-  if (lastmod) {
-    frontmatter.push(`lastmod: ${lastmod}`);
-  }
-  
-  frontmatter.push('---', '');
-  
-  return frontmatter.join('\n') + content;
+/** Fetches every URL with a bounded worker pool. Any failure aborts the whole run. */
+async function fetchPages(urls: string[]): Promise<Page[]> {
+  const pages: Page[] = new Array(urls.length);
+  let cursor = 0;
+  let done = 0;
+  const worker = async () => {
+    while (cursor < urls.length) {
+      const index = cursor++;
+      const url = urls[index];
+      const isAsyncApi = url === ASYNCAPI_URL;
+      const body = await fetchText(isAsyncApi ? url : `${url}.md`);
+      validate(url, body);
+      pages[index] = isAsyncApi
+        ? { url, path: ASYNCAPI_FILE, content: body }
+        : { url, path: urlToPath(url), content: withFrontmatter(url, body) };
+      if (++done % 25 === 0) console.log(`  fetched ${done}/${urls.length}`);
+    }
+  };
+  await Promise.all(Array.from({ length: CONCURRENCY }, worker));
+  return pages;
 }
 
-/**
- * Save markdown content to file with frontmatter
- */
-async function saveMarkdown(relativePath: string, content: string, url: string, lastmod?: string): Promise<void> {
-  const filepath = join(OUTPUT_DIR, relativePath);
-  
-  // Ensure directory exists
-  await mkdir(dirname(filepath), { recursive: true });
-  
-  // Add frontmatter to content
-  const contentWithFrontmatter = addFrontmatter(content, url, lastmod);
-  
-  await writeFile(filepath, contentWithFrontmatter, 'utf-8');
-  console.log(`  ✓ Saved to ${relativePath}`);
-}
-
-/**
- * Main function
- */
 async function main() {
-  console.log('🚀 Downloading Kalshi API documentation...\n');
-  
-  // Step 1: Download sitemap
-  console.log(`📥 Fetching sitemap: ${SITEMAP_URL}`);
-  const sitemapResponse = await fetch(SITEMAP_URL);
-  
-  if (!sitemapResponse.ok) {
-    throw new Error(`Failed to fetch sitemap: ${sitemapResponse.status} ${sitemapResponse.statusText}`);
-  }
-  
-  const sitemapXml = await sitemapResponse.text();
-  console.log(`✓ Fetched sitemap (${sitemapXml.length} bytes)\n`);
-  
-  // Step 2: Parse sitemap
-  console.log('📋 Parsing sitemap...');
-  const allUrls = parseSitemap(sitemapXml);
-  console.log(`✓ Found ${allUrls.length} total URLs\n`);
-  
-  // Step 3: Filter for documentation URLs (exclude non-doc pages)
-  console.log('🔍 Filtering for documentation URLs...');
-  const docUrls = allUrls.filter(({ loc }) => {
-    // Skip the homepage
-    if (loc === 'https://docs.kalshi.com' || loc === 'https://docs.kalshi.com/') {
-      return false;
-    }
-    // Include all other docs.kalshi.com URLs
-    return loc.startsWith('https://docs.kalshi.com/');
-  });
-  console.log(`✓ Found ${docUrls.length} documentation URLs\n`);
-  
-  if (docUrls.length === 0) {
-    console.log('⚠️  No documentation URLs found in sitemap');
-    return;
-  }
-  
-  // Step 4: Analyze sections
-  const sections = new Map<string, number>();
-  for (const { loc } of docUrls) {
-    const path = urlToPath(loc);
-    if (path) {
-      const section = path.split('/')[0];
-      sections.set(section, (sections.get(section) || 0) + 1);
-    }
-  }
-  
-  console.log('📂 Sections found:');
-  for (const [section, count] of Array.from(sections.entries()).sort()) {
-    console.log(`  ${section}: ${count} pages`);
-  }
-  console.log();
-  
-  // Step 5: Download and save each document
-  console.log(`📥 Downloading ${docUrls.length} documents...\n`);
-  
-  let successCount = 0;
-  let failCount = 0;
-  
-  for (const { loc, lastmod } of docUrls) {
-    const relativePath = urlToPath(loc);
-    
-    // Skip if we couldn't generate a path (e.g., homepage)
-    if (!relativePath) {
-      continue;
-    }
-    
-    console.log(`📄 Processing: ${loc}`);
-    if (lastmod) {
-      console.log(`  Last modified: ${lastmod}`);
-    }
-    
-    const content = await downloadMarkdown(loc);
-    
-    if (content) {
-      await saveMarkdown(relativePath, content, loc, lastmod);
-      successCount++;
-    } else {
-      failCount++;
-    }
-    
-    console.log(); // Empty line for readability
-  }
-  
-  // Step 6: Download AsyncAPI spec
-  console.log('📥 Downloading AsyncAPI specification...\n');
-  let asyncApiSuccess = false;
-  try {
-    console.log(`📄 Fetching: ${ASYNCAPI_URL}`);
-    const asyncApiResponse = await fetch(ASYNCAPI_URL);
-    
-    if (asyncApiResponse.ok) {
-      const asyncApiContent = await asyncApiResponse.text();
-      const asyncApiPath = join(OUTPUT_DIR, 'asyncapi.yaml');
-      await writeFile(asyncApiPath, asyncApiContent, 'utf-8');
-      console.log(`  ✓ Saved AsyncAPI spec (${asyncApiContent.length} bytes) to asyncapi.yaml\n`);
-      asyncApiSuccess = true;
-    } else {
-      console.error(`  ❌ Failed to download AsyncAPI spec: ${asyncApiResponse.status} ${asyncApiResponse.statusText}\n`);
-    }
-  } catch (error) {
-    console.error(`  ❌ Error downloading AsyncAPI spec:`, error, '\n');
+  console.log(`Enumerating ${SITEMAP_URL}`);
+  const pageUrls = parseSitemap(await fetchText(SITEMAP_URL));
+  console.log(`  ${pageUrls.length} pages`);
+
+  // Guardrail. Runs before any write, and before any prune.
+  const before = await existingPages();
+  const floor = Math.floor(before.length * (1 - SHRINK_TOLERANCE));
+  const allowShrink = process.argv.includes('--allow-shrink');
+  if (pageUrls.length === 0 || (pageUrls.length < floor && !allowShrink)) {
+    throw new Error(
+      `Page count fell from ${before.length} to ${pageUrls.length} (floor ${floor}). ` +
+        'Upstream may be broken; refusing to sync. Re-run once upstream recovers, or run ' +
+        'locally with --allow-shrink if the drop is genuine.',
+    );
   }
 
-  // Summary
-  console.log('📊 Summary:');
-  console.log(`  ✓ Successfully downloaded: ${successCount} docs${asyncApiSuccess ? ' + AsyncAPI spec' : ''}`);
-  console.log(`  ❌ Failed: ${failCount}${!asyncApiSuccess ? ' (+ AsyncAPI spec)' : ''}`);
-  console.log(`  📁 Output directory: ${OUTPUT_DIR}`);
-  console.log('\n✨ Done!');
+  console.log(`Fetching ${pageUrls.length + 1} files`);
+  const pages = await fetchPages([...pageUrls, ASYNCAPI_URL]);
+
+  let added = 0;
+  let modified = 0;
+  for (const page of pages) {
+    const filepath = join(OUTPUT_DIR, page.path);
+    const existing = await readFile(filepath, 'utf8').catch(() => null);
+    if (existing === page.content) continue;
+    await mkdir(dirname(filepath), { recursive: true });
+    await writeFile(filepath, page.content);
+    if (existing === null) added++;
+    else modified++;
+    console.log(`  ${existing === null ? 'added' : 'modified'} ${page.path}`);
+  }
+
+  const wanted = new Set(pages.map((p) => p.path));
+  const orphans = before.filter((f) => !wanted.has(f));
+  for (const orphan of orphans) {
+    await rm(join(OUTPUT_DIR, orphan));
+    console.log(`  removed ${orphan}`);
+  }
+
+  const summary = `${modified} modified, ${added} added, ${orphans.length} removed`;
+  const changed = modified + added + orphans.length > 0;
+  console.log(`Done: ${summary}`);
+  if (process.env.GITHUB_OUTPUT) {
+    await writeFile(process.env.GITHUB_OUTPUT, `changed=${changed}\nsummary=${summary}\n`, {
+      flag: 'a',
+    });
+  }
 }
 
-// Run main function
 main().catch((error) => {
-  console.error('❌ Fatal error:', error);
-  process.exit(1);
+  console.error(`\n${error instanceof Error ? error.message : error}`);
+  // exitCode rather than exit(): exiting with fetch sockets still open crashes libuv on Windows.
+  process.exitCode = 1;
 });
