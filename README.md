@@ -1,8 +1,5 @@
 # Kalshi Markdown Docs
 
-[![Nightly Update](https://github.com/ammario/kalshi-docs/actions/workflows/update-docs.yml/badge.svg)](https://github.com/ammario/kalshi-docs/actions/workflows/update-docs.yml)
-[![License: CC0-1.0](https://img.shields.io/badge/License-CC0_1.0-lightgrey.svg)](http://creativecommons.org/publicdomain/zero/1.0/)
-
 An automated repository that downloads and archives all Kalshi documentation from their sitemap as markdown.
 
 Updated nightly via GitHub Actions. A file is only rewritten when its content changes upstream, and pages Kalshi removes are deleted, so each commit's diff shows exactly what changed in the docs. To sync locally, run `bun run update.ts`.
@@ -14,7 +11,7 @@ Updated nightly via GitHub Actions. A file is only rewritten when its content ch
 Install as an [Agent Skill](https://agentskills.io/) for AI coding agents:
 
 ```bash
-npx add-skill ammario/kalshi-docs
+npx add-skill justrhoto/kalshi-docs
 ```
 
 Supports [Mux](https://mux.coder.com/), Claude Code, Cursor, Codex, OpenCode, and [20+ other agents](https://github.com/vercel-labs/add-skill#available-agents).
@@ -24,7 +21,7 @@ Supports [Mux](https://mux.coder.com/), Claude Code, Cursor, Codex, OpenCode, an
 Alternatively, add as a git submodule:
 
 ```bash
-git submodule add https://github.com/ammario/kalshi-docs.git docs/kalshi
+git submodule add https://github.com/justrhoto/kalshi-docs.git docs/kalshi
 git submodule update --init --recursive
 ```
 
