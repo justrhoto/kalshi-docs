@@ -2,7 +2,7 @@
 
 An automated repository that downloads and archives all Kalshi documentation from their sitemap as markdown.
 
-Updated nightly via GitHub Actions. A file is only rewritten when its content changes upstream, and pages Kalshi removes are deleted, so each commit's diff shows exactly what changed in the docs. To sync locally, run `bun run update.ts`.
+Updated nightly via GitHub Actions. Pages are written to `docs/`. A file is only rewritten when its content changes upstream, and pages Kalshi removes are deleted, so each commit's diff shows exactly what changed in the docs. To sync locally, run `bun run update.ts`.
 
 ## Usage
 
@@ -27,25 +27,18 @@ git submodule update --init --recursive
 
 ## Documentation Structure
 
-The script organizes documentation by section:
+All mirrored pages live under `docs/`, at a path mirroring their upstream URL: replace
+`https://docs.kalshi.com/` with `docs/` and append `.md`.
 
 ```
-kalshi-docs/
-├── api-reference/
-│   ├── communications/
-│   │   ├── get-quote.md
-│   │   └── ...
-│   ├── markets/
-│   │   ├── get-market.md
-│   │   └── ...
-│   └── ...
-├── getting-started/
-│   ├── intro.md
-│   └── ...
-├── guides/
-│   ├── authentication.md
-│   └── ...
-└── ...
+docs/api-reference/orders/create-order-v2.md    REST API endpoints
+docs/getting_started/*.md                       quickstarts and concepts
+docs/websockets/*.md                            WebSocket channels
+docs/fix/*.md, docs/margin-rest/*.md, ...       FIX and margin APIs
+docs/asyncapi.yaml                              WebSocket API schema (AsyncAPI)
+docs/changelog.md                               API changelog
+SKILL.md                                        agent skill entry point
+update.ts                                       the sync script
 ```
 
 ## License

@@ -3,8 +3,8 @@
  * Syncs the local mirror with the Kalshi documentation.
  *
  * Upstream is a Mintlify site: `sitemap.xml` enumerates every page, each page has a clean `.md`
- * twin, and the WebSocket API is published as `asyncapi.yaml`. Pages are stored at a path
- * mirroring their URL, behind a one-line `url:` frontmatter, and are only written when their
+ * twin, and the WebSocket API is published as `asyncapi.yaml`. Pages are stored under `docs/` at a
+ * path mirroring their URL, behind a one-line `url:` frontmatter, and are only written when their
  * content actually changed, so a `git diff` shows exactly what Kalshi changed and nothing else.
  *
  * The sitemap's `<lastmod>` is deliberately ignored: Mintlify bumps it on every deploy for every
@@ -29,7 +29,7 @@ const BASE = 'https://docs.kalshi.com/';
 const SITEMAP_URL = `${BASE}sitemap.xml`;
 const ASYNCAPI_URL = `${BASE}asyncapi.yaml`;
 const ASYNCAPI_FILE = 'asyncapi.yaml';
-const OUTPUT_DIR = dirname(fileURLToPath(import.meta.url)); // Save docs to repo root
+const OUTPUT_DIR = join(dirname(fileURLToPath(import.meta.url)), 'docs');
 const USER_AGENT = 'kalshi-docs/1.0 (+https://github.com/justrhoto/kalshi-docs; docs mirror)';
 
 /** Fail the run rather than prune if the file count falls by more than this fraction. */
@@ -40,7 +40,7 @@ const MAX_ATTEMPTS = 3;
 /** Directories never scanned for mirrored files. */
 const SKIP_DIRS = new Set(['.git', '.github', 'node_modules']);
 
-/** A file we mirror: repo-relative posix path and the exact bytes to store. */
+/** A file we mirror: posix path relative to OUTPUT_DIR and the exact bytes to store. */
 type Page = { url: string; path: string; content: string };
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
@@ -73,7 +73,7 @@ function parseSitemap(xml: string): string[] {
   return [...urls];
 }
 
-/** `https://docs.kalshi.com/api-reference/x/get-y` -> `api-reference/x/get-y.md` */
+/** `https://docs.kalshi.com/api-reference/x/get-y` -> `api-reference/x/get-y.md` (under OUTPUT_DIR) */
 function urlToPath(url: string): string {
   const path = url.slice(BASE.length);
   return path.endsWith('.md') ? path : `${path}.md`;
@@ -97,7 +97,7 @@ function validate(url: string, body: string): void {
   }
 }
 
-/** Every existing mirrored page, as posix-style repo-relative paths. */
+/** Every existing mirrored page, as posix-style paths relative to OUTPUT_DIR. */
 async function existingPages(): Promise<string[]> {
   const out: string[] = [];
   const walk = async (dir: string) => {

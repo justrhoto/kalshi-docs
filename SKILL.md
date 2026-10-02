@@ -3,7 +3,7 @@ name: kalshi-docs
 description: Kalshi prediction markets API documentation. Use when building integrations with Kalshi's REST API or WebSocket streams for trading, market data, or portfolio management.
 license: CC0-1.0
 metadata:
-  source: https://github.com/ammario/kalshi-docs
+  source: https://github.com/justrhoto/kalshi-docs
   updated: nightly
 ---
 
@@ -17,7 +17,10 @@ Complete API reference for Kalshi's prediction markets platform. Use this skill 
 
 ## Documentation Structure
 
-- `api-reference/` - Complete REST API endpoints organized by category:
+All mirrored pages live under `docs/`, at a path mirroring their URL: replace
+`https://docs.kalshi.com/` with `docs/` and append `.md`.
+
+- `docs/api-reference/` - Complete REST API endpoints organized by category:
   - `api-keys/` - API key management
   - `communications/` - RFQs and quotes
   - `events/` - Event data and series
@@ -26,20 +29,20 @@ Complete API reference for Kalshi's prediction markets platform. Use this skill 
   - `orders/` - Order placement and management
   - `portfolio/` - Positions, fills, balance, settlements
   - `multivariate/` - Multi-leg market operations
-- `getting_started/` - Quickstart guides and concepts
-- `websockets/` - WebSocket API for real-time streaming
-- `asyncapi.yaml` - WebSocket API schema (AsyncAPI format)
-- `changelog.md` - API changes and updates
+- `docs/getting_started/` - Quickstart guides and concepts
+- `docs/websockets/` - WebSocket API for real-time streaming
+- `docs/asyncapi.yaml` - WebSocket API schema (AsyncAPI format)
+- `docs/changelog.md` - API changes and updates
 
 ## Key Files
 
-- `getting_started/api_keys.md` - API key setup and authentication
-- `getting_started/quick_start_market_data.md` - Fetching market data
-- `getting_started/quick_start_create_order.md` - Placing orders
-- `getting_started/quick_start_websockets.md` - Real-time streaming
-- `getting_started/rate_limits.md` - Rate limiting details
-- `api-reference/portfolio/` - Trading and position management
-- `api-reference/market/` - Market data endpoints
+- `docs/getting_started/api_keys.md` - API key setup and authentication
+- `docs/getting_started/quick_start_market_data.md` - Fetching market data
+- `docs/getting_started/quick_start_create_order.md` - Placing orders
+- `docs/getting_started/quick_start_websockets.md` - Real-time streaming
+- `docs/getting_started/rate_limits.md` - Rate limiting details
+- `docs/api-reference/portfolio/` - Trading and position management
+- `docs/api-reference/market/` - Market data endpoints
 
 ## Usage Notes
 
@@ -47,4 +50,4 @@ Complete API reference for Kalshi's prediction markets platform. Use this skill 
 - WebSocket URL: `wss://api.kalshi.com/trade-api/ws/v2`
 - Demo environment available at `https://demo-api.kalshi.co`
 - All trading endpoints require authentication via API key
-- Rate limits apply - see `getting_started/rate_limits.md`
+- Rate limits apply - see `docs/getting_started/rate_limits.md`
