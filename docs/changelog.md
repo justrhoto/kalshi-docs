@@ -21,6 +21,40 @@ the `FIX` tag.
 
 <Update
   label="October 8, 2026"
+  rss={{
+title: "Disable automatic order transfers on the Kalshi App and Web",
+description: "Disable automatic order transfers on the Kalshi App and Web"
+}}
+>
+  Since the exchange sharding rollout, orders placed through the Kalshi App
+  and Web automatically transfer capital between exchange shards as needed
+  to fund the order.
+
+  Market makers can disable this feature on the
+  [Exchange Indexes settings page](https://kalshi.com/account/exchange-indexes).
+</Update>
+
+<Update
+  label="October 8, 2026"
+  tags={["REST", "Margin"]}
+  rss={{
+title: "market_version on margin markets and orders",
+description: "Margin markets return market_version, and POST /margin/orders accepts it to reject an order placed against a market whose version has changed since it was read."
+}}
+>
+  `GET /trade-api/v2/margin/markets` and `GET /trade-api/v2/margin/markets/{ticker}`
+  now return `market_version`. A market starts at version 1, and the version
+  can increase when there is a corporate action, such as a stock split.
+  `POST /trade-api/v2/margin/orders` accepts an optional `market_version`. If
+  it is set and the market has moved to a different version, the order is
+  rejected with HTTP 409 and error code `market_version_mismatch`; when you
+  see this error, read the market again before resubmitting. If you omit it
+  or send 0, the order is placed without the check. A market read can
+  briefly return the previous version right after a version bump.
+</Update>
+
+<Update
+  label="October 8, 2026"
   tags={["FIX", "Predictions", "Margin"]}
   rss={{
 title: "Trade IDs on FIX market data",
