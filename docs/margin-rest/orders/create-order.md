@@ -90,7 +90,6 @@ components:
     CreateMarginOrderRequest:
       type: object
       required:
-        - ticker
         - client_order_id
         - side
         - count
@@ -100,8 +99,18 @@ components:
       properties:
         ticker:
           type: string
+          description: >-
+            Market ticker. Supply ticker or market_id; ticker takes precedence
+            when both are provided.
+          x-go-type-skip-optional-pointer: true
           x-oapi-codegen-extra-tags:
-            validate: required,min=1
+            validate: required_without=MarketId
+        market_id:
+          type: string
+          description: Stable exchange market UUID. May be supplied instead of ticker.
+          x-go-type-skip-optional-pointer: true
+          x-oapi-codegen-extra-tags:
+            validate: omitempty,uuid
         client_order_id:
           type: string
           x-go-type-skip-optional-pointer: true

@@ -158,6 +158,8 @@ components:
         - size_min
         - size_max
         - functional_description
+        - price_level_structure
+        - price_ranges
       properties:
         collection_ticker:
           type: string
@@ -238,6 +240,20 @@ components:
           description: >-
             A functional description of the collection describing how inputs
             affect the output.
+        price_level_structure:
+          type: string
+          description: >-
+            Price level structure used for new markets created in this
+            collection. Existing markets may differ; use the market's
+            price_level_structure and price_ranges for its current pricing.
+        price_ranges:
+          type: array
+          description: >-
+            Price bands and tick sizes in fixed-point dollars for new markets
+            created in this collection. Use these ranges to determine valid
+            prices rather than hardcoding the structure name.
+          items:
+            $ref: '#/components/schemas/PriceRange'
     ErrorResponse:
       type: object
       properties:
@@ -286,6 +302,22 @@ components:
           items:
             type: string
           description: List of active quoters for this event.
+    PriceRange:
+      type: object
+      required:
+        - start
+        - end
+        - step
+      properties:
+        start:
+          type: string
+          description: Starting price for this range in dollars
+        end:
+          type: string
+          description: Ending price for this range in dollars
+        step:
+          type: string
+          description: Price step/tick size for this range in dollars
   responses:
     BadRequestError:
       description: Bad request - invalid input

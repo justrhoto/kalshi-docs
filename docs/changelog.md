@@ -21,6 +21,30 @@ the `FIX` tag.
 
 <Update
   label="October 8, 2026"
+  tags={["REST", "Predictions"]}
+  rss={{
+title: "Price level structures returned on multivariate event collection responses",
+description: "Price level structures returned on multivariate event collection responses"
+}}
+>
+  `GET /multivariate_event_collections` and
+  `GET /multivariate_event_collections/{collection_ticker}` now return
+  `price_level_structure` and `price_ranges` on each collection.
+</Update>
+
+<Update
+  label="October 8, 2026"
+  tags={["WebSocket", "FIX", "Predictions"]}
+  rss={{
+title: "rfq_deleted provided to all subscribers after execution",
+description: "rfq_deleted provided to all subscribers after execution"
+}}
+>
+  All RFQ subscribers notified after an RFQ closure.
+</Update>
+
+<Update
+  label="October 8, 2026"
   rss={{
 title: "Disable automatic order transfers on the Kalshi App and Web",
 description: "Disable automatic order transfers on the Kalshi App and Web"

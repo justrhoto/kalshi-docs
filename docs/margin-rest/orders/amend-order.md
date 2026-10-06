@@ -113,16 +113,24 @@ components:
     AmendMarginOrderRequest:
       type: object
       required:
-        - ticker
         - side
         - price
         - count
       properties:
         ticker:
           type: string
-          description: Market ticker
+          description: >-
+            Market ticker. Supply ticker or market_id; ticker takes precedence
+            when both are provided.
+          x-go-type-skip-optional-pointer: true
           x-oapi-codegen-extra-tags:
-            validate: required,min=1
+            validate: required_without=MarketId
+        market_id:
+          type: string
+          description: Stable exchange market UUID. May be supplied instead of ticker.
+          x-go-type-skip-optional-pointer: true
+          x-oapi-codegen-extra-tags:
+            validate: omitempty,uuid
         side:
           $ref: '#/components/schemas/BookSide'
           description: Side of the order
