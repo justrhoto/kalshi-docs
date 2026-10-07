@@ -21,6 +21,18 @@ the `FIX` tag.
 
 <Update
   label="October 8, 2026"
+  tags={["FIX", "Predictions", "Margin"]}
+  rss={{
+title: "FIX accepts trade-scoped API keys",
+description: "FIX logon accepts API keys with read and write::trade."
+}}
+>
+  FIX logon now accepts API keys with `read` and `write::trade`, not only
+  parent `write`.
+</Update>
+
+<Update
+  label="October 8, 2026"
   tags={["REST", "Predictions"]}
   rss={{
 title: "Price level structures returned on multivariate event collection responses",
@@ -68,13 +80,13 @@ description: "Margin markets return market_version, and POST /margin/orders acce
 >
   `GET /trade-api/v2/margin/markets` and `GET /trade-api/v2/margin/markets/{ticker}`
   now return `market_version`. A market starts at version 1, and the version
-  can increase when there is a corporate action, such as a stock split.
+  increases when trading resumes after a corporate action, such as a stock split.
   `POST /trade-api/v2/margin/orders` accepts an optional `market_version`. If
   it is set and the market has moved to a different version, the order is
   rejected with HTTP 409 and error code `market_version_mismatch`; when you
   see this error, read the market again before resubmitting. If you omit it
   or send 0, the order is placed without the check. A market read can
-  briefly return the previous version right after a version bump.
+  briefly return the previous version right after trading resumes.
 </Update>
 
 <Update

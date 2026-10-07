@@ -9,9 +9,6 @@ url: https://docs.kalshi.com/api-reference/communications/confirm-rfq-quote
 
 >  Endpoint for confirming a quote scoped to its RFQ. This will start a timer for order execution.
 
-<Note>
-  Rate limits are more favorable when providing the RFQ ID.
-</Note>
 
 
 ## OpenAPI

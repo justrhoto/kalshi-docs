@@ -9,9 +9,6 @@ url: https://docs.kalshi.com/api-reference/orders/get-order
 
 >  Endpoint for getting a single order.
 
-<Note>
-  **Rate limit:** 2 tokens per request. See `GET /trade-api/v2/account/endpoint_costs` for current non-default endpoint costs.
-</Note>
 
 
 ## OpenAPI

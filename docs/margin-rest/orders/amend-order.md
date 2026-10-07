@@ -9,9 +9,6 @@ url: https://docs.kalshi.com/margin-rest/orders/amend-order
 
 > Endpoint for amending the price, max number of fillable contracts, and/or expiration time of an existing margin order.
 
-<Note>
-  Amending only expiry or decreasing size preserves queue position. Increasing size or changing price forfeits queue position and places the order at the back of the queue.
-</Note>
 
 
 ## OpenAPI
