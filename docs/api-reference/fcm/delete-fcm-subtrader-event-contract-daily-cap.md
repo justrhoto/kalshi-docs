@@ -21,7 +21,7 @@ submit on the subtrader's behalf; to stop the account entirely, block subtrader 
 openapi: 3.0.0
 info:
   title: Kalshi Trade API Manual Endpoints
-  version: 3.32.0
+  version: 3.34.0
   description: >-
     Manually defined OpenAPI spec for endpoints being migrated to spec-first
     approach

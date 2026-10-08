@@ -9,6 +9,13 @@ url: https://docs.kalshi.com/api-reference/communications/get-quote
 
 > DEPRECATED: Use GET /communications/rfqs/{rfq_id}/quotes/{quote_id} instead. Endpoint for getting a particular quote.
 
+<Warning>
+  This endpoint is deprecated. Use `GET /communications/rfqs/{rfq_id}/quotes/{quote_id}` instead.
+</Warning>
+
+<Note>
+  **Rate limit:** 2 tokens per request. See `GET /trade-api/v2/account/endpoint_costs` for current non-default endpoint costs.
+</Note>
 
 
 ## OpenAPI
@@ -17,7 +24,7 @@ url: https://docs.kalshi.com/api-reference/communications/get-quote
 openapi: 3.0.0
 info:
   title: Kalshi Trade API Manual Endpoints
-  version: 3.32.0
+  version: 3.34.0
   description: >-
     Manually defined OpenAPI spec for endpoints being migrated to spec-first
     approach

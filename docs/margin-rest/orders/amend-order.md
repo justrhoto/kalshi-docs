@@ -9,6 +9,9 @@ url: https://docs.kalshi.com/margin-rest/orders/amend-order
 
 > Endpoint for amending the price, max number of fillable contracts, and/or expiration time of an existing margin order.
 
+<Note>
+  Amending only expiry or decreasing size preserves queue position. Increasing size or changing price forfeits queue position and places the order at the back of the queue.
+</Note>
 
 
 ## OpenAPI
@@ -101,11 +104,13 @@ components:
       name: subaccount
       in: query
       required: false
-      description: Subaccount number (0 for primary, 1-63 for subaccounts). Defaults to 0.
+      description: >-
+        Subaccount number (0 for primary, 1-63 for subaccounts). Defaults to 0.
+        Subaccount-restricted API keys default to their locked subaccount and
+        must omit this parameter or pass their locked subaccount.
       schema:
         type: integer
         minimum: 0
-        default: 0
   schemas:
     AmendMarginOrderRequest:
       type: object

@@ -19,7 +19,7 @@ API keys restricted to a subaccount return only that subaccount's orders. If sup
 openapi: 3.0.0
 info:
   title: Kalshi Trade API Manual Endpoints
-  version: 3.32.0
+  version: 3.34.0
   description: >-
     Manually defined OpenAPI spec for endpoints being migrated to spec-first
     approach

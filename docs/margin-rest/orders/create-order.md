@@ -160,11 +160,10 @@ components:
         subaccount:
           type: integer
           minimum: 0
-          default: 0
           description: >-
             The subaccount number to use for this margin order. 0 is the primary
-            subaccount.
-          x-go-type-skip-optional-pointer: true
+            subaccount. Subaccount-restricted API keys must omit this field or
+            pass their locked subaccount.
         order_group_id:
           type: string
           description: The order group this order is part of
