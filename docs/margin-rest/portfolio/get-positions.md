@@ -68,7 +68,11 @@ paths:
         - name: subaccount
           in: query
           required: false
-          description: Subaccount number (0 for primary, 1-63 for subaccounts)
+          description: >-
+            Subaccount number (0 for primary, 1-63 for subaccounts). If omitted,
+            returns positions for all subaccounts. Subaccount-restricted API
+            keys must omit this or pass their locked subaccount, and read only
+            that subaccount's positions.
           schema:
             type: integer
         - name: ticker

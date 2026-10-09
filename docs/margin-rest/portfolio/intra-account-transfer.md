@@ -92,6 +92,18 @@ components:
         - destination
         - amount
       properties:
+        client_transfer_id:
+          type: string
+          format: uuid
+          description: >
+            Client ID for duplicate prevention. Reuse only for identical
+            requests. Scoped to the user and both exchange instances and shards.
+            Accepted transfers cannot be repeated with the same ID on the same
+            route.
+
+            Only supported for primary accounts. Transfers involving numbered
+            subaccounts reject this field. If omitted, each request creates a
+            new transfer.
         source:
           $ref: '#/components/schemas/ExchangeInstance'
           description: The source exchange instance

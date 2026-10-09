@@ -202,9 +202,21 @@ components:
         bid:
           $ref: '#/components/schemas/FixedPointDollars'
           description: Best bid price in dollars.
+        bid_size_fp:
+          $ref: '#/components/schemas/FixedPointCount'
+          description: >-
+            Total number of contracts resting at the best bid price, as a
+            fixed-point count string. Zero when there is no bid. Omitted when
+            market stats are unavailable.
         ask:
           $ref: '#/components/schemas/FixedPointDollars'
           description: Best ask price in dollars.
+        ask_size_fp:
+          $ref: '#/components/schemas/FixedPointCount'
+          description: >-
+            Total number of contracts resting at the best ask price, as a
+            fixed-point count string. Zero when there is no ask. Omitted when
+            market stats are unavailable.
         settlement_mark_price:
           $ref: '#/components/schemas/TickerPrice'
           description: Mark price used for settlement and funding.

@@ -7,7 +7,7 @@ url: https://docs.kalshi.com/margin-rest/market/get-trades
 
 # Get Trades
 
-> Endpoint for retrieving public margin trades for a given market ticker. Returns a paginated response. Use the cursor value from the previous response to get the next page.
+> Endpoint for retrieving public margin trades across all markets or filtered by market ticker. Returns a paginated response. Use the cursor value from the previous response to get the next page.
 
 
 
@@ -57,17 +57,20 @@ paths:
         - market
       summary: Get Trades
       description: >-
-        Endpoint for retrieving public margin trades for a given market ticker.
-        Returns a paginated response. Use the cursor value from the previous
-        response to get the next page.
+        Endpoint for retrieving public margin trades across all markets or
+        filtered by market ticker. Returns a paginated response. Use the cursor
+        value from the previous response to get the next page.
       operationId: GetMarginTrades
       parameters:
         - name: ticker
           in: query
-          required: true
+          required: false
           schema:
             type: string
-          description: Market ticker to retrieve trades for
+          x-go-type-skip-optional-pointer: true
+          description: >-
+            Optional market ticker to filter trades. Omit to retrieve trades
+            across all margin markets.
         - name: limit
           in: query
           required: false
