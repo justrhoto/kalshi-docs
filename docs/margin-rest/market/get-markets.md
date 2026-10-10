@@ -110,6 +110,9 @@ components:
         - schedule
         - exchange_index
         - market_version
+        - funding_deadband
+        - funding_cap
+        - funding_limit_unit
       properties:
         ticker:
           type: string
@@ -244,6 +247,27 @@ components:
                 schedule.
         schedule:
           $ref: '#/components/schemas/MarginMarketSchedule'
+        funding_deadband:
+          type: number
+          format: double
+          minimum: 0
+          description: >-
+            Funding deadband configured at market creation, expressed in
+            funding_limit_unit.
+        funding_cap:
+          type: number
+          format: double
+          minimum: 0
+          description: >-
+            Funding cap configured at market creation, expressed in
+            funding_limit_unit.
+        funding_limit_unit:
+          type: string
+          enum:
+            - percentage
+            - dollar
+          x-go-type-skip-optional-pointer: true
+          description: Unit for the funding limits configured at market creation.
     ErrorResponse:
       type: object
       properties:

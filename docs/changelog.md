@@ -21,6 +21,20 @@ the `FIX` tag.
 
 <Update
   label="October 15, 2026"
+  tags={["REST", "Margin"]}
+  rss={{
+title: "Funding configuration on margin markets",
+description: "Margin market responses expose funding limits configured at creation."
+}}
+>
+  `GET /trade-api/v2/margin/markets` and
+  `GET /trade-api/v2/margin/markets/{ticker}` now include `funding_deadband`,
+  `funding_cap`, and `funding_limit_unit` configured at creation. These values
+  do not reflect later clearing configuration changes.
+</Update>
+
+<Update
+  label="October 15, 2026"
   tags={["REST", "Predictions", "Margin"]}
   rss={{
 title: "Prevent duplicate intra-account transfers with client IDs",
