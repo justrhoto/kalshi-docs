@@ -23,6 +23,55 @@ the `FIX` tag.
   label="October 15, 2026"
   tags={["REST", "Margin"]}
   rss={{
+title: "Batch orderbooks for margin markets",
+description: "GET /trade-api/v2/margin/markets/orderbooks returns the orderbooks of up to 100 margin markets in one request."
+}}
+>
+  `GET /trade-api/v2/margin/markets/orderbooks` returns the current orderbooks
+  of several margin markets in a single request. Pass up to 100 tickers as a
+  comma-separated `tickers` query parameter; the response carries one entry per
+  requested ticker, in request order, each with the same `bids` and `asks`
+  levels as `GET /trade-api/v2/margin/markets/{ticker}/orderbook`. A ticker
+  that is not a margin market returns `404`.
+</Update>
+
+<Update
+  label="October 15, 2026"
+  tags={["REST", "Predictions"]}
+  rss={{
+title: "Clearer invalid_parameters messages on combo market creation",
+description: "Combo creation requests rejected for size, membership, side, or availability now explain the problem in the message field."
+}}
+>
+  `POST /trade-api/v2/multivariate_event_collections/{collection_ticker}` now
+  explains `invalid_parameters` rejections in the `message` field: too few or
+  too many selected markets (for example, "Select at least 2 markets to create
+  a combo."), a market whose event is not in the collection, a NO side on a
+  YES-only market, per-event selection limits, an inactive market, and a
+  collection that is closed or not yet open. When specific markets are at
+  fault, `details` lists their tickers as a comma-separated string.
+
+  The HTTP status (`400`) and `code` (`invalid_parameters`) are unchanged.
+</Update>
+
+<Update
+  label="October 15, 2026"
+  tags={["REST", "Margin"]}
+  rss={{
+title: "Funding invalid premium handling on margin markets",
+description: "Margin market responses show how funding averages seconds with no premium."
+}}
+>
+  `GET /trade-api/v2/margin/markets` and
+  `GET /trade-api/v2/margin/markets/{ticker}` now include
+  `funding_invalid_premium_handling`, configured at creation. `dampen` counts a
+  second with no premium as 0 in the funding average; `exclude` leaves it out.
+</Update>
+
+<Update
+  label="October 15, 2026"
+  tags={["REST", "Margin"]}
+  rss={{
 title: "Funding configuration on margin markets",
 description: "Margin market responses expose funding limits configured at creation."
 }}

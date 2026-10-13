@@ -107,7 +107,13 @@ components:
         - funding_deadband
         - funding_cap
         - funding_limit_unit
+        - funding_invalid_premium_handling
       properties:
+        market_id:
+          type: string
+          description: >-
+            Stable market UUID. Remains unchanged when the market ticker is
+            renamed.
         ticker:
           type: string
         title:
@@ -262,6 +268,20 @@ components:
             - dollar
           x-go-type-skip-optional-pointer: true
           description: Unit for the funding limits configured at market creation.
+        funding_invalid_premium_handling:
+          type: string
+          enum:
+            - dampen
+            - exclude
+          x-enum-varnames:
+            - MarginMarketFundingInvalidPremiumHandlingDampen
+            - MarginMarketFundingInvalidPremiumHandlingExclude
+          x-go-type-skip-optional-pointer: true
+          description: >-
+            How funding averages a second with no premium (no orderbook sample,
+            no index price, or a trading halt), configured at market creation.
+            dampen counts the second as a premium of 0; exclude leaves it out of
+            the average.
     ErrorResponse:
       type: object
       properties:
