@@ -19,6 +19,12 @@ surface (`REST`, `WebSocket`, `FIX`) or exchange (`Predictions`, `Margin`).
 FIX API changes, previously tracked on a separate page, now live here under
 the `FIX` tag.
 
+<Update label="October 15, 2026" tags={["REST", "Predictions"]}>
+  Registered MCP clients can read portfolio balances, positions, orders and fills using explicitly granted `read::mcp_portfolio` OAuth access. These grants do not allow order execution or funding changes. Already-public market, event and series reads accept a resource-bound MCP grant for per-user rate accounting; their anonymous payloads remain unchanged.
+
+  `GET /events/{event_ticker}` accepts `exclude_markets=true` for metadata-only reads. Retrieve bounded outcome pages with `GET /markets?event_ticker=...&limit=...&cursor=...`.
+</Update>
+
 <Update
   label="October 15, 2026"
   tags={["REST", "Margin"]}

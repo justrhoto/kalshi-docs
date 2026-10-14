@@ -17,7 +17,7 @@ Kalshi plans to add shards incrementally to maintain a healthy balance of traffi
 
 ## Balance Management
 
-Kalshi's collateralization checks run within the matching engine. Programmatic traders must preallocate collateral on a given exchange shard before order placement.
+Kalshi's collateralization checks run within the matching engine. Programmatic traders normally need to fund the relevant exchange shard before placing an order. FCM members can instead enable [automatic collateral transfers on eligible FIX sessions](/fix/authentication#optional-fields).
 
 **Funding Overview**
 
@@ -74,6 +74,8 @@ The `exchange_index` query parameter is available on a per-endpoint basis.
 * If `ExDestination<100> >= 0`, routes directly to the target exchange.
 * If `ExDestination<100>` is `-1`, auto-routes using the required market ticker in `Symbol<55>`.
 * If `ExDestination<100>` is omitted and `Symbol<55>` is provided, auto-routes using `Symbol<55>`.
+
+Sessions with `UseCapReservation<21032>` or [automatic collateral transfers (`AutoTransfer<21035>`)](/fix/authentication#optional-fields) enabled must omit `ExDestination<100>` or use `-1` for new orders and replacements.
 
 Margined FIX sessions always route to exchange index `0`.
 
