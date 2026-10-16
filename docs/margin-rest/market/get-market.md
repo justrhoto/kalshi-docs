@@ -278,10 +278,10 @@ components:
             - MarginMarketFundingInvalidPremiumHandlingExclude
           x-go-type-skip-optional-pointer: true
           description: >-
-            How funding averages a second with no premium (no orderbook sample,
-            no index price, or a trading halt), configured at market creation.
-            dampen counts the second as a premium of 0; exclude leaves it out of
-            the average.
+            How funding averages a bar with no premium (no orderbook sample or
+            no index price anywhere in the bar, or a trading halt during it),
+            configured at market creation. dampen counts the bar as a premium of
+            0; exclude leaves it out of the average.
     ErrorResponse:
       type: object
       properties:

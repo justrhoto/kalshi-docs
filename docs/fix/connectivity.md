@@ -89,7 +89,7 @@ Members on the Prime tier or above can also contact [institutional@kalshi.com](m
 * Logon (35=A) is rate-limited separately from application messages. See [Reconnecting](/fix/authentication#reconnecting) for retry guidance.
 * Order-entry and RFQ messages use the Write bucket. See [Rate Limits and Tiers](/getting_started/rate_limits) for tier budgets and token-cost behavior.
 * Order-entry messages (35=D, 35=F, 35=G) carrying `ExDestination` (tag 100) with a value `>= 1` are billed to a [per-shard Write budget](/getting_started/rate_limits#sharded-exchanges-have-per-shard-write-budgets). RFQ quote accepts (35=D carrying `QuoteID`) always bill the unscoped Write budget.
-* Mass Cancel Request (35=q) is limited to 1 request/second.
+* Mass Cancel Request (35=q) with `530=6` is limited to 1 request/second. With `530=1` (one market) it uses the Write bucket at the same cost as an order cancel (35=F).
 
 ## Maintenance Window
 

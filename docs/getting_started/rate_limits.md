@@ -26,6 +26,10 @@ You have two independent token budgets:
 
 The split is by operation type, not by protocol. REST and FIX requests drain the same buckets.
 
+## Balance endpoint bucket
+
+[`GET /portfolio/balance`](/api-reference/portfolio/get-balance) is metered in its own bucket and does not draw down the Read budget. Basic and Advanced tiers can call it **once per second**; every higher tier can call it **five times per second**. The bucket holds one second of budget, so there is no burst. Balance only changes on fills, settlements and transfers, so react to those (for example the [user fills websocket channel](/websockets/user-fills)) rather than polling balance.
+
 ## Predictions per-shard Write budgets
 
 A single order write that explicitly targets an [exchange shard](/getting_started/exchange_sharding) draws from a Write bucket scoped to that shard, and each shard's bucket carries your full tier budget:
