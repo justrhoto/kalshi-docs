@@ -98,11 +98,13 @@ components:
     SubaccountQuery:
       name: subaccount
       in: query
+      required: false
       description: >-
         Subaccount number (0 for primary, 1-63 for subaccounts). If omitted,
         defaults to all subaccounts.
       schema:
         type: integer
+        minimum: 0
   responses:
     UnauthorizedError:
       description: Unauthorized - authentication required

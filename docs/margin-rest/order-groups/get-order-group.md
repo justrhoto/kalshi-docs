@@ -125,6 +125,7 @@ components:
           allOf:
             - $ref: '#/components/schemas/ExchangeIndex'
           x-go-type-skip-optional-pointer: true
+          x-omitempty: false
     FixedPointCount:
       type: string
       description: >-

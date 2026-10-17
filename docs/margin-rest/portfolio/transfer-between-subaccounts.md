@@ -113,9 +113,22 @@ components:
           type: integer
           format: int64
           description: Amount to transfer in cents.
+        exchange_index:
+          allOf:
+            - $ref: '#/components/schemas/ExchangeIndex'
+          description: >-
+            Identifier for an exchange shard. Perps subaccount transfers ignore
+            this field.
+          x-go-type-skip-optional-pointer: true
+          x-oapi-codegen-extra-tags:
+            validate: gte=0
     ApplySubaccountTransferResponse:
       type: object
       description: Empty response indicating successful transfer.
+    ExchangeIndex:
+      type: integer
+      description: Identifier for an exchange shard. Defaults to 0 if unspecified.
+      example: 0
     ErrorResponse:
       type: object
       properties:

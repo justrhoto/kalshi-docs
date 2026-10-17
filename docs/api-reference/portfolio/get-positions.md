@@ -175,9 +175,14 @@ components:
     SubaccountQueryDefaultPrimary:
       name: subaccount
       in: query
-      description: Subaccount number (0 for primary, 1-63 for subaccounts). Defaults to 0.
+      required: false
+      description: >-
+        Subaccount number (0 for primary, 1-63 for subaccounts). Defaults to 0.
+        Subaccount-restricted API keys default to their locked subaccount and
+        must omit this parameter or pass their locked subaccount.
       schema:
         type: integer
+        minimum: 0
     ExchangeIndexFilterQuery:
       name: exchange_index
       in: query
