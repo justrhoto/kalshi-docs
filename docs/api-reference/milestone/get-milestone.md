@@ -7,7 +7,7 @@ url: https://docs.kalshi.com/api-reference/milestone/get-milestone
 
 # Get Milestone
 
->  Endpoint for getting data about a specific milestone by its ID.
+> Endpoint for getting data about a specific milestone by its ID. The milestone's `details.status`, when present, is maintained by a periodic background job. It lags the game's live state and may be stale or inaccurate, for example remaining `live` after the game ends. For game status, prefer live data, which is updated far more often: `live_data.details.status` from `GET /live_data/milestone/{milestone_id}`, or each entry's `details.status` from `GET /live_data/batch`. Scores are in the sport-specific fields of that live data `details` object.
 
 
 
@@ -68,7 +68,16 @@ paths:
       tags:
         - milestone
       summary: Get Milestone
-      description: ' Endpoint for getting data about a specific milestone by its ID.'
+      description: >-
+        Endpoint for getting data about a specific milestone by its ID. The
+        milestone's `details.status`, when present, is maintained by a periodic
+        background job. It lags the game's live state and may be stale or
+        inaccurate, for example remaining `live` after the game ends. For game
+        status, prefer live data, which is updated far more often:
+        `live_data.details.status` from `GET
+        /live_data/milestone/{milestone_id}`, or each entry's `details.status`
+        from `GET /live_data/batch`. Scores are in the sport-specific fields of
+        that live data `details` object.
       operationId: GetMilestone
       parameters:
         - name: milestone_id
@@ -162,7 +171,15 @@ components:
         details:
           type: object
           additionalProperties: true
-          description: Additional details about the milestone.
+          description: >-
+            Additional details about the milestone. `details.status`, when
+            present, is maintained by a periodic background job. It lags the
+            game's live state and may be stale or inaccurate, for example
+            remaining `live` after the game ends. For game status, prefer live
+            data, which is updated far more often: `live_data.details.status`
+            from `GET /live_data/milestone/{milestone_id}`, or each entry's
+            `details.status` from `GET /live_data/batch`. Scores are in the
+            sport-specific fields of that live data `details` object.
         primary_event_tickers:
           type: array
           items:

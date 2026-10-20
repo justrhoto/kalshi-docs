@@ -118,6 +118,12 @@ components:
         transfer_id:
           type: string
           description: Unique transfer id
+        client_transfer_id:
+          type: string
+          x-go-type-skip-optional-pointer: true
+          description: >-
+            The client_transfer_id provided when the transfer was created.
+            Omitted if none was provided.
         source:
           $ref: '#/components/schemas/ExchangeInstance'
           description: Source exchange instance

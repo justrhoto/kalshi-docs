@@ -30,6 +30,8 @@ Useful fields on a milestone include:
 
 `details` is flexible JSON and varies by milestone type. For sports milestones, it commonly contains structured target IDs such as `home_team_id` or `away_team_id`.
 
+A milestone's `details.status`, when present, is maintained by a periodic background job. It lags the game's live state and may be stale or inaccurate, for example remaining `live` after the game ends. For game status, prefer live data, which is updated far more often: `live_data.details.status` from [Get Live Data](/api-reference/live-data/get-live-data), or each entry's `details.status` from [Get Multiple Live Data](/api-reference/live-data/get-multiple-live-data). Scores are in the sport-specific fields of that live data `details` object. Live data is not guaranteed to be current either: if the provider feed falls behind, a cached board may still be served, and the live data `details.live_data_delayed` is set to `true` only once it is significantly stale, so a missing flag does not by itself mean the feed is healthy.
+
 In practice, `related_event_tickers` is often a superset of `primary_event_tickers`.
 
 For example, a recent `Wyoming General Elections` `one_off_milestone` in Redshift had:

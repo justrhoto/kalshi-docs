@@ -79,6 +79,14 @@ Prices must land on the market's price grid. Check `price_ranges` on `GET /marke
 
 A new quote on the same RFQ replaces the maker's previous quote.
 
+### Post-only quotes
+
+If a confirmed quote is cancelled because the maker's
+post-only order would cross the book at execution, that cancellation counts
+toward the same quoting penalties as failing to confirm an accepted quote.
+Repeated failures can temporarily rate limit the maker's ability to create new
+quotes.
+
 ## Timing
 
 The exchange designates certain markets as High Volatility Markets (HVM). All combo markets are HVMs. HVMs use shorter confirmation and execution windows.

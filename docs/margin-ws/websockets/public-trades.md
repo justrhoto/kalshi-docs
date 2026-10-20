@@ -121,7 +121,7 @@ operations:
             type:
               type: string
               const: trade
-              x-parser-schema-id: <anonymous-schema-76>
+              x-parser-schema-id: <anonymous-schema-90>
             sid:
               type: integer
               description: >-
@@ -150,7 +150,7 @@ operations:
                 trade_id:
                   type: string
                   format: uuid
-                  x-parser-schema-id: <anonymous-schema-78>
+                  x-parser-schema-id: <anonymous-schema-92>
                 market_ticker:
                   type: string
                   description: Unique market identifier
@@ -159,12 +159,12 @@ operations:
                   type: string
                   x-rust-type: common::types::Price
                   x-rust-serialize-with: ws::dto::serde_money::serialize_price_dollars
-                  x-parser-schema-id: <anonymous-schema-79>
+                  x-parser-schema-id: <anonymous-schema-93>
                 count:
                   type: string
                   x-rust-type: common::types::Amount
                   x-rust-serialize-with: ws::dto::serde_money::serialize_amount_fixed_point_count
-                  x-parser-schema-id: <anonymous-schema-80>
+                  x-parser-schema-id: <anonymous-schema-94>
                 taker_side:
                   type: string
                   enum:
@@ -175,8 +175,8 @@ operations:
                   type: integer
                   format: int64
                   description: Unix timestamp in milliseconds.
-                  x-parser-schema-id: <anonymous-schema-81>
-              x-parser-schema-id: <anonymous-schema-77>
+                  x-parser-schema-id: <anonymous-schema-95>
+              x-parser-schema-id: <anonymous-schema-91>
             sending_ts_ms:
               type: integer
               format: int64

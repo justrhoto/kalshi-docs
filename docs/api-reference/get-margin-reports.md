@@ -114,10 +114,12 @@ components:
           type: string
           enum:
             - trade_audit
+            - position_transfer_audit
             - position_snapshot
             - market_price_snapshot
             - funding_periods
             - settlement_periods
+            - corporate_action_payments
             - maintenance_margin
             - maintenance_margin_aggregate
             - cash_balance_daily

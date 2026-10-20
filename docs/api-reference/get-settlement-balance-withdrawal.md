@@ -102,6 +102,7 @@ components:
             - processing
             - processed
             - failed
+            - cancelled
         created_ts:
           type: string
           format: date-time

@@ -7,7 +7,7 @@ url: https://docs.kalshi.com/api-reference/live-data/get-multiple-live-data
 
 # Get Multiple Live Data
 
-> Get live data for multiple milestones
+> Get live data for multiple milestones. Each entry's `details.status` is updated far more often than the milestone's own `details.status` and is the preferred source for game status. It is not guaranteed to be current: if the provider feed falls behind, a cached board may still be served, with `details.live_data_delayed` set to `true` only once it is significantly stale (some feeds never set it), so a missing flag does not by itself mean the data is current.
 
 
 
@@ -68,7 +68,14 @@ paths:
       tags:
         - live-data
       summary: Get Multiple Live Data
-      description: Get live data for multiple milestones
+      description: >-
+        Get live data for multiple milestones. Each entry's `details.status` is
+        updated far more often than the milestone's own `details.status` and is
+        the preferred source for game status. It is not guaranteed to be
+        current: if the provider feed falls behind, a cached board may still be
+        served, with `details.live_data_delayed` set to `true` only once it is
+        significantly stale (some feeds never set it), so a missing flag does
+        not by itself mean the data is current.
       operationId: GetLiveDatas
       parameters:
         - name: milestone_ids
