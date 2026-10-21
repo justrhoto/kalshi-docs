@@ -9,9 +9,9 @@ url: https://docs.kalshi.com/getting_started/settlement_bounds
 
 > Settlement bounds trading and payout mechanics
 
-<Note>
-  Settlement floors are not live yet. The launch timeline is TBA.
-</Note>
+> [!NOTE]
+>
+> Settlement floors are not live yet. The launch timeline is TBA.
 
 Certain markets have a scalar payout and can be partly determined before the event ends. The settlement floor is the minimum payout per contract to YES holders.
 

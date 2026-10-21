@@ -7,7 +7,7 @@ url: https://docs.kalshi.com/websockets/pyth-value
 
 # Pyth Value Feed
 
-> Real-time Pyth price updates for configured underlying tickers. Requires authentication.
+> Real-time Pyth price and Treasury yield updates for configured underlying tickers. Requires authentication.
 
 ## Access and pricing
 
@@ -15,9 +15,9 @@ The Pyth data feed costs **$1,000/month**, with the **first seven days free**. [
 
 Connect using an authenticated Kalshi WebSocket session. See [Quick Start: WebSockets](/getting_started/quick_start_websockets#authentication) for API key authentication and request signing.
 
-## Commodities and underlying tickers
+## Underlying tickers
 
-The reference table below lists the underlyings currently streaming in production: spot metals, metal and commodity indices, an equity index, and FX pairs. Index descriptions note Pyth's publishing schedule (24/7, 24/5, or 23/5); spot metals and FX pairs follow their market sessions.
+The reference table below lists supported underlyings: spot metals, metal and commodity indices, an equity index, FX pairs, and Treasury yields. Index descriptions note Pyth's publishing schedule (24/7, 24/5, or 23/5); spot metals, FX pairs, and Treasury yields follow their market sessions.
 
 | Pyth feed ID | Pyth symbol                     | Description                                             |
 |--------------|---------------------------------|---------------------------------------------------------|
@@ -35,6 +35,10 @@ The reference table below lists the underlyings currently streaming in productio
 | 3525         | `Commodities.Index.CU/USD`      | Copper Index in USD (24/7)                              |
 | 3266         | `Commodities.Index.COPPER/USD`  | Copper Index in USD (23/5)                              |
 | 3292         | `Equity.Index.US30/USD`         | US30 (Dow Jones Industrial Average) Index in USD (24/5) |
+| 1530         | `InterestRate.US2Y`             | US 2-year Treasury yield in percent                     |
+| 1534         | `InterestRate.US5Y`             | US 5-year Treasury yield in percent                     |
+| 1527         | `InterestRate.US10Y`            | US 10-year Treasury yield in percent                    |
+| 1531         | `InterestRate.US30Y`            | US 30-year Treasury yield in percent                    |
 | 327          | `FX.EUR/USD`                    | Euro / US Dollar                                        |
 | 333          | `FX.GBP/USD`                    | British Pound / US Dollar                               |
 | 315          | `FX.AUD/USD`                    | Australian Dollar / US Dollar                           |
@@ -51,6 +55,8 @@ The reference table below lists the underlyings currently streaming in productio
 Pass the exact **Pyth symbol** in `underlying_tickers`. The numeric Pyth feed IDs are reference information and are not subscription parameters for this channel. Kalshi market tickers are not Pyth underlying tickers.
 
 Use `underlying_list` to discover recently streamed tickers on your connection. Availability can change, including as futures contracts expire; the table does not guarantee that every feed is streaming in every environment.
+
+Treasury yields use the exact symbols above, without a `/USD` suffix. They are included in `["all"]` subscriptions and can also be requested individually, for example with `underlying_tickers: ["InterestRate.US2Y"]`. These are the yield feeds behind the `KX{2,5,10,30}YRRATE15M` and `KX{2,5,10,30}YRRATEH` markets; `/USD` symbols identify separate bond-price feeds.
 
 ## Requirements
 
@@ -150,7 +156,7 @@ While all-mode is enabled, removing an individual ticker does not exclude it. Se
 
 - `sid` identifies the subscription stream; use it for `update_subscription` and `unsubscribe`.
 - Missing or empty `underlying_tickers` for `subscribe_underlyings` or `unsubscribe_underlyings` returns an `error` with `code: 28` ("Underlying tickers required").
-- `value_usd` is a USD price string formatted to eight decimal places.
+- `value_usd` is formatted to eight decimal places. The field name is retained for compatibility: for Treasury yield symbols it contains the yield in percent, so `"4.25000000"` means **4.25%**, not a dollar price or a decimal fraction. Other symbols retain their quoted price units.
 - `source_ts_ms` is the source timestamp in Unix milliseconds; `received_at` is when Kalshi received the update, also in Unix milliseconds.
 
 
@@ -162,8 +168,8 @@ While all-mode is enabled, removing an individual ticker does not exclude it. Se
 id: pyth_value
 title: Pyth Value Feed
 description: >
-  Real-time Pyth price updates for configured underlying tickers. Requires
-  authentication.
+  Real-time Pyth price and Treasury yield updates for configured underlying
+  tickers. Requires authentication.
 
 
   ## Access and pricing
@@ -179,13 +185,13 @@ description: >
   key authentication and request signing.
 
 
-  ## Commodities and underlying tickers
+  ## Underlying tickers
 
 
-  The reference table below lists the underlyings currently streaming in
-  production: spot metals, metal and commodity indices, an equity index, and FX
-  pairs. Index descriptions note Pyth's publishing schedule (24/7, 24/5, or
-  23/5); spot metals and FX pairs follow their market sessions.
+  The reference table below lists supported underlyings: spot metals, metal and
+  commodity indices, an equity index, FX pairs, and Treasury yields. Index
+  descriptions note Pyth's publishing schedule (24/7, 24/5, or 23/5); spot
+  metals, FX pairs, and Treasury yields follow their market sessions.
 
 
   | Pyth feed ID | Pyth symbol                     |
@@ -235,6 +241,18 @@ description: >
   | 3292         | `Equity.Index.US30/USD`         | US30 (Dow Jones Industrial
   Average) Index in USD (24/5) |
 
+  | 1530         | `InterestRate.US2Y`             | US 2-year Treasury yield in
+  percent                     |
+
+  | 1534         | `InterestRate.US5Y`             | US 5-year Treasury yield in
+  percent                     |
+
+  | 1527         | `InterestRate.US10Y`            | US 10-year Treasury yield
+  in percent                    |
+
+  | 1531         | `InterestRate.US30Y`            | US 30-year Treasury yield
+  in percent                    |
+
   | 327          | `FX.EUR/USD`                    | Euro / US
   Dollar                                        |
 
@@ -281,6 +299,13 @@ description: >
   connection. Availability can change, including as futures contracts expire;
   the table does not guarantee that every feed is streaming in every
   environment.
+
+
+  Treasury yields use the exact symbols above, without a `/USD` suffix. They are
+  included in `["all"]` subscriptions and can also be requested individually,
+  for example with `underlying_tickers: ["InterestRate.US2Y"]`. These are the
+  yield feeds behind the `KX{2,5,10,30}YRRATE15M` and `KX{2,5,10,30}YRRATEH`
+  markets; `/USD` symbols identify separate bond-price feeds.
 
 
   ## Requirements
@@ -434,7 +459,10 @@ description: >
   `unsubscribe_underlyings` returns an `error` with `code: 28` ("Underlying
   tickers required").
 
-  - `value_usd` is a USD price string formatted to eight decimal places.
+  - `value_usd` is formatted to eight decimal places. The field name is retained
+  for compatibility: for Treasury yield symbols it contains the yield in
+  percent, so `"4.25000000"` means **4.25%**, not a dollar price or a decimal
+  fraction. Other symbols retain their quoted price units.
 
   - `source_ts_ms` is the source timestamp in Unix milliseconds; `received_at`
   is when Kalshi received the update, also in Unix milliseconds.
@@ -459,7 +487,9 @@ operations:
         contentType: application/json
         payload:
           - name: Pyth Value Update
-            description: Deduplicated real-time Pyth price for an underlying ticker
+            description: >-
+              Deduplicated real-time Pyth price or Treasury yield for an
+              underlying ticker
             type: object
             properties:
               - name: type
@@ -489,7 +519,12 @@ operations:
                     required: true
                   - name: value_usd
                     type: string
-                    description: USD value formatted to 8 decimal places
+                    description: >-
+                      Value formatted to 8 decimal places in the underlying's
+                      quoted units. For Treasury yields (InterestRate.US2Y,
+                      InterestRate.US5Y, InterestRate.US10Y,
+                      InterestRate.US30Y), this is percent: "4.25000000" means
+                      4.25%. The field name is retained for compatibility.
                     required: true
                   - name: source_ts_ms
                     type: integer
@@ -547,7 +582,12 @@ operations:
                   x-parser-schema-id: <anonymous-schema-326>
                 value_usd:
                   type: string
-                  description: USD value formatted to 8 decimal places
+                  description: >-
+                    Value formatted to 8 decimal places in the underlying's
+                    quoted units. For Treasury yields (InterestRate.US2Y,
+                    InterestRate.US5Y, InterestRate.US10Y, InterestRate.US30Y),
+                    this is percent: "4.25000000" means 4.25%. The field name is
+                    retained for compatibility.
                   x-parser-schema-id: <anonymous-schema-327>
                 source_ts_ms:
                   type: integer
@@ -567,7 +607,9 @@ operations:
               x-parser-schema-id: sendingTimestampMs
           x-parser-schema-id: pythValuePayload
         title: Pyth Value Update
-        description: Deduplicated real-time Pyth price for an underlying ticker
+        description: >-
+          Deduplicated real-time Pyth price or Treasury yield for an underlying
+          ticker
         example: |-
           {
             "type": "pyth_value",

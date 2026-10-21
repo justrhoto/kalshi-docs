@@ -148,7 +148,7 @@ operations:
                     type: string
                     description: >-
                       Deprecated - Timestamp for when the update happened
-                      (RFC3339). Use ts_ms instead.
+                      (RFC3339, truncated to milliseconds). Use ts_ms instead.
                     deprecated: true
                     required: true
               - name: sending_ts_ms
@@ -281,7 +281,7 @@ operations:
                   deprecated: true
                   description: >-
                     Deprecated - Timestamp for when the update happened
-                    (RFC3339). Use ts_ms instead.
+                    (RFC3339, truncated to milliseconds). Use ts_ms instead.
                   format: date-time
                   x-parser-schema-id: <anonymous-schema-105>
               x-parser-schema-id: <anonymous-schema-92>
