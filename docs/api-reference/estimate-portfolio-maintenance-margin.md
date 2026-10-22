@@ -175,7 +175,6 @@ components:
       required:
         - market_ticker
         - quantity
-        - price
       properties:
         market_ticker:
           type: string
@@ -192,7 +191,9 @@ components:
           type: string
           description: >-
             Price of one contract in USD, to at most four decimal places (e.g.
-            "6.8000"). Must be positive.
+            "6.8000"). Must be positive. Omit to use the market's mark price
+            from its latest settlement (before the end of `date`, if set);
+            returns 400 if there is none.
     Error:
       type: object
       required:

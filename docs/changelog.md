@@ -19,6 +19,14 @@ surface (`REST`, `WebSocket`, `FIX`) or exchange (`Predictions`, `Margin`).
 FIX API changes, previously tracked on a separate page, now live here under
 the `FIX` tag.
 
+**October 29, 2026**
+
+The Predictions `orderbook_delta` WebSocket channel now includes `clock` on
+`orderbook_snapshot` and `orderbook_delta` messages. Unlike `seq`, `clock` is
+the same on every connection, so you can use it to match a market's updates
+across redundant connections. See
+[Orderbook Updates](/websockets/orderbook-updates) for ordering details.
+
 **October 22, 2026**
 
 External feeds are moving from
