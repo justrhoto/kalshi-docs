@@ -119,7 +119,9 @@ components:
     MultipleEventTickerQuery:
       name: event_ticker
       in: query
-      description: Event tickers to filter by, as a comma-separated list (maximum 10).
+      description: >-
+        Event tickers to filter by, as a comma-separated list (maximum 100).
+        Events with no markets return no orders.
       schema:
         type: string
         x-go-type-skip-optional-pointer: true

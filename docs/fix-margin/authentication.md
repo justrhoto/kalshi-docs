@@ -11,7 +11,7 @@ url: https://docs.kalshi.com/fix-margin/authentication
 
 ## API Key Setup
 
-FIX API keys use the same key pair as the [REST API](/getting_started/api_keys): Ed25519 (recommended) or 2048-bit RSA. Generate a key pair and register the public key in your [account profile](https://kalshi.com/account/profile), or generate one there. The API Key ID (UUID) is your `SenderCompID`.
+FIX API keys use the same key pair as the [REST API](/getting_started/api_keys.md): Ed25519 (recommended) or 2048-bit RSA. Generate a key pair and register the public key in your [account profile](https://kalshi.com/account/profile), or generate one there. The API Key ID (UUID) is your `SenderCompID`.
 
 ```bash theme={null}
 # Ed25519
@@ -116,7 +116,7 @@ raw_data_value = b64encode(signature).decode('utf-8')
 
 Message retransmission (ResendRequest, SequenceReset) is only supported on **KalshiRT**. `ResetSeqNumFlag<141>` must always be `Y` on KalshiNR and KalshiDC.
 
-The [drop copy session](/fix-margin/drop-copy) provides an alternative way to query for missed execution reports. For a real-time streaming feed, see [Listener Sessions](/fix-margin/listener-sessions).
+The [drop copy session](/fix-margin/drop-copy.md) provides an alternative way to query for missed execution reports. For a real-time streaming feed, see [Listener Sessions](/fix-margin/listener-sessions.md).
 
 ### ResendRequest (35=2)
 

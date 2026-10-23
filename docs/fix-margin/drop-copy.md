@@ -11,7 +11,7 @@ url: https://docs.kalshi.com/fix-margin/drop-copy
 
 > [!WARNING]
 >
-> **This is not a traditional drop copy session.** Kalshi's Drop Copy uses a request-response pattern for querying historical execution reports. For a real-time streaming feed, use a [Listener Session](/fix-margin/listener-sessions) on KalshiRT instead.
+> **This is not a traditional drop copy session.** Kalshi's Drop Copy uses a request-response pattern for querying historical execution reports. For a real-time streaming feed, use a [Listener Session](/fix-margin/listener-sessions.md) on KalshiRT instead.
 
 > [!NOTE]
 >
