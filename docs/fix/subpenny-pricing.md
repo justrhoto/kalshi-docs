@@ -9,7 +9,7 @@ url: https://docs.kalshi.com/fix/subpenny-pricing
 
 > Dollar-based pricing format for subpenny precision
 
-For the general overview of fixed-point pricing and contract quantities across REST and WebSocket APIs, see [Fixed-Point Representation](/getting_started/fixed_point_migration.md).
+For the general overview of fixed-point pricing and contract quantities across REST and WebSocket APIs, see [Fixed-Point Representation](https://docs.kalshi.com/getting_started/fixed_point_migration.md).
 
 ## Technical Specification
 

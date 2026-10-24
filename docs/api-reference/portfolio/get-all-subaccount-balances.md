@@ -7,7 +7,7 @@ url: https://docs.kalshi.com/api-reference/portfolio/get-all-subaccount-balances
 
 # Get All Subaccount Balances
 
-> Gets balances for all subaccounts including the primary account.
+> Gets balances for all subaccounts including the primary account. For an API key restricted to a subaccount, returns only that subaccount's balances across exchange indices.
 
 
 
@@ -68,7 +68,10 @@ paths:
       tags:
         - portfolio
       summary: Get All Subaccount Balances
-      description: Gets balances for all subaccounts including the primary account.
+      description: >-
+        Gets balances for all subaccounts including the primary account. For an
+        API key restricted to a subaccount, returns only that subaccount's
+        balances across exchange indices.
       operationId: GetSubaccountBalances
       responses:
         '200':

@@ -9,7 +9,7 @@ url: https://docs.kalshi.com/fix/order-groups
 
 > Manage order groups for automatic position management
 
-For an overview of order groups and how they work, see [Order Groups](/getting_started/order_groups.md).
+For an overview of order groups and how they work, see [Order Groups](https://docs.kalshi.com/getting_started/order_groups.md).
 
 ## Order Group Request (35=UOG)
 
