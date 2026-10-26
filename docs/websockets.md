@@ -24,5 +24,9 @@ WebSocket connections use the same API key authentication and signing path as be
 * For detailed CF Benchmarks channel usage (`cfbenchmarks_value`), see [CF Benchmarks Value Feed](https://docs.kalshi.com/websockets/cfbenchmarks-value.md).
 * For real-time Pyth prices (`pyth_value`), see [Pyth Value Feed](https://docs.kalshi.com/websockets/pyth-value.md).
 
+## Forward compatibility
+
+A channel can gain new message types, and a message new fields. Ignore any message `type` or field your client doesn't recognize instead of treating it as an error.
+
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

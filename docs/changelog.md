@@ -21,6 +21,30 @@ the `FIX` tag.
 
 **October 29, 2026**
 
+Direct members can now use subaccount-restricted API keys to move funds within
+that subaccount between exchange indices with `POST /portfolio/intra_exchange_instance_transfer`.
+
+**TBD**
+
+The `communications` WebSocket channel adds RFQ batch messages:
+`rfq_batch_created` and `rfq_batch_deleted` for all subscribers (only your
+own with `user_filter: "self"`), `rfq_batch_best_quotes` and
+`rfq_batch_executed` for the batch's requester, and `batch_quote_created`,
+`batch_quote_accepted` and `batch_quote_executed` for each maker.
+`quote_executed` carries `rfq_batch_id` for a batch child's trade. If your
+client doesn't handle these messages, ignore them; see
+[Forward compatibility](https://docs.kalshi.com/websockets.md#forward-compatibility).
+
+**October 29, 2026**
+
+Margin market responses now carry `halt_sources`, listing why a market is
+halted and empty when it is not. An inactive market that has never opened
+carries `initial_setup`, while one halted for a corporate action carries
+`corporate_action`, so a halted market can be told apart from one that never
+launched.
+
+**October 29, 2026**
+
 [Get All Subaccount Balances](https://docs.kalshi.com/api-reference/portfolio/get-all-subaccount-balances.md)
 now accepts subaccount-restricted API keys. The response includes only the
 key's locked subaccount, with separate balances per exchange index.

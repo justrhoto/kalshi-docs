@@ -114,6 +114,7 @@ components:
         - funding_cap
         - funding_limit_unit
         - funding_invalid_premium_handling
+        - halt_sources
       properties:
         market_id:
           type: string
@@ -274,6 +275,17 @@ components:
             - dollar
           x-go-type-skip-optional-pointer: true
           description: Unit for the funding limits configured at market creation.
+        halt_sources:
+          type: array
+          items:
+            type: string
+          x-go-type-skip-optional-pointer: true
+          description: >-
+            Why the market is halted. A market that has never opened carries
+            "initial_setup"; one halted for a corporate action carries
+            "corporate_action". Empty means the market is not halted or its
+            reason has not been observed, so do not read it as proof the market
+            is live.
         funding_invalid_premium_handling:
           type: string
           enum:

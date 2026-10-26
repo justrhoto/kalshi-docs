@@ -9,6 +9,8 @@ url: https://docs.kalshi.com/api-reference/portfolio/intra-account-transfer
 
 > Transfers funds within the same account.
 
+Subaccount-restricted API keys can only transfer between `event_contract` exchange indices, with `source_subaccount` and `destination_subaccount` both set to the key's subaccount.
+
 When `source_exchange_shard` and `destination_exchange_shard` are the same, Kalshi treats the request as a subaccount transfer. The returned transfer ID appears in the subaccount transfer history.
 
 Cross-exchange-index subaccount transfers run in up to three non-atomic steps. If a later step fails, completed steps are not undone, so funds may remain in the primary account on the source or destination exchange index.
@@ -75,6 +77,11 @@ paths:
       summary: Intra Account Transfer
       description: >
         Transfers funds within the same account.
+
+
+        Subaccount-restricted API keys can only transfer between
+        `event_contract` exchange indices, with `source_subaccount` and
+        `destination_subaccount` both set to the key's subaccount.
 
 
         When `source_exchange_shard` and `destination_exchange_shard` are the
