@@ -82,9 +82,9 @@ The Perps API mirrors the event contract API (same auth, pagination, error forma
 
 ### WebSocket API
 
-**Same channels:** `orderbook_delta`, `ticker`, `trade`, `fill`, `user_orders`, `order_group_updates`
+**Same channels:** `orderbook_delta`, `ticker`, `trade`, `fill`, `user_orders`, `order_group_updates`, `market_lifecycle_v2` (market deactivation and activation only)
 
-**Not available on margin:** `market_positions`, `market_lifecycle_v2`, `multivariate_market_lifecycle`, `multivariate`, `communications`
+**Not available on margin:** `market_positions`, `multivariate_market_lifecycle`, `multivariate`, `communications`
 
 **Timestamp convention:** all timestamp fields in margin WebSocket payloads use Unix epoch milliseconds and an `_ms` suffix.
 

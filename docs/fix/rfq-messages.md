@@ -154,6 +154,11 @@ ID in their own notifications. The `NoPartyIDs` group remains present.
 See [Creator identity and privacy](https://docs.kalshi.com/getting_started/rfqs.md#creator-identity-and-privacy)
 for the visibility rules before and after execution.
 
+A child RFQ of an RFQ batch arrives as an ordinary QuoteRequest, with no tag
+naming its batch, and can be quoted like any RFQ. See
+[RFQ batch children](https://docs.kalshi.com/getting_started/rfqs.md#rfq-batch-children) for how such a
+quote differs.
+
 ## QuoteRequestAck (35=b)
 
 Exchange response to an inbound QuoteRequest from an RFQ creator.
