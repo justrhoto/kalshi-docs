@@ -21,6 +21,10 @@ the `FIX` tag.
 
 **October 29, 2026**
 
+Added `GET /portfolio/credit_history`.
+
+**October 29, 2026**
+
 The Margin Web Sockets API now supports `market_lifecycle_v2` for market deactivation and activation.
 
 **October 29, 2026**
