@@ -115,6 +115,7 @@ components:
       type: object
       required:
         - subaccount
+        - subaccount_type
         - position_value
         - account_equity
         - maintenance_margin
@@ -125,6 +126,8 @@ components:
         subaccount:
           type: integer
           description: The subaccount number (0 for primary, 1-63 for subaccounts)
+        subaccount_type:
+          $ref: '#/components/schemas/SubaccountType'
         position_value:
           $ref: '#/components/schemas/FixedPointDollars'
           description: >-
@@ -175,6 +178,21 @@ components:
         details:
           type: string
           description: Additional details about the error, if available
+    SubaccountType:
+      type: string
+      enum:
+        - cross
+        - isolated
+        - auto_rebalance
+      x-enum-varnames:
+        - SubaccountTypeCross
+        - SubaccountTypeIsolated
+        - SubaccountTypeAutoRebalance
+      description: >-
+        How the subaccount is margined. `cross` for the primary account and
+        numbered subaccounts, `isolated` for a market's isolated subaccount, and
+        `auto_rebalance` for an auto-rebalanced isolated position, which shares
+        its market's isolated subaccount number.
   responses:
     UnauthorizedError:
       description: Unauthorized - authentication required

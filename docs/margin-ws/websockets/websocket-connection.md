@@ -112,6 +112,47 @@ operations:
                   - name: skip_ticker_ack
                     type: boolean
                     required: false
+                  - name: update_interval_ms
+                    type: integer
+                    description: >
+                      Orderbook channel only. Opts in to conflated
+                      `orderbook_delta` updates: one net delta per
+
+                      changed price level in each 100 or 1000 millisecond
+                      window. A window starts with its first
+
+                      held change; processing and transport can delay delivery.
+                      Your own orders within any subaccount restriction and
+                      snapshots bypass the interval;
+
+                      changes to other participants' orders, including liquidity
+                      you consume, remain held.
+
+                      Omit or set to 0 for real-time updates, the default. Use
+                      JSON integer literals: other signed
+
+                      64-bit integer literals return error code 29. Values that
+                      fail integer decoding, including
+
+                      floating-point notation and strings, return code 1 for the
+                      whole command.
+
+                      A repeated subscribe adds markets to the existing sid and
+                      must specify the same interval
+
+                      (omission means 0); a mismatch returns error code 11.
+                      Change intervals by unsubscribing first.
+
+                      Follow seq within this subscription. Recover gaps with
+                      fresh snapshots for all subscribed markets
+
+                      or unsubscribe then subscribe again. Independently
+                      conflated streams cannot be combined.
+                    enumValues:
+                      - 0
+                      - 100
+                      - 1000
+                    required: false
         headers: []
         jsonPayloadSchema:
           type: object
@@ -178,6 +219,48 @@ operations:
                   type: boolean
                   default: false
                   x-parser-schema-id: <anonymous-schema-8>
+                update_interval_ms:
+                  type: integer
+                  enum:
+                    - 0
+                    - 100
+                    - 1000
+                  default: 0
+                  description: >
+                    Orderbook channel only. Opts in to conflated
+                    `orderbook_delta` updates: one net delta per
+
+                    changed price level in each 100 or 1000 millisecond window.
+                    A window starts with its first
+
+                    held change; processing and transport can delay delivery.
+                    Your own orders within any subaccount restriction and
+                    snapshots bypass the interval;
+
+                    changes to other participants' orders, including liquidity
+                    you consume, remain held.
+
+                    Omit or set to 0 for real-time updates, the default. Use
+                    JSON integer literals: other signed
+
+                    64-bit integer literals return error code 29. Values that
+                    fail integer decoding, including
+
+                    floating-point notation and strings, return code 1 for the
+                    whole command.
+
+                    A repeated subscribe adds markets to the existing sid and
+                    must specify the same interval
+
+                    (omission means 0); a mismatch returns error code 11. Change
+                    intervals by unsubscribing first.
+
+                    Follow seq within this subscription. Recover gaps with fresh
+                    snapshots for all subscribed markets
+
+                    or unsubscribe then subscribe again. Independently conflated
+                    streams cannot be combined.
+                  x-parser-schema-id: <anonymous-schema-9>
               x-parser-schema-id: <anonymous-schema-2>
           x-parser-schema-id: subscribeCommandPayload
         title: Subscribe Command
@@ -247,7 +330,7 @@ operations:
             cmd:
               type: string
               const: unsubscribe
-              x-parser-schema-id: <anonymous-schema-9>
+              x-parser-schema-id: <anonymous-schema-10>
             params:
               type: object
               required:
@@ -264,8 +347,8 @@ operations:
                     minimum: 1
                     x-parser-schema-id: subscriptionId
                   minItems: 1
-                  x-parser-schema-id: <anonymous-schema-11>
-              x-parser-schema-id: <anonymous-schema-10>
+                  x-parser-schema-id: <anonymous-schema-12>
+              x-parser-schema-id: <anonymous-schema-11>
           x-parser-schema-id: unsubscribeCommandPayload
         title: Unsubscribe Command
         description: Cancel one or more subscriptions
@@ -316,7 +399,7 @@ operations:
             cmd:
               type: string
               const: list_subscriptions
-              x-parser-schema-id: <anonymous-schema-19>
+              x-parser-schema-id: <anonymous-schema-20>
           x-parser-schema-id: listSubscriptionsCommandPayload
         title: List Subscriptions Command
         description: List all active subscriptions
@@ -416,7 +499,7 @@ operations:
             cmd:
               type: string
               const: update_subscription
-              x-parser-schema-id: <anonymous-schema-12>
+              x-parser-schema-id: <anonymous-schema-13>
             params:
               type: object
               required:
@@ -428,30 +511,30 @@ operations:
                   items: *ref_2
                   minItems: 1
                   maxItems: 1
-                  x-parser-schema-id: <anonymous-schema-14>
+                  x-parser-schema-id: <anonymous-schema-15>
                 market_ticker:
                   type: string
-                  x-parser-schema-id: <anonymous-schema-15>
+                  x-parser-schema-id: <anonymous-schema-16>
                 market_tickers:
                   type: array
                   items: *ref_3
                   minItems: 1
-                  x-parser-schema-id: <anonymous-schema-16>
+                  x-parser-schema-id: <anonymous-schema-17>
                 send_initial_snapshot:
                   type: boolean
                   description: >-
                     Sends an initial snapshot for newly added ticker
                     subscriptions.
                   default: false
-                  x-parser-schema-id: <anonymous-schema-17>
+                  x-parser-schema-id: <anonymous-schema-18>
                 action:
                   type: string
                   enum:
                     - add_markets
                     - delete_markets
                     - get_snapshot
-                  x-parser-schema-id: <anonymous-schema-18>
-              x-parser-schema-id: <anonymous-schema-13>
+                  x-parser-schema-id: <anonymous-schema-19>
+              x-parser-schema-id: <anonymous-schema-14>
           x-parser-schema-id: updateSubscriptionCommandPayload
         title: Update Subscription - Add Markets
         description: Add markets to an existing subscription
@@ -688,7 +771,7 @@ operations:
             type:
               type: string
               const: subscribed
-              x-parser-schema-id: <anonymous-schema-20>
+              x-parser-schema-id: <anonymous-schema-21>
             id: *ref_0
             msg:
               type: object
@@ -698,9 +781,9 @@ operations:
               properties:
                 channel:
                   type: string
-                  x-parser-schema-id: <anonymous-schema-22>
+                  x-parser-schema-id: <anonymous-schema-23>
                 sid: *ref_2
-              x-parser-schema-id: <anonymous-schema-21>
+              x-parser-schema-id: <anonymous-schema-22>
             sending_ts_ms: &ref_5
               type: integer
               format: int64
@@ -786,7 +869,7 @@ operations:
             type:
               type: string
               const: unsubscribed
-              x-parser-schema-id: <anonymous-schema-23>
+              x-parser-schema-id: <anonymous-schema-24>
             id: *ref_0
             sid: *ref_2
             seq: &ref_6
@@ -894,7 +977,7 @@ operations:
             type:
               type: string
               const: ok
-              x-parser-schema-id: <anonymous-schema-24>
+              x-parser-schema-id: <anonymous-schema-25>
             id: *ref_0
             sid: *ref_2
             seq: *ref_6
@@ -905,7 +988,7 @@ operations:
                   type: array
                   description: Full list of market tickers after update
                   items: *ref_3
-                  x-parser-schema-id: <anonymous-schema-26>
+                  x-parser-schema-id: <anonymous-schema-27>
                 market_ids:
                   type: array
                   description: Full list of market IDs after update
@@ -914,8 +997,8 @@ operations:
                     description: Unique market UUID
                     format: uuid
                     x-parser-schema-id: marketId
-                  x-parser-schema-id: <anonymous-schema-27>
-              x-parser-schema-id: <anonymous-schema-25>
+                  x-parser-schema-id: <anonymous-schema-28>
+              x-parser-schema-id: <anonymous-schema-26>
             sending_ts_ms: *ref_5
           x-parser-schema-id: okResponsePayload
         title: OK Response
@@ -987,7 +1070,7 @@ operations:
             type:
               type: string
               const: ok
-              x-parser-schema-id: <anonymous-schema-28>
+              x-parser-schema-id: <anonymous-schema-29>
             id: *ref_0
             msg:
               type: array
@@ -1001,10 +1084,10 @@ operations:
                   channel:
                     type: string
                     description: Name of the subscribed channel
-                    x-parser-schema-id: <anonymous-schema-31>
+                    x-parser-schema-id: <anonymous-schema-32>
                   sid: *ref_2
-                x-parser-schema-id: <anonymous-schema-30>
-              x-parser-schema-id: <anonymous-schema-29>
+                x-parser-schema-id: <anonymous-schema-31>
+              x-parser-schema-id: <anonymous-schema-30>
             sending_ts_ms: *ref_5
           x-parser-schema-id: listSubscriptionsResponsePayload
         title: List Subscriptions Response
@@ -1110,6 +1193,7 @@ operations:
                       - 26
                       - 27
                       - 28
+                      - 29
                     required: true
                   - name: msg
                     type: string
@@ -1142,7 +1226,7 @@ operations:
             type:
               type: string
               const: error
-              x-parser-schema-id: <anonymous-schema-32>
+              x-parser-schema-id: <anonymous-schema-33>
             id: *ref_0
             sid: *ref_2
             seq: *ref_6
@@ -1190,22 +1274,23 @@ operations:
                     - 26
                     - 27
                     - 28
-                  x-parser-schema-id: <anonymous-schema-34>
+                    - 29
+                  x-parser-schema-id: <anonymous-schema-35>
                 msg:
                   type: string
-                  x-parser-schema-id: <anonymous-schema-35>
+                  x-parser-schema-id: <anonymous-schema-36>
                 market_ticker:
                   type: string
                   description: Optional market ticker associated with the error
-                  x-parser-schema-id: <anonymous-schema-36>
+                  x-parser-schema-id: <anonymous-schema-37>
                 market_tickers:
                   type: array
                   description: Optional market tickers associated with the error
                   items:
                     type: string
-                    x-parser-schema-id: <anonymous-schema-38>
-                  x-parser-schema-id: <anonymous-schema-37>
-              x-parser-schema-id: <anonymous-schema-33>
+                    x-parser-schema-id: <anonymous-schema-39>
+                  x-parser-schema-id: <anonymous-schema-38>
+              x-parser-schema-id: <anonymous-schema-34>
             sending_ts_ms: *ref_5
           x-parser-schema-id: errorResponsePayload
         title: Error Response

@@ -139,6 +139,9 @@ components:
       enum:
         - bracket
         - trailing
+      x-enum-varnames:
+        - Bracket
+        - Trailing
     ErrorResponse:
       type: object
       properties:

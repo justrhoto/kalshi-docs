@@ -227,6 +227,9 @@ components:
       enum:
         - bracket
         - trailing
+      x-enum-varnames:
+        - Bracket
+        - Trailing
     FixedPointDollars:
       type: string
       description: >-
@@ -260,12 +263,16 @@ components:
         - entry_not_filled
         - order_rejected
         - position_flipped
+        - market_deactivated
     ExitTriggerLeg:
       type: string
       description: Which leg of a bracket fired. Present only once a leg has fired.
       enum:
         - stop_loss
         - take_profit
+      x-enum-varnames:
+        - StopLoss
+        - TakeProfit
     FixedPointCount:
       type: string
       description: >-

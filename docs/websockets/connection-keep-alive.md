@@ -51,14 +51,14 @@ operations:
         payload:
           - type: string
             const: ''
-            x-parser-schema-id: <anonymous-schema-71>
+            x-parser-schema-id: <anonymous-schema-72>
             name: Ping
             description: Client sends Ping frame (0x9) to elicit Pong from Kalshi
         headers: []
         jsonPayloadSchema:
           type: string
           const: ''
-          x-parser-schema-id: <anonymous-schema-71>
+          x-parser-schema-id: <anonymous-schema-72>
         title: Ping
         description: Client sends Ping frame (0x9) to elicit Pong from Kalshi
         example: '""'
@@ -82,14 +82,14 @@ operations:
         payload:
           - type: string
             const: ''
-            x-parser-schema-id: <anonymous-schema-72>
+            x-parser-schema-id: <anonymous-schema-73>
             name: Pong
             description: Client replies to Ping with Pong Frame (0xA)
         headers: []
         jsonPayloadSchema:
           type: string
           const: ''
-          x-parser-schema-id: <anonymous-schema-72>
+          x-parser-schema-id: <anonymous-schema-73>
         title: Pong
         description: Client replies to Ping with Pong Frame (0xA)
         example: '""'
@@ -111,7 +111,7 @@ operations:
         payload:
           - type: string
             const: heartbeat
-            x-parser-schema-id: <anonymous-schema-73>
+            x-parser-schema-id: <anonymous-schema-74>
             name: Ping
             description: >-
               Kalshi sends Ping (0x9) with body 'heartbeat' to elicit Pong from
@@ -120,7 +120,7 @@ operations:
         jsonPayloadSchema:
           type: string
           const: heartbeat
-          x-parser-schema-id: <anonymous-schema-73>
+          x-parser-schema-id: <anonymous-schema-74>
         title: Ping
         description: >-
           Kalshi sends Ping (0x9) with body 'heartbeat' to elicit Pong from
@@ -144,14 +144,14 @@ operations:
         payload:
           - type: string
             const: ''
-            x-parser-schema-id: <anonymous-schema-74>
+            x-parser-schema-id: <anonymous-schema-75>
             name: Pong
             description: Kalshi responds to client Ping with Pong frame (0xA)
         headers: []
         jsonPayloadSchema:
           type: string
           const: ''
-          x-parser-schema-id: <anonymous-schema-74>
+          x-parser-schema-id: <anonymous-schema-75>
         title: Pong
         description: Kalshi responds to client Ping with Pong frame (0xA)
         example: '""'

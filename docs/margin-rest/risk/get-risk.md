@@ -123,6 +123,7 @@ components:
       type: object
       required:
         - subaccount
+        - subaccount_type
         - market_ticker
         - position
         - mark_price
@@ -132,6 +133,8 @@ components:
         subaccount:
           type: integer
           description: The subaccount number (0 for primary, 1-63 for subaccounts)
+        subaccount_type:
+          $ref: '#/components/schemas/SubaccountType'
         market_ticker:
           type: string
           description: Market ticker symbol
@@ -185,6 +188,21 @@ components:
         details:
           type: string
           description: Additional details about the error, if available
+    SubaccountType:
+      type: string
+      enum:
+        - cross
+        - isolated
+        - auto_rebalance
+      x-enum-varnames:
+        - SubaccountTypeCross
+        - SubaccountTypeIsolated
+        - SubaccountTypeAutoRebalance
+      description: >-
+        How the subaccount is margined. `cross` for the primary account and
+        numbered subaccounts, `isolated` for a market's isolated subaccount, and
+        `auto_rebalance` for an auto-rebalanced isolated position, which shares
+        its market's isolated subaccount number.
     FixedPointCount:
       type: string
       description: >-

@@ -147,6 +147,7 @@ components:
         - funding_amount
         - quantity
         - subaccount_number
+        - subaccount_type
       properties:
         market_ticker:
           type: string
@@ -174,6 +175,8 @@ components:
           type: integer
           nullable: true
           description: Subaccount number (0 for primary)
+        subaccount_type:
+          $ref: '#/components/schemas/SubaccountType'
     ErrorResponse:
       type: object
       properties:
@@ -203,6 +206,21 @@ components:
         contract values (e.g., "2.50") are supported; the minimum granularity is
         0.01 contracts.
       example: '10.00'
+    SubaccountType:
+      type: string
+      enum:
+        - cross
+        - isolated
+        - auto_rebalance
+      x-enum-varnames:
+        - SubaccountTypeCross
+        - SubaccountTypeIsolated
+        - SubaccountTypeAutoRebalance
+      description: >-
+        How the subaccount is margined. `cross` for the primary account and
+        numbered subaccounts, `isolated` for a market's isolated subaccount, and
+        `auto_rebalance` for an auto-rebalanced isolated position, which shares
+        its market's isolated subaccount number.
   responses:
     BadRequestError:
       description: Bad request - invalid input

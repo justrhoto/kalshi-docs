@@ -236,9 +236,10 @@ components:
       enum:
         - liquidation
         - take_profit_stop_loss
+        - auto_rebalance
       description: >-
-        The reason for a system-generated order. Present for liquidation and
-        TP/SL orders.
+        The reason for a system-generated order. Present for liquidation, TP/SL,
+        and auto-rebalance orders.
   responses:
     UnauthorizedError:
       description: Unauthorized - authentication required

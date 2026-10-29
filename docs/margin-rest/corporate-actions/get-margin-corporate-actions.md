@@ -154,7 +154,7 @@ components:
       properties:
         id:
           type: string
-          description: Stable notice id, equal to the Klear review id.
+          description: Stable corporate action id.
         market_id:
           type: string
           description: Stable market UUID.
@@ -194,7 +194,7 @@ components:
           type: string
           format: date-time
           nullable: true
-          description: Review execution time. Omitted for cancelled notices.
+          description: Execution time. Omitted for cancelled notices.
         cash:
           $ref: '#/components/schemas/MarginCorporateActionCashTerms'
         split:
