@@ -37,6 +37,11 @@ Apply deltas in the subscription's `seq` order. Predictions `clock` values ident
 
 FIX sessions on API keys restricted to one subaccount can now send `OrderMassCancelRequest` (35=q). `530=6` cancels the orders placed over that key's FIX session, as it does for any key. `530=1` cancels only that subaccount's orders in the market. `AllocAccount<79>` is optional; if sent, it must be that subaccount, otherwise the request is rejected.
 
+**November 5, 2026**
+
+`market_closed` is now `market_inactive`, and orders on a halted market
+return it too.
+
 **October 29, 2026**
 
 After final settlement, a margin market reports open interest of 0 and
