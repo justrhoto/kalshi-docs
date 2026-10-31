@@ -27,6 +27,36 @@ Exit triggers canceled because their market was deactivated now return
 
 **November 5, 2026**
 
+Fractional quantities and sub-cent prices can produce dollar amounts with
+up to 6 decimal places.
+
+The Clearing Member API adds `_fp` dollar fields with 6 decimal places
+alongside selected `_centicents` response fields. For example,
+`balance_available_fp: "12.345600"` represents a balance in dollars.
+
+Preserve all 6 decimal places in calculations and reconciliation.
+Migrate to the Clearing Member `_fp` fields; their integer counterparts
+will be deprecated soon.
+
+**Affected Clearing Member endpoints:**
+
+* `GET /klear-api/v1/margin/settlement_balance`
+* `GET /klear-api/v1/margin/settlement_balance_history`
+* `GET /klear-api/v1/margin/active_obligations`
+* `GET /klear-api/v1/margin/obligation_history`
+* `GET /klear-api/v1/margin/obligations/{obligation_id}/settlement_details`
+* `GET /klear-api/v1/margin/obligations/{obligation_id}/funding_payments`
+* `GET /klear-api/v1/margin/obligations/{obligation_id}/corporate_action_payments`
+* `GET /klear-api/v1/margin/funding_payments`
+* `GET /klear-api/v1/margin/settlement_estimate_by_asset_class`
+* `GET /klear-api/v1/margin/funding_estimate_by_asset_class`
+
+See
+[Fixed-Point Representation](https://docs.kalshi.com/getting_started/fixed_point_migration.md#margin-markets)
+for details.
+
+**November 5, 2026**
+
 `orderbook_delta` subscriptions accept an optional `update_interval_ms` of `100` or `1000`. Each window produces one net held delta per changed price level; zero-net levels are skipped, and processing and transport can delay delivery. Updates to your own orders within any subaccount restriction and snapshots bypass the interval. Changes to other participants' orders, including liquidity your trades consume, remain held. Apply each snapshot as a replacement for that market's local book. Omit `update_interval_ms` or set it to `0` for real-time updates, the default. Other signed 64-bit integer literals return error code 29; values that fail integer decoding return code 1 for the whole command.
 
 Each connection has one `orderbook_delta` subscription. A repeated `subscribe` adds markets to the same `sid` and must use the same interval (omission means `0`); a mismatch returns error code 11. It does not resynchronize existing markets. Use `update_subscription` with `add_markets` to extend the current subscription, or `unsubscribe` and then `subscribe` again to change its interval.

@@ -134,10 +134,16 @@ components:
       type: object
       required:
         - funding_amount_centicents
+        - funding_amount_fp
       properties:
         funding_amount_centicents:
           type: integer
           format: int64
+        funding_amount_fp:
+          type: string
+          description: >-
+            funding_amount_centicents as a fixed-point dollar string with 6
+            decimal places.
         positions:
           type: object
           description: >-
@@ -150,6 +156,7 @@ components:
       required:
         - quantity_centicount
         - funding_amount_centicents
+        - funding_amount_fp
       properties:
         quantity_centicount:
           type: integer
@@ -157,6 +164,11 @@ components:
         funding_amount_centicents:
           type: integer
           format: int64
+        funding_amount_fp:
+          type: string
+          description: >-
+            funding_amount_centicents as a fixed-point dollar string with 6
+            decimal places.
   responses:
     UnauthorizedError:
       description: Missing or invalid authentication

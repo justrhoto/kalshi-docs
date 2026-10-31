@@ -71,6 +71,8 @@ The Perps API mirrors the event contract API (same auth, pagination, error forma
 
 **Margin-specific additions:** beyond the mirrored order, market, and order-group endpoints, margin adds endpoints for account balance and risk, funding (estimated and historical rates, plus payment history), fee tiers, subaccounts, and transfers between your event-contract and margin balances. See the **REST** reference for the full list. Two things to know up front: the event-contract ↔ margin transfer (`/portfolio/intra_exchange_instance_transfer`) is **not yet available** (enabled with the production rollout), and you can call `/margin/enabled` to check whether margin is on for your account in a given environment.
 
+**Dollar precision:** existing fixed-point dollar response fields support up to 6 decimal places and retain their names. See [Fixed-Point Representation](https://docs.kalshi.com/getting_started/fixed_point_migration.md#margin-markets).
+
 **Not available on margin:**
 
 * Batch order operations (`BatchCreateOrders`, `BatchCancelOrders`)

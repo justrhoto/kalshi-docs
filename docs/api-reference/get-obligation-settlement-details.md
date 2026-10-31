@@ -124,8 +124,10 @@ components:
         - subtrader_id
         - position_quantity_fp
         - pnl_centicents
+        - pnl_fp
         - total_fees_centicents
         - total_amount_centicents
+        - total_amount_fp
       properties:
         id:
           type: string
@@ -145,6 +147,9 @@ components:
             Total PnL for this market and subtrader over the settlement period,
             including the market's net funding (itemized per funding period in
             the entry's funding_payments).
+        pnl_fp:
+          type: string
+          description: pnl_centicents as a fixed-point dollar string with 6 decimal places.
         total_fees_centicents:
           type: integer
           format: int64
@@ -153,6 +158,11 @@ components:
           type: integer
           format: int64
           description: Total amount.
+        total_amount_fp:
+          type: string
+          description: >-
+            total_amount_centicents as a fixed-point dollar string with 6
+            decimal places.
     Error:
       type: object
       required:

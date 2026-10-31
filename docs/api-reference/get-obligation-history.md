@@ -198,9 +198,11 @@ components:
         - id
         - user_id
         - amount_centicents
+        - amount_fp
         - fees_centicents
         - maintenance_margin_centicents
         - pnl_centicents
+        - pnl_fp
         - execution_time
         - last_updated_ts
         - asset_class
@@ -214,11 +216,17 @@ components:
           format: int64
           description: |
             Net settlement amount in USD as centicents (1 USD = 10,000
-            centicents). All monetary fields on this API are returned in
-            centicents. Total the clearing member owes or is owed, inclusive
-            of PnL, fees, and maintenance margin changes. Negative means the
-            clearing member pays Kalshi Klear; positive means Kalshi Klear
-            pays the clearing member.
+            centicents). Monetary fields ending in `_centicents` are integer
+            centicents; where an `_fp` counterpart exists, it carries the same
+            amount as a fixed-point dollar string with 6 decimal places. Total
+            the clearing member owes or is owed, inclusive of PnL, fees, and
+            maintenance margin changes. Negative means the clearing member pays
+            Kalshi Klear; positive means Kalshi Klear pays the clearing member.
+        amount_fp:
+          type: string
+          description: >-
+            amount_centicents as a fixed-point dollar string with 6 decimal
+            places (e.g. "10005.000000").
         fees_centicents:
           type: integer
           format: int64
@@ -233,6 +241,9 @@ components:
           description: >-
             Total PnL for this settlement period; the sum of the settlement
             details for this settlement cycle.
+        pnl_fp:
+          type: string
+          description: pnl_centicents as a fixed-point dollar string with 6 decimal places.
         execution_time:
           type: string
           format: date-time
@@ -249,6 +260,7 @@ components:
         - id
         - type
         - amount_centicents
+        - amount_fp
         - external_reference
         - created_ts
       properties:
@@ -259,6 +271,11 @@ components:
         amount_centicents:
           type: integer
           format: int64
+        amount_fp:
+          type: string
+          description: >-
+            amount_centicents as a fixed-point dollar string with 6 decimal
+            places.
         external_reference:
           type: string
         created_ts:
@@ -272,8 +289,10 @@ components:
         - subtrader_id
         - position_quantity_fp
         - pnl_centicents
+        - pnl_fp
         - total_fees_centicents
         - total_amount_centicents
+        - total_amount_fp
       properties:
         id:
           type: string
@@ -293,6 +312,9 @@ components:
             Total PnL for this market and subtrader over the settlement period,
             including the market's net funding (itemized per funding period in
             the entry's funding_payments).
+        pnl_fp:
+          type: string
+          description: pnl_centicents as a fixed-point dollar string with 6 decimal places.
         total_fees_centicents:
           type: integer
           format: int64
@@ -301,6 +323,11 @@ components:
           type: integer
           format: int64
           description: Total amount.
+        total_amount_fp:
+          type: string
+          description: >-
+            total_amount_centicents as a fixed-point dollar string with 6
+            decimal places.
     MaintenanceMarginDetail:
       type: object
       required:
@@ -338,7 +365,9 @@ components:
         - funding_time
         - position_quantity_fp
         - notional_value_centicents
+        - notional_value_fp
         - funding_amount_centicents
+        - funding_amount_fp
       properties:
         id:
           type: string
@@ -361,10 +390,20 @@ components:
           description: >-
             Signed notional value (position times mark price) the funding
             payment was computed from.
+        notional_value_fp:
+          type: string
+          description: >-
+            notional_value_centicents as a fixed-point dollar string with 6
+            decimal places.
         funding_amount_centicents:
           type: integer
           format: int64
           description: Signed funding amount; positive when received, negative when paid.
+        funding_amount_fp:
+          type: string
+          description: >-
+            funding_amount_centicents as a fixed-point dollar string with 6
+            decimal places.
     CorporateActionPaymentDetail:
       type: object
       description: >-
@@ -381,6 +420,7 @@ components:
         - position_quantity_fp
         - post_position_quantity_fp
         - payment_amount_centicents
+        - payment_amount_fp
         - payment_time
         - settlement_execution_time
         - created_ts
@@ -416,6 +456,11 @@ components:
           description: >-
             Signed cash amount; positive when received and negative when paid.
             For splits this is cash in lieu and excludes position revaluation.
+        payment_amount_fp:
+          type: string
+          description: >-
+            payment_amount_centicents as a fixed-point dollar string with 6
+            decimal places.
         payment_time:
           type: string
           format: date-time
