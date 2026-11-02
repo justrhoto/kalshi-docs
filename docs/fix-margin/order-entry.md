@@ -112,7 +112,7 @@ the original Day value.
 | 11 | ClOrderID | String | Y | ClOrderID from the last change-making request |
 | 14 | CumQty | Decimal | Y | Total quantity filled so far |
 | 17 | ExecID | String | Y | Unique sequenced identifier for this report message |
-| 30 | LastMkt | String | C | Exchange index that produced the report. |
+| 30 | LastMkt | String | C | ExecID sequence that produced the report. See [Drop Copy](https://docs.kalshi.com/fix-margin/drop-copy.md). |
 | 31 | LastPx | Decimal | C | Price of the last fill in fixed-point dollars |
 | 32 | LastQty | Decimal | C | Quantity of the last fill |
 | 37 | OrderID | String | Y | Exchange order identifier |

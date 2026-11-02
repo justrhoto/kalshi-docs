@@ -77,8 +77,6 @@ The `exchange_index` query parameter is available on a per-endpoint basis.
 
 Sessions with `UseCapReservation<21032>` or [automatic collateral transfers (`AutoTransfer<21035>`)](https://docs.kalshi.com/fix/authentication#optional-fields) enabled must omit `ExDestination<100>` or use `-1` for new orders and replacements.
 
-Margined FIX sessions always route to exchange index `0`.
-
 ## Series Shard Assignments
 
 The following assignments determine the shard where new events are created. Shard 0 is the catch-all for all categories and tags not listed below.

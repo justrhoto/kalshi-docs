@@ -417,6 +417,8 @@ components:
           type: object
           nullable: true
           x-omitempty: true
+          x-go-type: json.RawMessage
+          x-go-type-skip-optional-pointer: true
           description: Expiration value for each target that leads to a YES settlement
         rules_primary:
           type: string

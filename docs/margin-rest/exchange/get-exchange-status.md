@@ -153,7 +153,9 @@ components:
             exchange index. False when transfers are temporarily blocked.
     ExchangeIndex:
       type: integer
-      description: Identifier for an exchange shard. Defaults to 0 if unspecified.
+      description: >-
+        Identifier for a Predictions exchange shard. Deprecated on Perps, which
+        runs on one matching engine. Defaults to 0 if unspecified.
       example: 0
 
 ````

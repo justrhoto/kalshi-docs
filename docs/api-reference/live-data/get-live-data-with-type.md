@@ -131,6 +131,7 @@ components:
         details:
           type: object
           additionalProperties: true
+          x-go-type: json.RawMessage
           description: Live data details as a flexible object
         milestone_id:
           type: string

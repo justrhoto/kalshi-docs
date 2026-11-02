@@ -171,6 +171,7 @@ components:
         details:
           type: object
           additionalProperties: true
+          x-go-type: json.RawMessage
           description: >-
             Additional details about the milestone. `details.status`, when
             present, is maintained by a periodic background job. It lags the

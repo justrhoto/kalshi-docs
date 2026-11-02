@@ -27,17 +27,17 @@ Lookback window is limited to the last 3 hours. Only ExecutionReport (35=8) mess
 
 Request execution reports within a specified ExecID range.
 
-Specify `BeginExecID` and `EndExecID` as `clock;event;exchange_index`, including `;0` for exchange index `0`. Each resend request covers one exchange index. If you provide `EndExecID`, use the same exchange index as `BeginExecID`.
+Pass ExecIDs exactly as received. Each request replays one ExecID sequence, identified by `LastMkt` (tag 30), so `BeginExecID` and `EndExecID` must come from the same sequence. After a disconnect, send one request per sequence.
 
 | Tag | Name | Description | Required |
 | - | - | - | - |
 | 21001 | BeginExecID | Starting ExecID (inclusive) | Yes |
-| 21002 | EndExecID | Ending ExecID (inclusive). Defaults to latest ExecID on the same exchange index if omitted. | No |
+| 21002 | EndExecID | Ending ExecID (inclusive). Defaults to the latest ExecID on the same sequence if omitted. | No |
 
 **Example:**
 
 ```fix theme={null}
-8=FIXT.1.1|35=U1|21001=12345;67890;0|21002=12350;67895;0|
+8=FIXT.1.1|35=U1|21001=12345;67890|21002=12350;67895|
 ```
 
 ## EventResendComplete (35=U2)

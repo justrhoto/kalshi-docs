@@ -135,10 +135,10 @@ components:
             rejected if the version has changed since you read it.
         exchange_index:
           type: integer
+          deprecated: true
           description: >-
-            The group of markets this market belongs to for order groups. Order
-            groups may only reference markets whose exchange_index matches
-            theirs.
+            Deprecated: has no effect on order groups or rate limits. This field
+            will be removed.
         contract_size:
           type: string
           description: Fixed-point number with 6 decimal places

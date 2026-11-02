@@ -380,6 +380,7 @@ components:
         details:
           type: object
           additionalProperties: true
+          x-go-type: json.RawMessage
           description: >-
             Additional details about the milestone. `details.status`, when
             present, is maintained by a periodic background job. It lags the
@@ -655,6 +656,8 @@ components:
           type: object
           nullable: true
           x-omitempty: true
+          x-go-type: json.RawMessage
+          x-go-type-skip-optional-pointer: true
           description: Expiration value for each target that leads to a YES settlement
         rules_primary:
           type: string

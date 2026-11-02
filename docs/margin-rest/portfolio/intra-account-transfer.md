@@ -123,7 +123,9 @@ components:
           maximum: 100
           default: 0
           x-go-type-skip-optional-pointer: true
-          description: Source exchange shard index (default 0)
+          description: >-
+            Predictions exchange shard of the source when source is
+            event_contract. Leave unset (0) for Perps.
           x-oapi-codegen-extra-tags:
             validate: gte=0,lte=100
         destination_exchange_shard:
@@ -132,7 +134,9 @@ components:
           maximum: 100
           default: 0
           x-go-type-skip-optional-pointer: true
-          description: Destination exchange shard index (default 0)
+          description: >-
+            Predictions exchange shard of the destination when destination is
+            event_contract. Leave unset (0) for Perps.
           x-oapi-codegen-extra-tags:
             validate: gte=0,lte=100
         source_subaccount:

@@ -124,6 +124,9 @@ components:
         exchange_index:
           allOf:
             - $ref: '#/components/schemas/ExchangeIndex'
+          description: >-
+            Deprecated: has no effect on Perps order groups. This field will be
+            removed.
           x-go-type-skip-optional-pointer: true
           x-omitempty: false
     FixedPointCount:
@@ -137,7 +140,9 @@ components:
       example: '10.00'
     ExchangeIndex:
       type: integer
-      description: Identifier for an exchange shard. Defaults to 0 if unspecified.
+      description: >-
+        Identifier for a Predictions exchange shard. Deprecated on Perps, which
+        runs on one matching engine. Defaults to 0 if unspecified.
       example: 0
     ErrorResponse:
       type: object

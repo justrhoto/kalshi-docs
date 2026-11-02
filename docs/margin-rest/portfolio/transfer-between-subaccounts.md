@@ -117,8 +117,8 @@ components:
           allOf:
             - $ref: '#/components/schemas/ExchangeIndex'
           description: >-
-            Identifier for an exchange shard. Perps subaccount transfers ignore
-            this field.
+            Deprecated: ignored for Perps subaccount transfers. This field will
+            be removed.
           x-go-type-skip-optional-pointer: true
           x-oapi-codegen-extra-tags:
             validate: gte=0
@@ -127,7 +127,9 @@ components:
       description: Empty response indicating successful transfer.
     ExchangeIndex:
       type: integer
-      description: Identifier for an exchange shard. Defaults to 0 if unspecified.
+      description: >-
+        Identifier for a Predictions exchange shard. Deprecated on Perps, which
+        runs on one matching engine. Defaults to 0 if unspecified.
       example: 0
     ErrorResponse:
       type: object
