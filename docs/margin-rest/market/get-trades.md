@@ -7,7 +7,7 @@ url: https://docs.kalshi.com/margin-rest/market/get-trades
 
 # Get Trades
 
-> Endpoint for retrieving public margin trades across all markets or filtered by market ticker. Returns a paginated response. Use the cursor value from the previous response to get the next page.
+> Endpoint for retrieving public margin trades across all markets or filtered by market ticker. Block trades are included in the response by default and identified by the `is_block_trade` field; use the `is_block_trade` query parameter to filter by block / non-block. Returns a paginated response. Use the cursor value from the previous response to get the next page.
 
 
 
@@ -58,8 +58,11 @@ paths:
       summary: Get Trades
       description: >-
         Endpoint for retrieving public margin trades across all markets or
-        filtered by market ticker. Returns a paginated response. Use the cursor
-        value from the previous response to get the next page.
+        filtered by market ticker. Block trades are included in the response by
+        default and identified by the `is_block_trade` field; use the
+        `is_block_trade` query parameter to filter by block / non-block. Returns
+        a paginated response. Use the cursor value from the previous response to
+        get the next page.
       operationId: GetMarginTrades
       parameters:
         - name: ticker
@@ -102,6 +105,7 @@ paths:
             type: integer
             format: int64
           description: Filter trades before this Unix timestamp
+        - $ref: '#/components/parameters/IsBlockTradeQuery'
       responses:
         '200':
           description: Trades retrieved successfully
@@ -114,6 +118,16 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
+  parameters:
+    IsBlockTradeQuery:
+      name: is_block_trade
+      in: query
+      description: >
+        Filter trades by whether they are block trades. Omit to return all
+        trades. Set to `true` to return only block trades. Set to `false` to
+        return only non-block trades.
+      schema:
+        type: boolean
   schemas:
     GetMarginTradesResponse:
       type: object
@@ -136,6 +150,7 @@ components:
         - price
         - created_time
         - taker_side
+        - is_block_trade
       properties:
         trade_id:
           type: string
@@ -156,6 +171,12 @@ components:
         taker_side:
           $ref: '#/components/schemas/BookSide'
           description: Side of the taker in this trade
+        is_block_trade:
+          type: boolean
+          description: >-
+            True if this trade was matched off-book as a block trade (e.g. via
+            RFQ / negotiated block proposal); false for trades that filled on
+            the standard order book.
     ErrorResponse:
       type: object
       properties:

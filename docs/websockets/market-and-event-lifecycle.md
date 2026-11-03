@@ -169,6 +169,11 @@ operations:
                         required: true
                       - name: no_sub_title
                         type: string
+                        description: >-
+                          Deprecated. Use `yes_sub_title` instead. Equal to
+                          `yes_sub_title` on every market created since
+                          September 2024.
+                        deprecated: true
                         required: true
                       - name: rules_primary
                         type: string
@@ -404,6 +409,11 @@ operations:
                       x-parser-schema-id: <anonymous-schema-154>
                     no_sub_title:
                       type: string
+                      deprecated: true
+                      description: >-
+                        Deprecated. Use `yes_sub_title` instead. Equal to
+                        `yes_sub_title` on every market created since September
+                        2024.
                       x-parser-schema-id: <anonymous-schema-155>
                     rules_primary:
                       type: string

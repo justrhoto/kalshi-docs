@@ -173,6 +173,11 @@ operations:
                         required: true
                       - name: no_sub_title
                         type: string
+                        description: >-
+                          Deprecated. Use `yes_sub_title` instead. Equal to
+                          `yes_sub_title` on every market created since
+                          September 2024.
+                        deprecated: true
                         required: true
                       - name: rules_primary
                         type: string
@@ -380,6 +385,11 @@ operations:
                       x-parser-schema-id: <anonymous-schema-154>
                     no_sub_title:
                       type: string
+                      deprecated: true
+                      description: >-
+                        Deprecated. Use `yes_sub_title` instead. Equal to
+                        `yes_sub_title` on every market created since September
+                        2024.
                       x-parser-schema-id: <anonymous-schema-155>
                     rules_primary:
                       type: string
@@ -479,7 +489,7 @@ operations:
                 "name": "MVE One",
                 "title": "Market 1",
                 "yes_sub_title": "YES 1",
-                "no_sub_title": "NO 1",
+                "no_sub_title": "YES 1",
                 "rules_primary": "Rule 1",
                 "rules_secondary": "Rule 2",
                 "can_close_early": true,

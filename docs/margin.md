@@ -29,6 +29,8 @@ Use the `external-api` hosts for perps REST. WebSocket and FIX use the separate 
 | Demo | `wss://external-api-margin-ws.demo.kalshi.co/trade-api/ws/v2/margin` |
 | Production | `wss://external-api-margin-ws.kalshi.com/trade-api/ws/v2/margin` (rolling out member by member) |
 
+For lower-latency `fill` and `user_orders` updates, connect to `wss://margin-warp-ws.kalshi.com/trade-api/ws/v2/margin` in production or `wss://margin-warp-ws.demo.kalshi.co/trade-api/ws/v2/margin` in demo. These hosts serve only those two channels. See [Fill and order updates](https://docs.kalshi.com/getting_started/api_environments.md#fill-and-order-updates).
+
 ### FIX API
 
 The margin FIX gateway uses a **separate host** from event contract FIX.

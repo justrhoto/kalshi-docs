@@ -21,6 +21,13 @@ the `FIX` tag.
 
 **November 5, 2026**
 
+`no_sub_title` on markets (REST) and in `market_lifecycle_v2` and
+`multivariate_market_lifecycle` metadata (WebSocket) is deprecated. It has
+equaled `yes_sub_title` on every market created since September 2024. Use
+`yes_sub_title` instead. The field is still returned.
+
+**November 5, 2026**
+
 Perps Write budgets double for Basic through Expert and triple for Premier
 through Prestige, as one budget across all Perps markets. See
 [Perps budgets](https://docs.kalshi.com/getting_started/rate_limits.md#perps-budgets).
@@ -80,6 +87,17 @@ FIX sessions on API keys restricted to one subaccount can now send `OrderMassCan
 
 `market_closed` is now `market_inactive`, and orders on a halted market
 return it too.
+
+**October 29, 2026**
+
+New WebSocket hosts deliver `fill` and `user_orders` updates with lower latency:
+
+* Production Predictions: `wss://warp-ws.kalshi.com/trade-api/ws/v2`
+* Production Margin: `wss://margin-warp-ws.kalshi.com/trade-api/ws/v2/margin`
+* Demo Predictions: `wss://warp-ws.demo.kalshi.co/trade-api/ws/v2`
+* Demo Margin: `wss://margin-warp-ws.demo.kalshi.co/trade-api/ws/v2/margin`
+
+These hosts serve only the `fill` and `user_orders` channels. Subscribing to any other channel returns error code 8 (`Unknown channel name`), so keep your other subscriptions on your current host. API key authentication, the signed path, and message formats are unchanged. See [API Environments and Endpoints](https://docs.kalshi.com/getting_started/api_environments.md#fill-and-order-updates).
 
 **October 29, 2026**
 

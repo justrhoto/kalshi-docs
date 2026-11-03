@@ -99,6 +99,10 @@ operations:
                       - bid
                       - ask
                     required: true
+                  - name: is_block_trade
+                    type: boolean
+                    description: True if the trade was matched off book as a block trade
+                    required: true
                   - name: ts_ms
                     type: integer
                     description: Unix timestamp in milliseconds.
@@ -145,6 +149,7 @@ operations:
                 - price
                 - count
                 - taker_side
+                - is_block_trade
                 - ts_ms
               properties:
                 trade_id:
@@ -171,11 +176,15 @@ operations:
                     - bid
                     - ask
                   x-parser-schema-id: bookSide
+                is_block_trade:
+                  type: boolean
+                  description: True if the trade was matched off book as a block trade
+                  x-parser-schema-id: <anonymous-schema-100>
                 ts_ms:
                   type: integer
                   format: int64
                   description: Unix timestamp in milliseconds.
-                  x-parser-schema-id: <anonymous-schema-100>
+                  x-parser-schema-id: <anonymous-schema-101>
               x-parser-schema-id: <anonymous-schema-96>
             sending_ts_ms:
               type: integer
@@ -198,6 +207,7 @@ operations:
               "price": "<string>",
               "count": "<string>",
               "taker_side": "<string>",
+              "is_block_trade": true,
               "ts_ms": 123
             },
             "sending_ts_ms": 123
