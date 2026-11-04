@@ -7,7 +7,7 @@ url: https://docs.kalshi.com/api-reference/communications/get-quotes
 
 # Get Quotes
 
-> List quotes. The rfq_id filter requires an RFQ UUID. Pass pagination cursors back unchanged; malformed RFQ IDs or cursors return HTTP 400.
+> List quotes. The rfq_id filter requires an RFQ UUID. With rfq_id, quotes are sorted on the RFQ's main side (no for a target-cost RFQ, yes otherwise): the best price first, then the earliest place in line at that price. Pass pagination cursors back unchanged; malformed RFQ IDs or cursors return HTTP 400.
 
 
 
@@ -17,7 +17,7 @@ url: https://docs.kalshi.com/api-reference/communications/get-quotes
 openapi: 3.0.0
 info:
   title: Kalshi Trade API Manual Endpoints
-  version: 3.35.0
+  version: 3.36.0
   description: >-
     Manually defined OpenAPI spec for endpoints being migrated to spec-first
     approach
@@ -69,8 +69,11 @@ paths:
         - communications
       summary: Get Quotes
       description: >-
-        List quotes. The rfq_id filter requires an RFQ UUID. Pass pagination
-        cursors back unchanged; malformed RFQ IDs or cursors return HTTP 400.
+        List quotes. The rfq_id filter requires an RFQ UUID. With rfq_id, quotes
+        are sorted on the RFQ's main side (no for a target-cost RFQ, yes
+        otherwise): the best price first, then the earliest place in line at
+        that price. Pass pagination cursors back unchanged; malformed RFQ IDs or
+        cursors return HTTP 400.
       operationId: GetQuotes
       parameters:
         - $ref: '#/components/parameters/CursorQuery'

@@ -21,6 +21,54 @@ the `FIX` tag.
 
 **November 5, 2026**
 
+Markets created on demand for a request for quote, in series starting with
+`KXRFQ` (such as `KXRFQW` weather point markets), are left out of
+subscriptions that don't name markets. `trade` and `ticker` still deliver
+them to subscriptions that list the market in `market_tickers` (or
+`market_ids` for `ticker`). `market_lifecycle_v2` takes no market list, so it
+leaves them out entirely.
+
+**November 5, 2026**
+
+Markets that users create on demand for RFQs (series starting with `KXRFQ`,
+such as `KXRFQW` on-request weather markets) are left out of unscoped
+listings:
+
+* `GET /markets` and `GET /historical/markets` skip them unless the request
+  sets `series_ticker`, `event_ticker` or `tickers` to one of them.
+  `mve_filter=exclude` also skips them.
+* `GET /markets/trades` and `GET /historical/trades` skip their trades
+  unless the request sets `ticker`.
+
+Fetching one of these markets, events or series by ticker is unchanged.
+
+**TBD**
+
+The Perps price band changes sides. It no longer limits how far an order
+may rest from its own side of the book. Instead it limits how far an order
+may cross the other side:
+
+* A bid is rejected above the higher of twice the best ask or the best ask
+  plus 1,000 ticks.
+* An ask is rejected below the lower of half the best bid or the best bid
+  minus 1,000 ticks.
+
+When the other side of the book is empty, there is no limit. Rejected orders
+and amends return `invalid price`, as before. Orders that sweep the book with
+a far limit price, for example a bid at `1000.00` into a best ask of `10.00`,
+now fail and should carry a limit within the band. See
+[Price Banding](https://docs.kalshi.com/margin/price-banding.md).
+
+**November 5, 2026**
+
+Market positions from `GET /portfolio/positions`, `GET /historical/positions`
+and `GET /fcm/positions` now include `netting_enabled`, showing whether
+netting applies to the position's event. It is fixed at the subaccount's
+first order in the event, so it can differ from the subaccount's current
+netting setting.
+
+**November 5, 2026**
+
 `no_sub_title` on markets (REST) and in `market_lifecycle_v2` and
 `multivariate_market_lifecycle` metadata (WebSocket) is deprecated. It has
 equaled `yes_sub_title` on every market created since September 2024. Use

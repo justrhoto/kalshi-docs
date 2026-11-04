@@ -76,6 +76,20 @@ paths:
           schema:
             type: string
           description: Opaque cursor from a previous response to fetch the next page.
+        - name: settlement_start_ts
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+          description: Inclusive lower bound on settlement time.
+        - name: settlement_end_ts
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+          description: Inclusive upper bound on settlement time.
       responses:
         '200':
           description: Successful response

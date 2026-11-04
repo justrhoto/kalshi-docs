@@ -17,7 +17,7 @@ url: https://docs.kalshi.com/api-reference/historical/get-historical-positions
 openapi: 3.0.0
 info:
   title: Kalshi Trade API Manual Endpoints
-  version: 3.35.0
+  version: 3.36.0
   description: >-
     Manually defined OpenAPI spec for endpoints being migrated to spec-first
     approach
@@ -184,6 +184,7 @@ components:
         - realized_pnl_dollars
         - fees_paid_dollars
         - last_updated_ts
+        - netting_enabled
       properties:
         ticker:
           type: string
@@ -212,6 +213,11 @@ components:
           type: string
           format: date-time
           description: Last time the position is updated
+        netting_enabled:
+          type: boolean
+          description: >-
+            Whether netting applies to this position's event. Set at the
+            subaccount's first order in the event.
     EventPosition:
       type: object
       required:

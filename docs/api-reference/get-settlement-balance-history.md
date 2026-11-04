@@ -76,6 +76,20 @@ paths:
           schema:
             type: string
           description: Cursor from a previous response to fetch the next page.
+        - name: start_ts
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+          description: Inclusive lower bound on entry creation time.
+        - name: end_ts
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+          description: Inclusive upper bound on entry creation time.
       responses:
         '200':
           description: Successful response

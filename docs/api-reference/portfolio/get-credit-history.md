@@ -19,7 +19,7 @@ Filters apply to credit creation time: `min_ts` is inclusive and `max_ts` is exc
 openapi: 3.0.0
 info:
   title: Kalshi Trade API Manual Endpoints
-  version: 3.35.0
+  version: 3.36.0
   description: >-
     Manually defined OpenAPI spec for endpoints being migrated to spec-first
     approach

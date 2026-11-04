@@ -39,6 +39,10 @@ By continuing to use or access Kalshi's API, you are agreeing to be bound to our
 >
 > Generate and manage your API credentials.
 
+> [card] [MCP connector](https://docs.kalshi.com/getting_started/mcp.md)
+>
+> Connect your AI assistant to explore markets, read your portfolio, and manage price alerts.
+
 > [card] [Kalshi Academy](https://help.kalshi.com/)
 >
 > New to prediction markets? Explore educational resources and tutorials.
