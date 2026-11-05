@@ -202,6 +202,7 @@ components:
             - 'yes'
             - 'no'
             - scalar
+            - ''
           description: >-
             The outcome of the market settlement. 'yes' = market resolved to
             YES, 'no' = market resolved to NO, 'scalar' = scalar market settled

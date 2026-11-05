@@ -147,6 +147,9 @@ components:
           enum:
             - binary
             - scalar
+          x-enumNames:
+            - MarketMarketTypeBinary
+            - MarketMarketTypeScalar
           description: Identifies the type of market
         title:
           type: string

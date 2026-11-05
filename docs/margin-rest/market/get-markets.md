@@ -107,6 +107,7 @@ components:
         - underlying_multiplier
         - tick_size
         - fractional_trading_enabled
+        - minimum_quantity
         - schedule
         - exchange_index
         - market_version
@@ -153,6 +154,10 @@ components:
         fractional_trading_enabled:
           type: boolean
           description: Whether fractional trading is enabled for this market.
+        minimum_quantity:
+          $ref: '#/components/schemas/FixedPointCount'
+          description: Minimum order quantity in contracts.
+          example: '1.00'
         leverage_estimate:
           type: number
           format: double

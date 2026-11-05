@@ -209,7 +209,9 @@ components:
           description: Expiration time of the proposal
         status:
           type: string
-          description: Current status of the proposal
+          description: >-
+            Current status of the proposal: pending, executed, cancelled (by the
+            proposer, or on expiry) or rejected (by a counterparty)
         created_ts:
           type: string
           format: date-time
