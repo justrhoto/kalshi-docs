@@ -19,6 +19,20 @@ surface (`REST`, `WebSocket`, `FIX`) or exchange (`Predictions`, `Margin`).
 FIX API changes, previously tracked on a separate page, now live here under
 the `FIX` tag.
 
+**November 12, 2026**
+
+Registered MCP clients can read margin balances, positions, orders, fills and risk (`GET /margin/balance`, `/margin/positions`, `/margin/orders`, `/margin/fills`, `/margin/risk`) using explicitly granted `read::mcp_portfolio` OAuth access. `GET /margin/risk` includes leverage and estimated liquidation prices. Existing grants of this scope include this access. These grants do not allow order execution or funding changes. `GET /margin/markets`, `/margin/markets/{ticker}` and `/margin/markets/{ticker}/orderbook` accept a resource-bound MCP grant for per-user rate accounting; their anonymous payloads remain unchanged.
+
+**November 12, 2026**
+
+Registered MCP clients can read settlements (`GET /portfolio/settlements`) using explicitly granted `read::mcp_portfolio` OAuth access. Existing grants of this scope include this access. Archived settlements remain outside this endpoint.
+
+**November 12, 2026**
+
+The margin `market_lifecycle_v2` channel now also sends `deactivated` when a
+market's trading hours end and `activated` when they begin. `is_deactivated`
+is true while the market is halted or outside its trading hours.
+
 **November 11, 2026**
 
 Margin market responses now include `minimum_quantity`, the minimum order quantity in contracts.

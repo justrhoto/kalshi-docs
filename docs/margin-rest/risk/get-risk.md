@@ -8,6 +8,8 @@ url: https://docs.kalshi.com/margin-rest/risk/get-risk
 # Get Risk
 
 > Endpoint for retrieving leverage and liquidation price data for the authenticated direct margin user. Returns account-level leverage plus per-position leverage and liquidation prices, grouped by subaccount and market.
+Resource-bound MCP OAuth tokens may read the owner's risk data with read::mcp_portfolio.
+
 
 
 
@@ -56,11 +58,14 @@ paths:
       tags:
         - risk
       summary: Get Risk
-      description: >-
+      description: >
         Endpoint for retrieving leverage and liquidation price data for the
         authenticated direct margin user. Returns account-level leverage plus
         per-position leverage and liquidation prices, grouped by subaccount and
         market.
+
+        Resource-bound MCP OAuth tokens may read the owner's risk data with
+        read::mcp_portfolio.
       operationId: GetMarginRisk
       responses:
         '200':
@@ -79,6 +84,7 @@ paths:
         - kalshiAccessKey: []
           kalshiAccessSignature: []
           kalshiAccessTimestamp: []
+        - kalshiOauthAccessToken: []
 components:
   schemas:
     GetMarginRiskResponse:
@@ -250,6 +256,14 @@ components:
       in: header
       name: KALSHI-ACCESS-TIMESTAMP
       description: Request timestamp in milliseconds
+    kalshiOauthAccessToken:
+      type: http
+      scheme: bearer
+      description: >-
+        User OAuth access token with read::compliance_partner, issued to an
+        explicitly authorized partner. Accepted only on margin fills and margin
+        positions in this lane; generic read and partner client-credentials
+        tokens do not grant access.
 
 ````
 

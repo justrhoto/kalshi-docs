@@ -8,6 +8,7 @@ url: https://docs.kalshi.com/margin-rest/portfolio/get-fills
 # Get Fills
 
 > Endpoint for retrieving the authenticated user's margin fills.
+Resource-bound MCP OAuth tokens may read the owner's data with read::mcp_portfolio.
 Registered partners may also use a user OAuth access token with the explicitly granted read::compliance_partner scope.
 
 
@@ -60,6 +61,9 @@ paths:
       summary: Get Fills
       description: >
         Endpoint for retrieving the authenticated user's margin fills.
+
+        Resource-bound MCP OAuth tokens may read the owner's data with
+        read::mcp_portfolio.
 
         Registered partners may also use a user OAuth access token with the
         explicitly granted read::compliance_partner scope.

@@ -8,6 +8,8 @@ url: https://docs.kalshi.com/margin-rest/portfolio/get-balance
 # Get Balance
 
 > Endpoint for retrieving the balance breakdown for the authenticated direct margin user. Returns cash balance (aggregate and per-subaccount), position value, total balance, and maintenance margin requirement.
+Resource-bound MCP OAuth tokens may read the owner's balance with read::mcp_portfolio.
+
 
 > [!NOTE]
 >
@@ -59,10 +61,13 @@ paths:
       tags:
         - portfolio
       summary: Get Balance
-      description: >-
+      description: >
         Endpoint for retrieving the balance breakdown for the authenticated
         direct margin user. Returns cash balance (aggregate and per-subaccount),
         position value, total balance, and maintenance margin requirement.
+
+        Resource-bound MCP OAuth tokens may read the owner's balance with
+        read::mcp_portfolio.
       operationId: GetMarginBalance
       parameters:
         - name: compute_available_balance
@@ -95,6 +100,7 @@ paths:
         - kalshiAccessKey: []
           kalshiAccessSignature: []
           kalshiAccessTimestamp: []
+        - kalshiOauthAccessToken: []
 components:
   schemas:
     GetMarginBalanceResponse:
@@ -239,6 +245,14 @@ components:
       in: header
       name: KALSHI-ACCESS-TIMESTAMP
       description: Request timestamp in milliseconds
+    kalshiOauthAccessToken:
+      type: http
+      scheme: bearer
+      description: >-
+        User OAuth access token with read::compliance_partner, issued to an
+        explicitly authorized partner. Accepted only on margin fills and margin
+        positions in this lane; generic read and partner client-credentials
+        tokens do not grant access.
 
 ````
 
