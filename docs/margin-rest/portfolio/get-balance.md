@@ -190,15 +190,19 @@ components:
         - cross
         - isolated
         - auto_rebalance
+        - managed_isolated
       x-enum-varnames:
         - SubaccountTypeCross
         - SubaccountTypeIsolated
         - SubaccountTypeAutoRebalance
+        - SubaccountTypeManagedIsolated
       description: >-
         How the subaccount is margined. `cross` for the primary account and
-        numbered subaccounts, `isolated` for a market's isolated subaccount, and
+        numbered subaccounts, `isolated` for a market's isolated subaccount,
         `auto_rebalance` for an auto-rebalanced isolated position, which shares
-        its market's isolated subaccount number.
+        its market's isolated subaccount number, and `managed_isolated` for a
+        managed isolated position, whose subaccount number is its slot number
+        rather than the market's isolated subaccount number.
   responses:
     UnauthorizedError:
       description: Unauthorized - authentication required

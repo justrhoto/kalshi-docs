@@ -21,6 +21,10 @@ the `FIX` tag.
 
 **November 12, 2026**
 
+`GET /api_keys` now includes `key_type` (`rsa` or `ed25519`) on each supported key, including keys created before this change. The field is omitted when the algorithm is unknown.
+
+**November 12, 2026**
+
 Registered MCP clients can read margin balances, positions, orders, fills and risk (`GET /margin/balance`, `/margin/positions`, `/margin/orders`, `/margin/fills`, `/margin/risk`) using explicitly granted `read::mcp_portfolio` OAuth access. `GET /margin/risk` includes leverage and estimated liquidation prices. Existing grants of this scope include this access. These grants do not allow order execution or funding changes. `GET /margin/markets`, `/margin/markets/{ticker}` and `/margin/markets/{ticker}/orderbook` accept a resource-bound MCP grant for per-user rate accounting; their anonymous payloads remain unchanged.
 
 **November 12, 2026**
