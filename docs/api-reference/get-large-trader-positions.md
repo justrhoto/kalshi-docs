@@ -7,7 +7,7 @@ url: https://docs.kalshi.com/api-reference/get-large-trader-positions
 
 # Get Large Trader Positions
 
-> Positions of the authenticated clearing member that meet the CFTC large-trader reporting levels for a settlement day (17 CFR 15.03(b); each row's reportable_threshold is its market's level), plus exit-day positions that were reportable on the prior settlement day and are now below the threshold. Members with reportable positions are subject to their own CFTC Part 17 large-trader reporting obligations; this endpoint provides the position data needed to meet them. Empty when no positions meet the reporting levels and no prior-day reportable positions need exit reporting. See the CFTC's Large Trader Reporting Program (https://www.cftc.gov/IndustryOversight/MarketSurveillance/LargeTraderReportingProgram/index.htm) and reporting levels at 17 CFR 15.03 (https://www.ecfr.gov/current/title-17/chapter-I/part-15).
+> Positions of the authenticated clearing member that meet the CFTC large-trader reporting levels for a settlement day (17 CFR 15.03(b); each row's reportable_threshold is its market's level), plus exit-day positions that were reportable on the prior settlement day and are now below the threshold. Members with reportable positions are subject to their own CFTC Part 17 large-trader reporting obligations; this endpoint provides the position data needed to meet them. Empty when no positions meet the reporting levels and no prior-day reportable positions need exit reporting. See the [CFTC's Large Trader Reporting Program](https://www.cftc.gov/IndustryOversight/MarketSurveillance/LargeTraderReportingProgram/index.htm) and reporting levels at [17 CFR 15.03](https://www.ecfr.gov/current/title-17/chapter-I/part-15).
 
 
 
@@ -66,10 +66,10 @@ paths:
         their own CFTC Part 17 large-trader reporting obligations; this endpoint
         provides the position data needed to meet them. Empty when no positions
         meet the reporting levels and no prior-day reportable positions need
-        exit reporting. See the CFTC's Large Trader Reporting Program
-        (https://www.cftc.gov/IndustryOversight/MarketSurveillance/LargeTraderReportingProgram/index.htm)
-        and reporting levels at 17 CFR 15.03
-        (https://www.ecfr.gov/current/title-17/chapter-I/part-15).
+        exit reporting. See the [CFTC's Large Trader Reporting
+        Program](https://www.cftc.gov/IndustryOversight/MarketSurveillance/LargeTraderReportingProgram/index.htm)
+        and reporting levels at [17 CFR
+        15.03](https://www.ecfr.gov/current/title-17/chapter-I/part-15).
       operationId: GetLargeTraderPositions
       parameters:
         - name: report_date
