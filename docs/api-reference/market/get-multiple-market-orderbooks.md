@@ -7,7 +7,7 @@ url: https://docs.kalshi.com/api-reference/market/get-multiple-market-orderbooks
 
 # Get Multiple Market Orderbooks
 
-> Endpoint for getting the current order books for multiple markets in a single request. The order book shows all active bid orders for both yes and no sides of a binary market. It returns yes bids and no bids only (no asks are returned). This is because in binary markets, a bid for yes at price X is equivalent to an ask for no at price (100-X). For example, a yes bid at 7¢ is the same as a no ask at 93¢, with identical contract sizes. Each side shows price levels with their corresponding quantities and order counts, organized from best to worst prices. Returns one orderbook per requested market ticker.
+> Endpoint for getting the current order books for multiple markets in a single request. The order book shows all active bid orders for both yes and no sides of a binary market. It returns yes bids and no bids only (no asks are returned). This is because in binary markets, a bid for yes at price X is equivalent to an ask for no at price (100-X). For example, a yes bid at 7¢ is the same as a no ask at 93¢, with identical contract sizes. Each side lists price levels as [price, quantity] pairs sorted by price in ascending order, so the best (highest) bid is the last element. Order counts are not returned. Returns one orderbook per requested market ticker, in request order. A ticker that has no order book, including a ticker that does not match any market, is returned with empty arrays.
 
 
 
@@ -75,9 +75,12 @@ paths:
         (no asks are returned). This is because in binary markets, a bid for yes
         at price X is equivalent to an ask for no at price (100-X). For example,
         a yes bid at 7¢ is the same as a no ask at 93¢, with identical contract
-        sizes. Each side shows price levels with their corresponding quantities
-        and order counts, organized from best to worst prices. Returns one
-        orderbook per requested market ticker.
+        sizes. Each side lists price levels as [price, quantity] pairs sorted by
+        price in ascending order, so the best (highest) bid is the last element.
+        Order counts are not returned. Returns one orderbook per requested
+        market ticker, in request order. A ticker that has no order book,
+        including a ticker that does not match any market, is returned with
+        empty arrays.
       operationId: GetMarketOrderbooks
       parameters:
         - name: tickers

@@ -7,7 +7,7 @@ url: https://docs.kalshi.com/api-reference/orders/batch-create-orders-v2
 
 # Batch Create Orders (V2)
 
-> Endpoint for submitting a batch of event-market orders using the V2 request/response shape. The maximum batch size scales with your tier's write budget — see [Rate Limits and Tiers](/getting_started/rate_limits).
+> Endpoint for submitting a batch of event-market orders using the V2 request/response shape. The maximum batch size scales with your tier's write budget — see [Rate Limits and Tiers](/getting_started/rate_limits). Orders are processed one at a time in request order and the batch is not atomic: a `201` response carries one entry per order, and an order that failed has an `error` object (`code`, `message`, `details`) in place of `order_id`. An entry error with a timeout or unavailable code does not prove the order was not placed. Some checks reject the whole batch before any order is sent. See [Order Errors](/getting_started/order_errors#batch-requests) for those cases and for the error body.
 
 > [!NOTE]
 >
@@ -75,7 +75,14 @@ paths:
         Endpoint for submitting a batch of event-market orders using the V2
         request/response shape. The maximum batch size scales with your tier's
         write budget — see [Rate Limits and
-        Tiers](/getting_started/rate_limits).
+        Tiers](/getting_started/rate_limits). Orders are processed one at a time
+        in request order and the batch is not atomic: a `201` response carries
+        one entry per order, and an order that failed has an `error` object
+        (`code`, `message`, `details`) in place of `order_id`. An entry error
+        with a timeout or unavailable code does not prove the order was not
+        placed. Some checks reject the whole batch before any order is sent. See
+        [Order Errors](/getting_started/order_errors#batch-requests) for those
+        cases and for the error body.
       operationId: BatchCreateOrdersV2
       requestBody:
         required: true
@@ -227,6 +234,11 @@ components:
             validate: required,min=1
         client_order_id:
           type: string
+          description: >-
+            Optional client-assigned ID, up to 64 characters from letters,
+            digits and `_ - : + = /`. It must be unique per subaccount on the
+            market's exchange shard while the order is open. See [Order
+            Errors](/getting_started/order_errors#client-order-ids).
           x-go-type-skip-optional-pointer: true
         side:
           $ref: '#/components/schemas/BookSide'

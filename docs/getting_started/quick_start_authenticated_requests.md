@@ -175,6 +175,9 @@ print(f"Your balance: ${response.json()['balance'] / 100:.2f}")
 | - | - |
 | 401 Unauthorized | Check the API Key ID and private key path, and sign with the algorithm of the parsed key (the PEM header alone does not tell you which) |
 | Signature error | Ensure timestamp is in milliseconds (not seconds) |
+| 401 `header_timestamp_expired` | The timestamp must be within 30 seconds of Kalshi's clock. Create it just before sending and sync your system clock |
+| 401 `authentication_error` | Read the `details` field for the reason. See [Authentication errors](https://docs.kalshi.com/getting_started/api_keys.md#authentication-errors) |
+| 403 `insufficient_scope:...` | The key lacks the scope this endpoint needs. See [Scopes](https://docs.kalshi.com/getting_started/api_keys.md#scopes) |
 | Path not found | If your `BASE_URL` already ends with `/trade-api/v2`, pass only the endpoint path to the helper (e.g. `/portfolio/balance`, not `/trade-api/v2/portfolio/balance`) so the request URL is not double-prefixed |
 | Signature error with query params | Sign the request path without query parameters. The examples do this with `path.split('?')[0]` after building the full URL path |
 

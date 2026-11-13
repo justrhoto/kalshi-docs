@@ -298,7 +298,7 @@ Market maker confirms willingness to execute after quote acceptance.
 
 > [!WARNING]
 >
-> Quote must be confirmed within 30 seconds of acceptance or it will be voided.
+> Quote must be confirmed within the confirmation window or it will be voided: 30 seconds, or 3 seconds on High Volatility Markets. See [Timing](https://docs.kalshi.com/getting_started/rfqs.md#timing).
 
 ## QuoteConfirmStatus (35=U8)
 

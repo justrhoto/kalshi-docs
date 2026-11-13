@@ -9,6 +9,7 @@ url: https://docs.kalshi.com/api-reference/portfolio/get-settlements
 
 > Returns settlement records still in the live data set. Archived positions are available via `GET /historical/positions`, which has different fields; this endpoint does not return archived settlement records.
 Resource-bound MCP OAuth tokens may read the owner's settlements with read::mcp_portfolio.
+Available to direct member accounts. FCM member accounts receive 403 with code `permission_denied`.
 
 
 
@@ -78,6 +79,9 @@ paths:
 
         Resource-bound MCP OAuth tokens may read the owner's settlements with
         read::mcp_portfolio.
+
+        Available to direct member accounts. FCM member accounts receive 403
+        with code `permission_denied`.
       operationId: GetSettlements
       parameters:
         - $ref: '#/components/parameters/LimitQuery'

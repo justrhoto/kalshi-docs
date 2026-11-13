@@ -186,12 +186,9 @@ components:
           format: date-time
           nullable: true
           x-omitempty: true
-          description: Time when this market is expected to expire
-        expiration_time:
-          type: string
-          format: date-time
-          deprecated: true
-          x-go-type-skip-optional-pointer: true
+          description: >-
+            Time when this market is expected to expire. Never later than
+            `latest_expiration_time`.
         latest_expiration_time:
           type: string
           format: date-time

@@ -13,6 +13,7 @@ url: https://docs.kalshi.com/websockets/public-trades
 - No additional channel-level authentication beyond the authenticated WebSocket connection
 - Market specification optional (omit to receive all trades)
 - Updates sent immediately after trade execution
+- A repeated `subscribe` or an `update_subscription` without `market_ticker`/`market_tickers` returns error code 14. That error and error code 13 on this channel carry no `id`
 
 **Use case:** Trade feed, volume analysis
 
@@ -36,6 +37,10 @@ description: >
   - Market specification optional (omit to receive all trades)
 
   - Updates sent immediately after trade execution
+
+  - A repeated `subscribe` or an `update_subscription` without
+  `market_ticker`/`market_tickers` returns error code 14. That error and error
+  code 13 on this channel carry no `id`
 
 
   **Use case:** Trade feed, volume analysis

@@ -7,7 +7,7 @@ url: https://docs.kalshi.com/api-reference/market/get-market
 
 # Get Market
 
->  Endpoint for getting data about a specific market by its ticker. A market represents a specific binary outcome within an event that users can trade on (e.g., "Will candidate X win?"). Markets have yes/no positions, current prices, volume, and settlement rules.
+>  Endpoint for getting data about a specific market by its ticker. A market represents a specific binary outcome within an event that users can trade on (e.g., "Will candidate X win?"). Markets have yes/no positions, current prices, volume, and settlement rules. The response is cached for a short time, so prices, sizes and `status` can lag the exchange by a few seconds; use the WebSocket API when you need current state.
 
 
 
@@ -68,7 +68,7 @@ paths:
       tags:
         - market
       summary: Get Market
-      description: ' Endpoint for getting data about a specific market by its ticker. A market represents a specific binary outcome within an event that users can trade on (e.g., "Will candidate X win?"). Markets have yes/no positions, current prices, volume, and settlement rules.'
+      description: ' Endpoint for getting data about a specific market by its ticker. A market represents a specific binary outcome within an event that users can trade on (e.g., "Will candidate X win?"). Markets have yes/no positions, current prices, volume, and settlement rules. The response is cached for a short time, so prices, sizes and `status` can lag the exchange by a few seconds; use the WebSocket API when you need current state.'
       operationId: GetMarket
       parameters:
         - $ref: '#/components/parameters/TickerPath'
@@ -188,12 +188,9 @@ components:
           format: date-time
           nullable: true
           x-omitempty: true
-          description: Time when this market is expected to expire
-        expiration_time:
-          type: string
-          format: date-time
-          deprecated: true
-          x-go-type-skip-optional-pointer: true
+          description: >-
+            Time when this market is expected to expire. Never later than
+            `latest_expiration_time`.
         latest_expiration_time:
           type: string
           format: date-time

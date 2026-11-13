@@ -7,7 +7,7 @@ url: https://docs.kalshi.com/api-reference/market/get-market-orderbook
 
 # Get Market Orderbook
 
->  Endpoint for getting the current order book for a specific market.  The order book shows all active bid orders for both yes and no sides of a binary market. It returns yes bids and no bids only (no asks are returned). This is because in binary markets, a bid for yes at price X is equivalent to an ask for no at price (100-X). For example, a yes bid at 7¢ is the same as a no ask at 93¢, with identical contract sizes.  Each side shows price levels with their corresponding quantities and order counts, organized from best to worst prices.
+>  Endpoint for getting the current order book for a specific market.  The order book shows all active bid orders for both yes and no sides of a binary market. It returns yes bids and no bids only (no asks are returned). This is because in binary markets, a bid for yes at price X is equivalent to an ask for no at price (100-X). For example, a yes bid at 7¢ is the same as a no ask at 93¢, with identical contract sizes.  Each side lists price levels as [price, quantity] pairs sorted by price in ascending order, so the best (highest) bid is the last element. Order counts are not returned. When `depth` is set, the best `depth` levels of each side are returned. A ticker that has no order book, including a ticker that does not match any market, returns 200 with empty arrays rather than 404.
 
 
 
@@ -68,15 +68,16 @@ paths:
       tags:
         - market
       summary: Get Market Orderbook
-      description: ' Endpoint for getting the current order book for a specific market.  The order book shows all active bid orders for both yes and no sides of a binary market. It returns yes bids and no bids only (no asks are returned). This is because in binary markets, a bid for yes at price X is equivalent to an ask for no at price (100-X). For example, a yes bid at 7¢ is the same as a no ask at 93¢, with identical contract sizes.  Each side shows price levels with their corresponding quantities and order counts, organized from best to worst prices.'
+      description: ' Endpoint for getting the current order book for a specific market.  The order book shows all active bid orders for both yes and no sides of a binary market. It returns yes bids and no bids only (no asks are returned). This is because in binary markets, a bid for yes at price X is equivalent to an ask for no at price (100-X). For example, a yes bid at 7¢ is the same as a no ask at 93¢, with identical contract sizes.  Each side lists price levels as [price, quantity] pairs sorted by price in ascending order, so the best (highest) bid is the last element. Order counts are not returned. When `depth` is set, the best `depth` levels of each side are returned. A ticker that has no order book, including a ticker that does not match any market, returns 200 with empty arrays rather than 404.'
       operationId: GetMarketOrderbook
       parameters:
         - $ref: '#/components/parameters/TickerPath'
         - name: depth
           in: query
           description: >-
-            Depth of the orderbook to retrieve (0 or negative means all levels,
-            1-100 for specific depth)
+            Number of price levels to return per side, counted from the best
+            bid. Omit it or pass 0 for all levels; pass 1-100 for a specific
+            depth. Values below 0 or above 100 are rejected with 400.
           required: false
           schema:
             type: integer

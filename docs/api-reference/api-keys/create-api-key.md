@@ -7,7 +7,7 @@ url: https://docs.kalshi.com/api-reference/api-keys/create-api-key
 
 # Create API Key
 
->  Endpoint for creating a new API key with a user-provided public key.  This endpoint allows users with Premier or Market Maker API usage levels to create API keys by providing their own RSA or Ed25519 public key in PEM format. The platform will use this public key to verify signatures on API requests: RSA-PSS with SHA-256 for RSA keys, Ed25519 for Ed25519 keys.
+>  Endpoint for creating a new API key with a user-provided public key.  This endpoint is available on every API usage tier. Provide your own RSA or Ed25519 public key in PEM format. The platform will use this public key to verify signatures on API requests: RSA-PSS with SHA-256 for RSA keys, Ed25519 for Ed25519 keys. In production, an account can hold up to 100 directly managed API keys (keys created on the account settings page or through the API key endpoints).
 
 
 
@@ -68,7 +68,7 @@ paths:
       tags:
         - api-keys
       summary: Create API Key
-      description: ' Endpoint for creating a new API key with a user-provided public key.  This endpoint allows users with Premier or Market Maker API usage levels to create API keys by providing their own RSA or Ed25519 public key in PEM format. The platform will use this public key to verify signatures on API requests: RSA-PSS with SHA-256 for RSA keys, Ed25519 for Ed25519 keys.'
+      description: ' Endpoint for creating a new API key with a user-provided public key.  This endpoint is available on every API usage tier. Provide your own RSA or Ed25519 public key in PEM format. The platform will use this public key to verify signatures on API requests: RSA-PSS with SHA-256 for RSA keys, Ed25519 for Ed25519 keys. In production, an account can hold up to 100 directly managed API keys (keys created on the account settings page or through the API key endpoints).'
       operationId: CreateApiKey
       requestBody:
         required: true
@@ -89,12 +89,15 @@ paths:
           description: Unauthorized
         '403':
           description: >-
-            Forbidden - insufficient API usage level, or fcm_subtrader_id from a
-            non-FCM caller
+            Forbidden - the calling API key lacks the `write` scope, or
+            fcm_subtrader_id from a non-FCM caller
         '409':
           description: >-
-            Conflict - the bound FCM subtrader is not yet visible in the
-            credential registry; retry after the subtrader create propagates
+            Conflict - the account already holds the maximum number of directly
+            managed API keys, 100 in production (code
+            `MAXIMUM_NUMBER_OF_API_KEYS_REACHED`); or the bound FCM subtrader is
+            not yet visible in the credential registry, in which case retry
+            after the subtrader create propagates
         '500':
           description: Internal server error
       security:

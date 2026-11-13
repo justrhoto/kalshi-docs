@@ -12,6 +12,16 @@ Authentication is required to establish the connection; include API key headers 
 Some channels carry only public market data, but the connection itself still requires authentication.
 Use the subscribe command to subscribe to specific data channels. For more information, see the [Getting Started](https://docs.kalshi.com/getting_started/quick_start_websockets) guide.
 
+**Handshake errors:** a rejected handshake returns an HTTP error instead of upgrading. `429 Too Many Requests` with code
+`too_many_requests` has two causes: you have reached your tier's [concurrent connection limit](https://docs.kalshi.com/getting_started/rate_limits#websocket-connection-limits),
+or you are opening connections too quickly. The HTTP status and error code are the same for both, so reconnect with
+exponential backoff rather than in a tight loop, and close connections you no longer use.
+
+**One subscription per channel:** a connection holds at most one subscription to each channel. A `subscribe` naming a channel
+you are already subscribed to does not create a second subscription or return `subscribed`. It is applied to the existing `sid`:
+on channels with a market filter it adds the listed markets and returns `ok`, or returns an `error`. To change other parameters,
+`unsubscribe`, wait for `unsubscribed`, then `subscribe` again.
+
 
 
 
@@ -34,6 +44,32 @@ description: >
   information, see the [Getting
   Started](https://docs.kalshi.com/getting_started/quick_start_websockets)
   guide.
+
+
+  **Handshake errors:** a rejected handshake returns an HTTP error instead of
+  upgrading. `429 Too Many Requests` with code
+
+  `too_many_requests` has two causes: you have reached your tier's [concurrent
+  connection
+  limit](https://docs.kalshi.com/getting_started/rate_limits#websocket-connection-limits),
+
+  or you are opening connections too quickly. The HTTP status and error code are
+  the same for both, so reconnect with
+
+  exponential backoff rather than in a tight loop, and close connections you no
+  longer use.
+
+
+  **One subscription per channel:** a connection holds at most one subscription
+  to each channel. A `subscribe` naming a channel
+
+  you are already subscribed to does not create a second subscription or return
+  `subscribed`. It is applied to the existing `sid`:
+
+  on channels with a market filter it adds the listed markets and returns `ok`,
+  or returns an `error`. To change other parameters,
+
+  `unsubscribe`, wait for `unsubscribed`, then `subscribe` again.
 servers:
   - id: production
     protocol: wss

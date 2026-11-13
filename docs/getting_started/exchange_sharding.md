@@ -67,6 +67,8 @@ The `exchange_index` query parameter is available on a per-endpoint basis.
 * If `exchange_index` is omitted and `market_ticker` is provided, auto-routes using `market_ticker`.
 * Otherwise, defaults to exchange index `0`.
 
+An order can only be cancelled, amended or decreased on the shard where it rests. A request that reaches another shard is rejected with code `not_found`, `market_not_found` or `insufficient_shard_balance` (an HTTP `404` on a single-order request) and leaves the order untouched. Send `market_ticker` on every cancel and decrease so the request is routed by ticker. See [Requests sent to the wrong exchange shard](https://docs.kalshi.com/getting_started/order_errors.md#requests-sent-to-the-wrong-exchange-shard).
+
 ### FIX
 
 [`ExDestination<100>`](https://docs.kalshi.com/fix/order-entry) is available on a per-message basis for event-contract sessions.
@@ -98,7 +100,8 @@ The following assignments determine the shard where new events are created. Shar
 * When trading via FIX, both `MassCancelRequest` and `CancelOrdersOnDisconnect` will target all exchange shards for the FIX session.
 * Automatic routing will incur an additional latency cost.
 * Subaccount balances are local to a specific exchange instance.
-* Order groups do not function across exchange instances.
+* Order groups do not function across exchange instances. An order that names a group created on a different `exchange_index` than its market is rejected with code `order_group_not_found`.
+* `client_order_id` uniqueness and the open order limit apply per exchange shard. See [Order Errors](https://docs.kalshi.com/getting_started/order_errors.md).
 * [`KXMVECROSSCATEGORY-SHARD1-R`](https://demo-api.kalshi.co/trade-api/v2/multivariate_event_collections/KXMVECROSSCATEGORY-SHARD1-R) is live in demo for testing.
 
 

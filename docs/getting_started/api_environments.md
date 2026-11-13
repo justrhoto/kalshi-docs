@@ -37,14 +37,16 @@ Use these WebSocket URLs for the Trade API:
 
 ### Fill and order updates
 
-Dedicated hosts deliver `fill` and `user_orders` updates with lower latency than the hosts above:
+Dedicated user hosts deliver `fill` and `user_orders` updates with lower latency than the hosts above:
 
 | Environment | Predictions | Margin |
 | - | - | - |
-| Production | `wss://warp-ws.kalshi.com/trade-api/ws/v2` | `wss://margin-warp-ws.kalshi.com/trade-api/ws/v2/margin` |
-| Demo | `wss://warp-ws.demo.kalshi.co/trade-api/ws/v2` | `wss://margin-warp-ws.demo.kalshi.co/trade-api/ws/v2/margin` |
+| Production | `wss://user-ws.kalshi.com/trade-api/ws/v2` | `wss://margin-user-ws.kalshi.com/trade-api/ws/v2/margin` |
+| Demo | `wss://user-ws.demo.kalshi.co/trade-api/ws/v2` | `wss://margin-user-ws.demo.kalshi.co/trade-api/ws/v2/margin` |
 
-These hosts serve only the `fill` and `user_orders` channels. Subscribing to any other channel returns error code 8 (`Unknown channel name`), so keep your other subscriptions on the hosts above. API key authentication, the signed path, and message formats are the same.
+These hosts serve the `fill` and `user_orders` channels today, and more per-user channels will be added over time. Subscribing to any other channel returns error code 8 (`Unknown channel name`), so keep your other subscriptions on the hosts above. API key authentication, the signed path, and message formats are the same.
+
+The earlier `warp-ws` and `margin-warp-ws` hosts are deprecated. They keep working and serve the same channels for now. Move to the user hosts above.
 
 ## External Feeds WebSocket
 

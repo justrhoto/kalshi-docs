@@ -7,7 +7,7 @@ url: https://docs.kalshi.com/api-reference/multivariate/create-market-in-multiva
 
 # Create Market In Multivariate Event Collection
 
-> Endpoint for creating an individual market in a multivariate event collection. This endpoint must be hit at least once before trading or looking up a market. Users are limited to 5000 creations per week.
+> Endpoint for creating an individual market in a multivariate event collection. This endpoint must be hit at least once before a combo market can be quoted or traded. If the same legs were created before, it returns the existing market, which does not count toward the limit; the legs are still validated again, so a selection that worked before can later be rejected. On the production API, the standard limit is 5000 new markets per user per rolling 7 days, counted both across all collections and within each collection; over either limit the endpoint returns 429 `too_many_requests` until earlier creations pass the 7-day mark. Ordinary request-rate limiting returns the same status and code. A leg selection that cannot be combined returns 400 with `code` `conflicting_leg_outcomes`, `duplicated_legs` or `invalid_market_combination`.
 
 
 
@@ -70,8 +70,18 @@ paths:
       summary: Create Market In Multivariate Event Collection
       description: >-
         Endpoint for creating an individual market in a multivariate event
-        collection. This endpoint must be hit at least once before trading or
-        looking up a market. Users are limited to 5000 creations per week.
+        collection. This endpoint must be hit at least once before a combo
+        market can be quoted or traded. If the same legs were created before, it
+        returns the existing market, which does not count toward the limit; the
+        legs are still validated again, so a selection that worked before can
+        later be rejected. On the production API, the standard limit is 5000 new
+        markets per user per rolling 7 days, counted both across all collections
+        and within each collection; over either limit the endpoint returns 429
+        `too_many_requests` until earlier creations pass the 7-day mark.
+        Ordinary request-rate limiting returns the same status and code. A leg
+        selection that cannot be combined returns 400 with `code`
+        `conflicting_leg_outcomes`, `duplicated_legs` or
+        `invalid_market_combination`.
       operationId: CreateMarketInMultivariateEventCollection
       parameters:
         - name: collection_ticker
@@ -248,12 +258,9 @@ components:
           format: date-time
           nullable: true
           x-omitempty: true
-          description: Time when this market is expected to expire
-        expiration_time:
-          type: string
-          format: date-time
-          deprecated: true
-          x-go-type-skip-optional-pointer: true
+          description: >-
+            Time when this market is expected to expire. Never later than
+            `latest_expiration_time`.
         latest_expiration_time:
           type: string
           format: date-time

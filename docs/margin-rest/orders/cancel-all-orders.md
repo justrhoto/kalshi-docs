@@ -11,7 +11,7 @@ url: https://docs.kalshi.com/margin-rest/orders/cancel-all-orders
 
 > [!NOTE]
 >
-> **Rate limit:** 10 tokens per request, the same cost as cancelling one margin order. See `GET /trade-api/v2/account/endpoint_costs` for current non-default endpoint costs.
+> **Rate limit:** 10 tokens per request. Cancelling one margin order by ID costs 1 token. See `GET /trade-api/v2/account/endpoint_costs` for current non-default endpoint costs.
 
 
 ## OpenAPI

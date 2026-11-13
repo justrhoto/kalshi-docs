@@ -7,7 +7,7 @@ url: https://docs.kalshi.com/api-reference/orders/get-order
 
 # Get Order
 
->  Endpoint for getting a single order.
+>  Endpoint for getting a single order. Order reads are updated asynchronously after the matching engine processes a write, so an order created, amended or cancelled moments ago can briefly return `404 not_found` or its previous state. The response of the write itself is the only immediate result; the `user_orders` WebSocket channel is also asynchronous and is the stream to wait on for updates.
 
 > [!NOTE]
 >
@@ -71,7 +71,7 @@ paths:
       tags:
         - orders
       summary: Get Order
-      description: ' Endpoint for getting a single order.'
+      description: ' Endpoint for getting a single order. Order reads are updated asynchronously after the matching engine processes a write, so an order created, amended or cancelled moments ago can briefly return `404 not_found` or its previous state. The response of the write itself is the only immediate result; the `user_orders` WebSocket channel is also asynchronous and is the stream to wait on for updates.'
       operationId: GetOrder
       parameters:
         - $ref: '#/components/parameters/OrderIdPath'

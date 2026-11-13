@@ -7,7 +7,7 @@ url: https://docs.kalshi.com/api-reference/orders/amend-order-v2
 
 # Amend Order (V2)
 
-> Endpoint for amending the price, max fillable count, and/or expiration time of an existing event-market order. The request `count` is the updated total/max fillable count, equal to already filled count plus desired resting remaining count. This behavior matches the v1 amend endpoints; only the request/response shape differs.
+> Endpoint for amending the price, max fillable count, and/or expiration time of an existing event-market order. The request `count` is the updated total/max fillable count, equal to already filled count plus desired resting remaining count. An amend that changes nothing returns `400` with code `AMEND_ORDER_NO_OP`. See [Order Errors](/getting_started/order_errors).
 
 > [!NOTE]
 >
@@ -75,8 +75,9 @@ paths:
         Endpoint for amending the price, max fillable count, and/or expiration
         time of an existing event-market order. The request `count` is the
         updated total/max fillable count, equal to already filled count plus
-        desired resting remaining count. This behavior matches the v1 amend
-        endpoints; only the request/response shape differs.
+        desired resting remaining count. An amend that changes nothing returns
+        `400` with code `AMEND_ORDER_NO_OP`. See [Order
+        Errors](/getting_started/order_errors).
       operationId: AmendOrderV2
       parameters:
         - $ref: '#/components/parameters/OrderIdPath'

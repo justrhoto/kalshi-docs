@@ -7,7 +7,7 @@ url: https://docs.kalshi.com/api-reference/historical/get-historical-market-cand
 
 # Get Historical Market Candlesticks
 
->  Endpoint for fetching historical candlestick data for markets that have been archived from the live data set. Time period length of each candlestick in minutes. Valid values: 1 (1 minute), 60 (1 hour), 1440 (1 day).
+>  Endpoint for fetching historical candlestick data for markets that have been archived from the live data set. Time period length of each candlestick in minutes. Valid values: 1 (1 minute), 60 (1 hour), 1440 (1 day). One request can span at most 5,000 periods: if the minutes between `start_ts` and `end_ts` divided by `period_interval` exceed 5,000, the request is rejected with 400 `bad_request`. Split a longer range into several requests.
 
 
 
@@ -68,7 +68,7 @@ paths:
       tags:
         - historical
       summary: Get Historical Market Candlesticks
-      description: ' Endpoint for fetching historical candlestick data for markets that have been archived from the live data set. Time period length of each candlestick in minutes. Valid values: 1 (1 minute), 60 (1 hour), 1440 (1 day).'
+      description: ' Endpoint for fetching historical candlestick data for markets that have been archived from the live data set. Time period length of each candlestick in minutes. Valid values: 1 (1 minute), 60 (1 hour), 1440 (1 day). One request can span at most 5,000 periods: if the minutes between `start_ts` and `end_ts` divided by `period_interval` exceed 5,000, the request is rejected with 400 `bad_request`. Split a longer range into several requests.'
       operationId: GetMarketCandlesticksHistorical
       parameters:
         - name: ticker

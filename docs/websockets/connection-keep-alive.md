@@ -9,7 +9,10 @@ url: https://docs.kalshi.com/websockets/connection-keep-alive
 
 > WebSocket control frames for connection management.
 
-Kalshi sends Ping frames (`0x9`) every 10 seconds with body `heartbeat` to maintain the connection.
+Kalshi sends a Ping frame (`0x9`) with body `heartbeat` after 10 seconds without sending a data message (a JSON text frame) on the connection.
+Every data message Kalshi sends, and each heartbeat Ping, restarts that 10 seconds, so a connection that is receiving data can go a long time without a Ping.
+Pong frames Kalshi sends in reply to your Pings do not restart it.
+Do not treat a missing Ping as a dead connection; treat the connection as idle only when neither messages nor Pings arrive.
 Clients should respond with Pong frames (`0xA`). Clients may also send Ping frames to which Kalshi will respond with Pong.
 
 
@@ -24,8 +27,17 @@ description: >
   WebSocket control frames for connection management.
 
 
-  Kalshi sends Ping frames (`0x9`) every 10 seconds with body `heartbeat` to
-  maintain the connection.
+  Kalshi sends a Ping frame (`0x9`) with body `heartbeat` after 10 seconds
+  without sending a data message (a JSON text frame) on the connection.
+
+  Every data message Kalshi sends, and each heartbeat Ping, restarts that 10
+  seconds, so a connection that is receiving data can go a long time without a
+  Ping.
+
+  Pong frames Kalshi sends in reply to your Pings do not restart it.
+
+  Do not treat a missing Ping as a dead connection; treat the connection as idle
+  only when neither messages nor Pings arrive.
 
   Clients should respond with Pong frames (`0xA`). Clients may also send Ping
   frames to which Kalshi will respond with Pong.

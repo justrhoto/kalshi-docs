@@ -7,7 +7,7 @@ url: https://docs.kalshi.com/api-reference/portfolio/create-subaccount
 
 # Create Subaccount
 
-> Creates a new subaccount for the authenticated user. This endpoint is available to all users on the Advanced API tier and above. Subaccounts are numbered sequentially starting from 1. Maximum 63 numbered subaccounts per user (64 including the primary account).
+> Creates a new subaccount for the authenticated user. This endpoint is available to all users on the Advanced API tier and above; on the Basic tier it returns 403 with code `subaccount_creation_requires_advanced_api_usage_level`. The demo environment does not enforce the tier requirement. Subaccounts are numbered sequentially starting from 1. Maximum 63 numbered subaccounts per user (64 including the primary account).
 
 
 
@@ -70,9 +70,12 @@ paths:
       summary: Create Subaccount
       description: >-
         Creates a new subaccount for the authenticated user. This endpoint is
-        available to all users on the Advanced API tier and above. Subaccounts
-        are numbered sequentially starting from 1. Maximum 63 numbered
-        subaccounts per user (64 including the primary account).
+        available to all users on the Advanced API tier and above; on the Basic
+        tier it returns 403 with code
+        `subaccount_creation_requires_advanced_api_usage_level`. The demo
+        environment does not enforce the tier requirement. Subaccounts are
+        numbered sequentially starting from 1. Maximum 63 numbered subaccounts
+        per user (64 including the primary account).
       operationId: CreateSubaccount
       requestBody:
         required: false
