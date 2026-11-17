@@ -7,7 +7,7 @@ url: https://docs.kalshi.com/margin-rest/market/get-market-schedules
 
 # Get Market Schedules
 
-> Endpoint for retrieving Kalshi trading holiday closures for multiple margin markets. Returns a map keyed by market ticker. Regular daily and weekend closures are not included.
+> Endpoint for retrieving recurring Kalshi trading hours and holiday closures for multiple margin markets. Returns a map keyed by market ticker.
 
 
 
@@ -57,9 +57,9 @@ paths:
         - market
       summary: Get Market Schedules
       description: >-
-        Endpoint for retrieving Kalshi trading holiday closures for multiple
-        margin markets. Returns a map keyed by market ticker. Regular daily and
-        weekend closures are not included.
+        Endpoint for retrieving recurring Kalshi trading hours and holiday
+        closures for multiple margin markets. Returns a map keyed by market
+        ticker.
       operationId: GetMarginMarketSchedules
       parameters:
         - name: tickers
@@ -109,6 +109,8 @@ components:
           description: Kalshi trading holiday closures for the market.
           items:
             $ref: '#/components/schemas/MarginHolidayWindow'
+        kalshi_trading_schedule:
+          $ref: '#/components/schemas/MarginTradingCronSchedule'
     ErrorResponse:
       type: object
       properties:
@@ -138,6 +140,38 @@ components:
         reason:
           type: string
           description: Reason for the holiday closure.
+    MarginTradingCronSchedule:
+      type: object
+      description: >-
+        Recurring Kalshi trading hours, including market-specific overrides.
+        Available after schedule synchronization. Empty cron arrays mean
+        continuous trading except for closures in kalshi_trading_holidays.
+      required:
+        - timezone
+        - open_crons
+        - close_crons
+      properties:
+        timezone:
+          type: string
+          description: IANA timezone used to evaluate the cron expressions.
+          enum:
+            - America/New_York
+        open_crons:
+          type: array
+          description: >-
+            Five-field cron expressions (minute, hour, day of month, month, day
+            of week) for recurring trading session opens. Day of week 0 is
+            Sunday.
+          items:
+            type: string
+        close_crons:
+          type: array
+          description: >-
+            Five-field cron expressions (minute, hour, day of month, month, day
+            of week) for recurring trading session closes. Day of week 0 is
+            Sunday.
+          items:
+            type: string
   responses:
     BadRequestError:
       description: Bad request - invalid input

@@ -578,7 +578,7 @@ operations:
             type:
               type: string
               const: pyth_value
-              x-parser-schema-id: <anonymous-schema-460>
+              x-parser-schema-id: <anonymous-schema-461>
             sid: &ref_0
               type: integer
               description: >-
@@ -605,7 +605,7 @@ operations:
                 underlying_ticker:
                   type: string
                   description: Qualified Pyth underlying ticker
-                  x-parser-schema-id: <anonymous-schema-462>
+                  x-parser-schema-id: <anonymous-schema-463>
                 value_usd:
                   type: string
                   description: >-
@@ -614,16 +614,16 @@ operations:
                     InterestRate.US5Y, InterestRate.US10Y, InterestRate.US30Y),
                     this is percent: "4.25000000" means 4.25%. The field name is
                     retained for compatibility.
-                  x-parser-schema-id: <anonymous-schema-463>
+                  x-parser-schema-id: <anonymous-schema-464>
                 source_ts_ms:
                   type: integer
                   description: Pyth source timestamp (unix ms)
-                  x-parser-schema-id: <anonymous-schema-464>
+                  x-parser-schema-id: <anonymous-schema-465>
                 received_at:
                   type: integer
                   description: When Kalshi received the Pyth update (unix ms)
-                  x-parser-schema-id: <anonymous-schema-465>
-              x-parser-schema-id: <anonymous-schema-461>
+                  x-parser-schema-id: <anonymous-schema-466>
+              x-parser-schema-id: <anonymous-schema-462>
             sending_ts_ms: &ref_2
               type: integer
               format: int64
@@ -732,7 +732,7 @@ operations:
             type:
               type: string
               const: pyth_value_underlying_list
-              x-parser-schema-id: <anonymous-schema-466>
+              x-parser-schema-id: <anonymous-schema-467>
             id:
               type: integer
               description: >
@@ -760,9 +760,9 @@ operations:
                     two hours
                   items:
                     type: string
-                    x-parser-schema-id: <anonymous-schema-469>
-                  x-parser-schema-id: <anonymous-schema-468>
-              x-parser-schema-id: <anonymous-schema-467>
+                    x-parser-schema-id: <anonymous-schema-470>
+                  x-parser-schema-id: <anonymous-schema-469>
+              x-parser-schema-id: <anonymous-schema-468>
             sending_ts_ms: *ref_2
           x-parser-schema-id: pythUnderlyingListPayload
         title: Pyth Underlying List

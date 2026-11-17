@@ -224,8 +224,8 @@ components:
         numbered subaccounts, `isolated` for a market's isolated subaccount,
         `auto_rebalance` for an auto-rebalanced isolated position, which shares
         its market's isolated subaccount number, and `managed_isolated` for a
-        managed isolated position, whose subaccount number is its slot number
-        rather than the market's isolated subaccount number.
+        managed isolated position, whose subaccount number is the same as the
+        market's isolated subaccount number.
   responses:
     BadRequestError:
       description: Bad request - invalid input

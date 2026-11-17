@@ -15,6 +15,10 @@ Every **Thursday from 3:00 AM to 5:00 AM ET**, Kalshi runs scheduled maintenance
 
 Clients should be prepared for session disconnections during this window and reconnect after 5:00 AM ET.
 
+## Corporate Action Halts for Single-Stock Perps
+
+See [corporate action halt and reopening times](https://docs.kalshi.com/margin/corporate-actions.md#trading-halt-and-reopening-times) for schedules and order handling when an individual single-stock perp halts.
+
 ## Trading Pause vs Exchange Pause
 
 | | Trading Pause | Exchange Pause |
