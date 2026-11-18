@@ -20,7 +20,7 @@ url: https://docs.kalshi.com/api-reference/communications/accept-quote
 openapi: 3.0.0
 info:
   title: Kalshi Trade API Manual Endpoints
-  version: 3.36.0
+  version: 3.37.0
   description: >-
     Manually defined OpenAPI spec for endpoints being migrated to spec-first
     approach

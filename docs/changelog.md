@@ -21,6 +21,23 @@ the `FIX` tag.
 
 **November 19, 2026**
 
+`POST /weather_point_markets` no longer snaps the location to the center of
+the NOAA MRMS grid cell containing it. The market's location is now the
+requested `latitude` and `longitude` rounded to three decimal places (about
+100 m), and the response's `latitude` and `longitude` return that point.
+
+* Requests share a market only when their coordinates agree to three
+  decimal places. Two points in the same grid cell used to resolve to one
+  market and now resolve to two.
+* A rounded location that lies exactly on the boundary between two grid
+  cells is moved 0.001° north or east, into one of them.
+* Tickers keep their format. The location segment (`40785N73965W`) is the
+  market's point, which is no longer always a cell center.
+* Markets created before this change keep their location and stay
+  reachable by requesting those coordinates.
+
+**November 19, 2026**
+
 An `orderbook_snapshot` for a market with no recorded change, such as a new
 market that hasn't had an order yet, can have an empty `market_id`, and its
 `clock` is 0. Markets created before the WebSocket server you're connected
