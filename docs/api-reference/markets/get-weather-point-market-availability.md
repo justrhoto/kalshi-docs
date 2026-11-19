@@ -10,10 +10,12 @@ url: https://docs.kalshi.com/api-reference/markets/get-weather-point-market-avai
 > Returns which on-request weather markets can be created: whether
 creation is on, the NOAA MRMS domains a location may lie in, and the
 domains each offered variable may use. A variable missing from
-`variables` can't be created. Existing markets are unaffected.
+`variables` can't be created. `max_window_days` and
+`max_window_hours` say whether a window may cross midnight and how
+long it may then be. Existing markets are unaffected.
 
 A location inside an offered domain can still be refused at creation
-when it is over open water.
+when its grid cell is entirely over open water or outside US land.
 
 
 
@@ -79,10 +81,12 @@ paths:
         Returns which on-request weather markets can be created: whether
         creation is on, the NOAA MRMS domains a location may lie in, and the
         domains each offered variable may use. A variable missing from
-        `variables` can't be created. Existing markets are unaffected.
+        `variables` can't be created. `max_window_days` and
+        `max_window_hours` say whether a window may cross midnight and how
+        long it may then be. Existing markets are unaffected.
 
         A location inside an offered domain can still be refused at creation
-        when it is over open water.
+        when its grid cell is entirely over open water or outside US land.
       operationId: GetWeatherPointAvailability
       responses:
         '200':
@@ -103,6 +107,8 @@ components:
         - enabled
         - domains
         - variables
+        - max_window_days
+        - max_window_hours
       properties:
         enabled:
           type: boolean
@@ -119,6 +125,23 @@ components:
           description: >-
             The variables on offer and where. A variable left out can't be
             created.
+        max_window_days:
+          type: integer
+          format: int32
+          description: >-
+            How many local calendar days a new market's window may touch. 2
+            means a window may cross midnight into the next day (`end_date` on
+            the create request); anything less means it must start and end on
+            one day. Every offered variable follows it.
+          example: 2
+        max_window_hours:
+          type: integer
+          format: int32
+          description: >-
+            The longest window that crosses midnight, in hours. A window within
+            one day can be the whole day, which lasts 25 hours when clocks go
+            back.
+          example: 24
     WeatherPointDomain:
       type: object
       required:

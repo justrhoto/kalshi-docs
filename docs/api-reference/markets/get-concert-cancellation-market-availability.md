@@ -7,11 +7,13 @@ url: https://docs.kalshi.com/api-reference/markets/get-concert-cancellation-mark
 
 # Get Concert Cancellation Market Availability
 
-> Returns which on-request concert markets can be created: whether
-creation is on, the covers offered, how far ahead a show may be
+> Returns which on-request concert markets are offered: whether they
+are listed, the covers offered, how far ahead a show may be
 scheduled, and the metros whose concerts
 `GET /concert_cancellation_markets/concerts` lists. A cover missing
-from `covers` can't be created. Existing markets are unaffected.
+from `covers` can't be created. Where concerts are listed before
+markets are offered, `enabled` is true and every create request
+returns 409. Existing markets are unaffected.
 
 Each metro carries the number of upcoming shows listed for it. Pass
 `date_from` and `date_to` to count only the shows a listing with the
@@ -78,11 +80,13 @@ paths:
         - markets
       summary: Get Concert Cancellation Market Availability
       description: |
-        Returns which on-request concert markets can be created: whether
-        creation is on, the covers offered, how far ahead a show may be
+        Returns which on-request concert markets are offered: whether they
+        are listed, the covers offered, how far ahead a show may be
         scheduled, and the metros whose concerts
         `GET /concert_cancellation_markets/concerts` lists. A cover missing
-        from `covers` can't be created. Existing markets are unaffected.
+        from `covers` can't be created. Where concerts are listed before
+        markets are offered, `enabled` is true and every create request
+        returns 409. Existing markets are unaffected.
 
         Each metro carries the number of upcoming shows listed for it. Pass
         `date_from` and `date_to` to count only the shows a listing with the
@@ -135,7 +139,10 @@ components:
       properties:
         enabled:
           type: boolean
-          description: Whether concert cancellation markets can be created at all.
+          description: >-
+            Whether concert cancellation markets are listed. It doesn't promise
+            that they can be created: where concerts are listed before markets
+            are offered, it is true and every create request returns 409.
         covers:
           type: array
           items:

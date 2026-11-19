@@ -24,7 +24,7 @@ You have two independent token budgets:
 | Bucket | Covers |
 | - | - |
 | **Read** | Any operation without an explicit bucket assignment. This covers most `GET` endpoints. |
-| **Write** | Order placement, amends, decreases and cancels, order groups, position exit triggers, the RFQ and quote flow, block trade proposal accepts, weather point market creation, [Set Target Balance Allocation](https://docs.kalshi.com/api-reference/portfolio/set-target-balance-allocation.md), and [Upgrade Account API Usage Level](https://docs.kalshi.com/api-reference/account/upgrade-account-api-usage-level.md). |
+| **Write** | Order placement, amends, decreases and cancels, order groups, position exit triggers, the RFQ and quote flow, block trade proposal accepts, weather point and concert cancellation market creation, [Set Target Balance Allocation](https://docs.kalshi.com/api-reference/portfolio/set-target-balance-allocation.md), and [Upgrade Account API Usage Level](https://docs.kalshi.com/api-reference/account/upgrade-account-api-usage-level.md). |
 
 The split is by operation type, not by protocol. REST and FIX requests drain the same buckets.
 

@@ -10,7 +10,7 @@ url: https://docs.kalshi.com/api-reference/fcm/get-fcm-subtrader-event-contract-
 > Returns the event-contract daily premium cap configured for an FCM member's subtrader,
 together with its live utilization. Executed utilization is the net premium deployed by
 fills today (sells and settlements credit back); resting and pending utilization reserve
-open and in-flight orders at their full worst-case cost plus fees. Executed utilization
+open orders and orders still being placed at their full worst-case cost plus fees. Executed utilization
 resets at midnight New York time on the returned cap date; resting and pending
 reservations persist for as long as their orders remain open, including across the reset.
 Returns 404 when the subtrader has no cap configured — in that state every order placed
@@ -89,8 +89,8 @@ paths:
         fills today (sells and settlements credit back); resting and pending
         utilization reserve
 
-        open and in-flight orders at their full worst-case cost plus fees.
-        Executed utilization
+        open orders and orders still being placed at their full worst-case cost
+        plus fees. Executed utilization
 
         resets at midnight New York time on the returned cap date; resting and
         pending

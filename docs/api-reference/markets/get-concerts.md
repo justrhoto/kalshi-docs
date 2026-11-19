@@ -150,6 +150,8 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
       security:
         - kalshiAccessKey: []
           kalshiAccessSignature: []
@@ -321,6 +323,12 @@ components:
             $ref: '#/components/schemas/ErrorResponse'
     InternalServerError:
       description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    ServiceUnavailableError:
+      description: Service temporarily unavailable
       content:
         application/json:
           schema:
