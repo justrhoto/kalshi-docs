@@ -21,6 +21,8 @@ Once connected, the listener session receives the same execution reports as your
 
 Listener sessions connect to the same KalshiNR or KalshiRT endpoints listed on the [Connectivity](https://docs.kalshi.com/fix/connectivity.md) page. A **separate API key** is required (read-only scope is sufficient).
 
+A KalshiRFQ session can also choose listener mode. It receives the same execution reports and keeps quoting, so its API key needs the same scopes as any KalshiRFQ session.
+
 ## Logon Configuration
 
 ### Required Logon Fields

@@ -82,7 +82,14 @@ paths:
         explicitly granted read::compliance_partner scope.
       operationId: GetFillsHistorical
       parameters:
-        - $ref: '#/components/parameters/TickerQuery'
+        - name: ticker
+          in: query
+          description: >-
+            Filter by market ticker. Accepts a comma-separated list of up to 100
+            market tickers.
+          schema:
+            type: string
+            x-go-type-skip-optional-pointer: true
         - $ref: '#/components/parameters/MinTsQuery'
         - $ref: '#/components/parameters/MaxTsQuery'
         - $ref: '#/components/parameters/LimitQuery'
@@ -110,13 +117,6 @@ paths:
         - kalshiOauthAccessToken: []
 components:
   parameters:
-    TickerQuery:
-      name: ticker
-      in: query
-      description: Filter by market ticker
-      schema:
-        type: string
-        x-go-type-skip-optional-pointer: true
     MinTsQuery:
       name: min_ts
       in: query
