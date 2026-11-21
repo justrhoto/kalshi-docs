@@ -198,18 +198,21 @@ components:
         - isolated
         - auto_rebalance
         - managed_isolated
+        - swaps
       x-enum-varnames:
         - SubaccountTypeCross
         - SubaccountTypeIsolated
         - SubaccountTypeAutoRebalance
         - SubaccountTypeManagedIsolated
+        - SubaccountTypeSwaps
       description: >-
         How the subaccount is margined. `cross` for the primary account and
         numbered subaccounts, `isolated` for a market's isolated subaccount,
         `auto_rebalance` for an auto-rebalanced isolated position, which shares
-        its market's isolated subaccount number, and `managed_isolated` for a
+        its market's isolated subaccount number, `managed_isolated` for a
         managed isolated position, whose subaccount number is the same as the
-        market's isolated subaccount number.
+        market's isolated subaccount number, and `swaps` for a cross-margined
+        swaps wallet, whose subaccount number is its swaps code.
   responses:
     UnauthorizedError:
       description: Unauthorized - authentication required
