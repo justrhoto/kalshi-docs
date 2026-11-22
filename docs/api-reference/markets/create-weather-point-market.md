@@ -64,7 +64,7 @@ Errors carry the specific reason in `details`:
 | 400 | `missing_parameters` | A required field is missing or empty. |
 | 400 | `invalid_parameters` | A field is present but unusable, or the request can't define a market: a latitude or hour out of range, an `end_hour` not after `start_hour` on one day, an `end_date` other than `date` or the day after it, a window across midnight, in `timezone` or at the location, longer than 24 hours, an unknown variable or strike type, thresholds that don't fit the strike type or the variable's range, a location outside NOAA MRMS coverage, an unknown time zone, a window that doesn't start and end on whole UTC hours, has already ended or starts more than 365 days out, or an hour that a clock change skips or repeats in `timezone`. |
 | 409 | `weather_point_market_unavailable` | The request is valid but the market isn't offered: the variable isn't offered at that location, the market's grid cell is entirely over open water or outside US land, the window starts in less than 6 hours (15 minutes on demo), the market's window crosses midnight in the location's time zone where `max_window_days` is 1, or the location's time zone can't be determined. |
-| 429 | `weather_point_market_limit_exceeded` | A creation limit was reached: the daily limit on new weather markets across all users, or 40 markets for one variable, location and window. Retrying at once doesn't help. |
+| 429 | `weather_point_market_limit_exceeded` | A creation limit was reached: the daily limit on new weather markets for your account, the daily limit across all users, or 40 markets for one variable, location and window. Returning an existing market never counts toward your account's limit. Retrying at once doesn't help. |
 | 429 | `too_many_requests` | Your API rate limit. This endpoint is charged against your write budget. |
 
 
@@ -252,9 +252,10 @@ paths:
         |
 
         | 429 | `weather_point_market_limit_exceeded` | A creation limit was
-        reached: the daily limit on new weather markets across all users, or 40
-        markets for one variable, location and window. Retrying at once doesn't
-        help. |
+        reached: the daily limit on new weather markets for your account, the
+        daily limit across all users, or 40 markets for one variable, location
+        and window. Returning an existing market never counts toward your
+        account's limit. Retrying at once doesn't help. |
 
         | 429 | `too_many_requests` | Your API rate limit. This endpoint is
         charged against your write budget. |

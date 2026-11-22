@@ -247,11 +247,19 @@ components:
         - ConcertCoverCancelled
         - ConcertCoverEither
       description: |
-        What a concert cancellation market pays on, read from the show's
-        listing after its scheduled date has ended:
-        - `postponed`: Yes when the show is listed as postponed, or as taking
-          place on any other date. A show listed as canceled resolves to No.
-        - `cancelled`: Yes when the show is listed as canceled.
+        What a concert cancellation market pays on: what the show's listing
+        first shows from the market's creation to the show's scheduled start
+        (the market's close time is one minute before it), whatever the
+        listing says afterwards.
+        - `postponed`: Yes when the show is postponed, or moved to a later
+          date. A new start time on the scheduled date, or within six hours
+          of the scheduled start, is not a postponement, even when it falls
+          on the next calendar day (11:30 PM moved to 12:30 AM). A
+          cancellation alone doesn't count: a show that is canceled and not
+          postponed resolves to No, and one that is canceled, reinstated and
+          then postponed was postponed.
+        - `cancelled`: Yes when the show is canceled, including after a
+          postponement.
         - `either`: Yes in both of those cases.
   responses:
     BadRequestError:

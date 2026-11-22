@@ -22,7 +22,7 @@ On-request concert markets let you trade whether a concert is called off: one sh
 3. Call [Create Concert Cancellation Market](https://docs.kalshi.com/api-reference/markets/create-concert-cancellation-market.md) with the show, its scheduled date and a cover. It returns the `market_ticker`, creating the market if it doesn't exist yet.
 4. Send an RFQ for that ticker with `POST /communications/rfqs`.
 5. Makers quote, you accept one side, and the maker confirms. This part is the same as for any other RFQ.
-6. The market closes when the show is scheduled to start. Settlement is expected about 12 hours after the scheduled date ends at the venue.
+6. The market closes one minute before the show is scheduled to start, and pays on what the show's listing first shows before the scheduled start. Settlement is expected about 12 hours after the scheduled date ends at the venue.
 
 Makers skip steps 1 to 4: the RFQ arrives as `rfq_created` on the `communications` WebSocket channel with the market's ticker, and the ticker says which show and cover it is for (see [Tickers](#tickers)).
 
@@ -30,9 +30,9 @@ Makers skip steps 1 to 4: the RFQ arrives as `rfq_created` on the `communication
 
 A market is defined by three things: the show, the date it is scheduled for, and the cover.
 
-| `cover` | Settles Yes when the show's listing says | Series |
+| `cover` | Settles Yes when, within the market's period (from its creation to the show's scheduled start, one minute after trading stops), the show's listing first shows it as | Series |
 | - | - | - |
-| `postponed` | Postponed, or taking place on any other date | `KXRFQCONCERTP` |
+| `postponed` | Postponed, or moved to a later date | `KXRFQCONCERTP` |
 | `cancelled` | Canceled | `KXRFQCONCERTC` |
 | `either` | Either of the above | `KXRFQCONCERT` |
 
@@ -137,7 +137,7 @@ curl -X POST https://external-api.demo.kalshi.co/trade-api/v2/concert_cancellati
 
 Sign the request like any other authenticated request (see [Quick Start: Authenticated Requests](https://docs.kalshi.com/getting_started/quick_start_authenticated_requests.md)), and take `jambase_event_id` and `scheduled_date` from a listing or search result.
 
-The same request returns the same market, with `created: false` once it exists, while its show is more than 7 days away. You can call it before each RFQ. Inside those 7 days the request returns 409, as it would for a new market, because the call is how you get a market to send an RFQ on. The 7 days are counted to the market's `close_time` or to the show's start as now listed, whichever is earlier: a market created while the listing gave only a date closes at the start of that day at the venue, so its last day of requests ends 7 days before that. The market itself is unaffected: it stays open until its `close_time`, your positions in it are unchanged, `GET /markets/{ticker}` still returns it, and it settles as described below.
+The same request returns the same market, with `created: false` once it exists, while its show is more than 7 days away. You can call it before each RFQ. Inside those 7 days the request returns 409, as it would for a new market, because the call is how you get a market to send an RFQ on. The 7 days are counted to the market's `close_time` or to the show's start as now listed, whichever is earlier: a market created while the listing gave only a date closes one minute before the start of that day at the venue, so its last day of requests ends 7 days before that. The market itself is unaffected: it stays open until its `close_time`, your positions in it are unchanged, `GET /markets/{ticker}` still returns it, and it settles as described below.
 
 Further out, an existing market is usually returned even when new markets are no longer offered, but not where creation or its cover is switched off: that returns 409. A market created a moment ago may not be readable yet: if `GET /markets/{ticker}` returns 404 right after creation, retry.
 
@@ -183,18 +183,22 @@ Fetching one by ticker works as for any market: `GET /markets/{ticker}`, `GET /e
 
 ## Settlement
 
-* The market closes when the show is scheduled to start (`close_time`), or at the start of the scheduled day at the venue when the listing gave only a date.
-* Kalshi determines it from the show's JamBase listing, read once the scheduled date has ended in the venue's time zone plus 12 hours (`expected_expiration_time`). The wait lets late cancellations and corrections to the listing land first. Changes to the listing after it is read don't change the outcome.
-* Kalshi uses the listing's status and date as they stand at that reading:
+* The market's period runs from when it was created until the show is scheduled to start, or until the start of the scheduled day at the venue when the listing gave only a date. Trading stops one minute before that (`close_time`).
+* The outcome depends on what the show's JamBase listing **first shows within that period**. Kalshi keeps a record of the listing over that time and determines the market from it. A change the listing first shows in the last minute, after trading has stopped and before the show's scheduled start, still counts.
+* A cancellation or postponement first shown in that time counts, whatever the listing says afterwards: a show that is postponed and later reinstated was postponed. One first shown after the period doesn't count.
 
-| Listing when read | `postponed` | `cancelled` | `either` |
+| What the listing showed within the period | `postponed` | `cancelled` | `either` |
 | - | - | - | - |
-| Scheduled or rescheduled, on the scheduled date | No | No | No |
-| Postponed, or scheduled or rescheduled on any other date | Yes | No | Yes |
-| Canceled, whatever date it gives | No | Yes | Yes |
+| No cancellation or postponement | No | No | No |
+| Postponed, or moved to a later date | Yes | No | Yes |
+| Canceled | No | Yes | Yes |
+| Postponed, then canceled | Yes | Yes | Yes |
 
-* A show that is both moved and canceled counts as canceled.
-* If the listing has been removed or merged into another, or its status can't be read, the exchange determines the market. `latest_expiration_time` is seven days after `expected_expiration_time`.
+* A new start time on the scheduled date, or within six hours of the scheduled start, is not a postponement. A change of supporting acts, or a move to a venue within 50 miles, is neither a postponement nor a cancellation.
+* The removal of the listing is not by itself a cancellation or postponement: what it showed before governs.
+* Kalshi reads the listing every few minutes. A change that the listing shows and withdraws between two readings is not seen, so that interval is the precision of "first shown within the period".
+* The market is determined on or after `expected_expiration_time`: 12 hours after the scheduled date has ended in the venue's time zone. Nothing the listing first shows after the period changes the outcome.
+* A market is determined No without review only when the listing stayed exactly as it was when the market was created, at every reading through the end of its period. Any change to the listing's status, date, time, venue or bill within the period is reviewed by the exchange before the market is determined, as is a listing that is removed or merged, or a change that can't be placed before or after the end of the period. No market is determined Yes without that review. Where a show is canceled or postponed, the exchange reviews the cause before any of its markets is determined, including those the change doesn't pay: a cancellation or postponement caused by an excluded disruption is resolved as the contract's Excluded Disruptions terms provide, which can mean a last fair price rather than Yes or No. `latest_expiration_time` is 10:00 AM ET one week after the final day of the market's period: the day, at the venue (the time zone the market's rules state its period in), of the last moment before the show's scheduled start. A market on a show starting at 7:30 PM ET on November 25 has a `latest_expiration_time` of 10:00 AM ET on December 2. That day is the day of `close_time` except for a show listed to start within the first minute after midnight, whose period ends on the day it starts. `expected_expiration_time` is never later.
 
 Each market's `rules_primary` and `rules_secondary` carry the full terms.
 
@@ -209,7 +213,7 @@ The create endpoint is charged against your write [rate limit](https://docs.kals
 | 400 | `invalid_parameters` | The request can't be served as sent: an unknown cover or metro, an id that isn't `jambase:<id>`, a `scheduled_date` that isn't YYYY-MM-DD, a `date_to` before `date_from`, or a show scheduled further ahead than `max_days_ahead` |
 | 404 | `not_found` | JamBase has no show with that id |
 | 409 | `concert_cancellation_market_unavailable` | Valid, but not offered: concert markets or the cover are switched off, the show is now listed on another date, has already been canceled or postponed, starts in 7 days or less (whether or not its market already exists), isn't a concert, is at a venue smaller than those offered, or its market has closed |
-| 429 | `concert_cancellation_market_limit_exceeded` | The limit on new concert markets across all users in a rolling 24 hours was reached. Retrying at once doesn't help |
+| 429 | `concert_cancellation_market_limit_exceeded` | A limit on new concert markets in a rolling 24 hours was reached: the one on your account, or the one across all users. A request that returns an existing market (`created: false`) never counts toward your account's limit. Retrying at once doesn't help |
 | 429 | `concert_search_limit_exceeded` | The limit on searches across all users was reached. Browse by metro instead, or retry later |
 | 429 | `too_many_requests` | Your API rate limit |
 | 503 | `service_unavailable` | The concert listing couldn't be read just now. Retry later |
