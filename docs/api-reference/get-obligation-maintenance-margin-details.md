@@ -142,9 +142,11 @@ components:
         maintenance_margin_delta_centicents:
           type: integer
           format: int64
-          description: >-
-            Change in maintenance margin between the previous settlement and
-            this one.
+          description: |
+            Requirement at the previous settlement minus the requirement after
+            this one. Positive means margin released to the clearing member;
+            negative means the requirement rose and the clearing member owes
+            the increase.
     Error:
       type: object
       required:

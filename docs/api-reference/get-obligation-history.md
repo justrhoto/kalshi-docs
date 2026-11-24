@@ -7,7 +7,7 @@ url: https://docs.kalshi.com/api-reference/get-obligation-history
 
 # Get Obligation History
 
-> Completed obligations from previous settlements, ordered by most recent first.
+> Completed obligations from previous settlements, ordered by most recent first. Each settlement cycle produces at most one obligation per asset class, and none when nothing settles in it (no PnL in any market, no fees and no maintenance margin change). Markets whose PnL offsets still produce an obligation, at $0.
 
 
 
@@ -59,7 +59,10 @@ paths:
       summary: Get Obligation History
       description: >-
         Completed obligations from previous settlements, ordered by most recent
-        first.
+        first. Each settlement cycle produces at most one obligation per asset
+        class, and none when nothing settles in it (no PnL in any market, no
+        fees and no maintenance margin change). Markets whose PnL offsets still
+        produce an obligation, at $0.
       operationId: GetObligationHistory
       parameters:
         - name: limit
@@ -149,8 +152,12 @@ components:
               items:
                 $ref: '#/components/schemas/MaintenanceMarginDetail'
               description: |
-                Breakdown of the maintenance margin requirement and the delta
-                from the prior settlement.
+                Per-subtrader maintenance margin requirement after this
+                settlement and its delta from the prior settlement. Lists each
+                subtrader or subtrader group that holds positions at this
+                settlement or had a nonzero requirement at the prior one, so a
+                subtrader that goes flat appears with a requirement of 0.
+                Others are omitted.
             funding_payments:
               type: array
               items:
@@ -248,7 +255,23 @@ components:
         maintenance_margin_centicents:
           type: integer
           format: int64
-          description: Current maintenance margin requirement for this obligation.
+          description: >
+            Maintenance margin change settled by this obligation: the sum of
+
+            `maintenance_margin_delta_centicents` over all of its maintenance
+
+            margin details (when `maintenance_margin_details_truncated` is set,
+
+            page
+            `/margin/obligations/{obligation_id}/maintenance_margin_details`
+
+            for the full set). Positive means margin released to the clearing
+
+            member; negative means additional margin the clearing member owes.
+
+            This is not the requirement: per-subtrader requirements are the
+
+            `maintenance_margin_centicents` values in the details.
         pnl_centicents:
           type: integer
           format: int64
@@ -367,9 +390,11 @@ components:
         maintenance_margin_delta_centicents:
           type: integer
           format: int64
-          description: >-
-            Change in maintenance margin between the previous settlement and
-            this one.
+          description: |
+            Requirement at the previous settlement minus the requirement after
+            this one. Positive means margin released to the clearing member;
+            negative means the requirement rose and the clearing member owes
+            the increase.
     FundingPaymentDetail:
       type: object
       required:
