@@ -80,7 +80,7 @@ Members on the Prime tier or above can also contact [institutional@kalshi.com](m
 
 ## Maintenance Window
 
-See [Maintenance and Pauses](https://docs.kalshi.com/getting_started/maintenance_and_pauses.md) for scheduled maintenance times and the difference between trading pauses and exchange pauses.
+See [Maintenance and Pauses](https://docs.kalshi.com/getting_started/maintenance_and_pauses.md) for scheduled maintenance times and the difference between trading pauses and exchange pauses. KalshiNR and KalshiRT sessions receive a `TradingSessionStatus (35=h)` when a pause starts and ends; see [Order Entry](https://docs.kalshi.com/fix-margin/order-entry.md).
 
 Sessions may be disconnected during the maintenance window. Kalshi does not initiate sequence number resets during maintenance; clients should reset sequence numbers on their side when reconnecting.
 

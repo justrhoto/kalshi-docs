@@ -9,10 +9,6 @@ url: https://docs.kalshi.com/getting_started/concert_rfqs
 
 > Create a market on whether a concert is postponed or canceled, then trade it through an RFQ
 
-> [!NOTE]
->
-> On-request concert markets are not live yet. They will be released soon, and this page describes how they will work at launch.
-
 On-request concert markets let you trade whether a concert is called off: one show, on the date it is scheduled for, and what counts as called off. The market doesn't exist until someone asks for it. You create it with one request, then trade it through the [RFQ system](https://docs.kalshi.com/getting_started/rfqs.md).
 
 ## Flow
@@ -38,11 +34,11 @@ A market is defined by three things: the show, the date it is scheduled for, and
 
 A show can have one market per cover. Not every cover is offered everywhere, and the set can differ between production and demo. The availability endpoint is the source of truth: a cover missing from its `covers` list can't be created, and `enabled: false` means creation is off entirely. `enabled: true` doesn't promise the reverse: where concerts are listed before markets are offered, every create request returns 409. It needs no authentication.
 
-**Show.** A concert listed by JamBase, named by its `jambase_event_id` (`jambase:<id>`). The show must still be listed as scheduled: one that has already been canceled or postponed is refused. Only shows at larger venues are offered. The listing and search are a way to find shows, not a requirement: a qualifying show can be created by its `jambase_event_id` even when neither returns it (a metro that isn't listed, or past their result limits).
+**Show.** A concert listed by JamBase, named by its `jambase_event_id` (`jambase:<id>`). The show must still be listed as scheduled: one that has already been canceled or postponed is refused. Only shows at larger venues are offered. Some shows are never offered, and a create request for one returns 409: festivals, shows held only online, shows the listing gives no start time for yet, school, youth and student performances, and acts with performers under 18. The listing and search are a way to find shows, not a requirement: a qualifying show can be created by its `jambase_event_id` even when neither returns it (a metro that isn't listed, or past their result limits).
 
 **Date.** `scheduled_date` is the date the show is scheduled for, local to the venue, as YYYY-MM-DD. It must match the show's listing at the moment the market is created. If the show has moved since you read the listing, the request returns 409 with the new date in `details`.
 
-**Timing.** A new market's show must start more than 7 days from now, and no more than `max_days_ahead` days out (from the availability endpoint). While the listing gives only a date and no start time, the start of that day at the venue is used. The 7 days hold for a market that already exists too: see [Create a market](#create-a-market).
+**Timing.** A new market's show must start more than 7 days from now, and no more than `max_days_ahead` days out (from the availability endpoint). A show whose listing gives only a date and no start time isn't offered until it has one. The 7 days hold for a market that already exists too: see [Create a market](#create-a-market).
 
 ## Find a show
 
@@ -168,7 +164,7 @@ A ticker fully defines its market, so a maker can tell what an RFQ is for from t
 
 The first three segments are the event ticker. Each event holds one market, so a show with all three covers has three events, one in each series.
 
-The market's `title` names the act, venue and date, and `rules_primary` states the show and what resolves it to Yes in words.
+The market's `title` names the act, venue, date and venue-local start time, and `rules_primary` states the show and what resolves it to Yes in words.
 
 ## Finding these markets
 
@@ -183,7 +179,7 @@ Fetching one by ticker works as for any market: `GET /markets/{ticker}`, `GET /e
 
 ## Settlement
 
-* The market's period runs from when it was created until the show is scheduled to start, or until the start of the scheduled day at the venue when the listing gave only a date. Trading stops one minute before that (`close_time`).
+* The market's period runs from when it was created until the show is scheduled to start, or, for a market created before shows without a start time stopped being offered, until the start of the scheduled day at the venue. Trading stops one minute before that (`close_time`).
 * The outcome depends on what the show's JamBase listing **first shows within that period**. Kalshi keeps a record of the listing over that time and determines the market from it. A change the listing first shows in the last minute, after trading has stopped and before the show's scheduled start, still counts.
 * A cancellation or postponement first shown in that time counts, whatever the listing says afterwards: a show that is postponed and later reinstated was postponed. One first shown after the period doesn't count.
 

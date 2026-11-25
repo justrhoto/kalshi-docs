@@ -50,6 +50,8 @@ The earlier `warp-ws` and `margin-warp-ws` hosts are deprecated. They keep worki
 
 ## External Feeds WebSocket
 
+To request access to live eBattles scores for eSoccer and eBasketball, contact [Kalshi Support](mailto:support@kalshi.com).
+
 > [!NOTE]
 >
 > External feeds are moving to dedicated hostnames. Existing feed URLs remain

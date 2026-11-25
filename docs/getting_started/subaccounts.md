@@ -79,9 +79,11 @@ On perps, a restricted key can place, amend, decrease, and cancel orders
 triggers on its locked subaccount. It can also list that subaccount's orders
 (`GET /margin/orders`; naming any other subaccount is rejected), read them
 individually (`GET /margin/orders/{order_id}` returns 404 for orders in any
-other subaccount), and read that subaccount's positions, fills, and funding
-payments (`GET /margin/positions`, `GET /margin/fills`, and
-`GET /margin/funding_history`, on the same terms as the order list).
+other subaccount), and read that subaccount's positions, fills, funding
+payments, and corporate action payments (`GET /margin/positions`,
+`GET /margin/fills`, `GET /margin/funding_history`, and
+`GET /margin/corporate_action_payment_history`, on the same terms as the order
+list).
 `GET /margin/balance` returns only the locked subaccount's balance and omits
 the account-wide `settled_funds` total. Other authenticated perps endpoints,
 including risk (`GET /margin/risk`), are not yet available to restricted keys.

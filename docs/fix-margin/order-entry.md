@@ -314,7 +314,7 @@ Response to mass cancel request.
 
 Every **KalshiNR** and **KalshiRT** session, including listener sessions, receives a `SecurityStatus (35=f)` when the exchange applies a stock split, final settlement or ticker change to any margin market. No request is needed, and cash corporate actions are not sent. Each message follows that market's earlier execution reports. KalshiRT retains these messages for retransmission like its other messages; KalshiNR sends nothing missed while disconnected, and KalshiMD sessions do not receive them. An applied corporate action can change positions and balances without a fill. Use `GET /trade-api/v2/margin/corporate_actions` for upcoming and recent notices, including cash actions.
 
-Every event carries `CorporateActionNoticeID<20190>`, the `id` of the matching notice in `GET /trade-api/v2/margin/corporate_actions`. `TransactTime<60>` is when the exchange applied the action. Money fields are in dollars.
+Every event carries `CorporateActionNoticeID<20190>`, the `id` of the matching notice in `GET /trade-api/v2/margin/corporate_actions`. `TransactTime<60>` is when the exchange published the action, just after applying it. Money fields are in dollars.
 
 | Tag | Name | Type | Presence | Description |
 | - | - | - | - | - |
@@ -341,6 +341,33 @@ Every event carries `CorporateActionNoticeID<20190>`, the `id` of the matching n
 ```
 
 The message model follows [FIX Latest Pre-Trade EP284 sections 8.1.13 and 19.1.10](https://fixtrading.org/packages/fix-latest-specification-pre-trade/). The action codes follow the [FIX Latest CorporateAction code set](https://orchimate.org/fixtrading/fix-latest/codeSets/CorporateActionCodeSet). Security master messages `35=c`, `35=d`, and `35=BP` are not used; splits do not change contract terms.
+
+## Exchange status: TradingSessionStatus (35=h)
+
+Every **KalshiNR** and **KalshiRT** session, including listener sessions, receives a `TradingSessionStatus (35=h)` when trading pauses or resumes exchange-wide and when the exchange pauses or resumes, for example during the [scheduled maintenance window](https://docs.kalshi.com/getting_started/maintenance_and_pauses.md). No request is needed. Each message carries the exchange's status after the change, and a message can repeat the previous status. KalshiMD sessions do not receive them. The status is exchange-wide; per-market trading hours and halts are not reported here.
+
+No status is sent at Logon. After every Logon, read `GET /trade-api/v2/margin/exchange/status` once. A `35=h` received after Logon supersedes that response, unless its status is `0`=Unknown or it is a resend. KalshiNR sends nothing missed while disconnected. KalshiRT also queues these messages while a session is logged out: each one advances the session's outgoing sequence number and can be resent with a ResendRequest within `MessageRetentionPeriod<20200>`, like its other messages. A resent `35=h` carries `PossDupFlag<43>`=`Y` and reports a change from before the resend, so it never overrides the REST response.
+
+If your engine validates messages against a copy of the [Kalshi FIX dictionary](https://assets.kalshi.com/fix/kalshi-fix-dictionary.xml), load the current version, which adds message type `h` and fields 336, 340 and 342. An older copy rejects `35=h`.
+
+| Tag | Name | Type | Presence | Description |
+| - | - | - | - | - |
+| 336 | TradingSessionID | String | Always | `PERPS`. |
+| 340 | TradSesStatus | Int | Always | Status in the table below. |
+| 342 | TradSesOpenTime | UTCTimestamp | Exchange pauses with an estimate | Estimated time the exchange resumes, in UTC with millisecond precision. The pause can last longer. |
+| 325 | UnsolicitedIndicator | Boolean | Always | `Y`. |
+| 60 | TransactTime | UTCTimestamp | Always | When the exchange published the change, in UTC with microsecond precision. |
+
+| TradSesStatus (340) | Meaning | `GET /trade-api/v2/margin/exchange/status` |
+| - | - | - |
+| `2`=Open | Orders, amends and cancels are accepted. | `exchange_active` and `trading_active` are `true` |
+| `1`=Halted | Trading pause: new orders and amends are rejected; cancels are accepted. | `exchange_active` is `true`, `trading_active` is `false` |
+| `3`=Closed | Exchange pause: no orders, amends or cancels are accepted. | `exchange_active` is `false` |
+| `0`=Unknown | The gateway couldn't confirm part of the status, for example right after it restarts. | Read it for the current status |
+
+```fix Example scheduled maintenance trading pause theme={null}
+8=FIXT.1.1|35=h|49=KalshiNR|56=your-api-key|60=20261112-08:00:00.012345|325=Y|336=PERPS|340=1|
+```
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

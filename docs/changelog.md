@@ -19,6 +19,30 @@ surface (`REST`, `WebSocket`, `FIX`) or exchange (`Predictions`, `Margin`).
 FIX API changes, previously tracked on a separate page, now live here under
 the `FIX` tag.
 
+**TBD**
+
+When a stock is listed after you submitted your stocks application, you
+confirm that your disclosures still stand before trading it. Until you do,
+`POST /margin/orders` and `POST /margin/orders/{order_id}/amend` on that
+stock's markets are rejected with `409` and code
+`stock_perps_confirmation_required`. Confirm in the Kalshi app; the next
+order goes through. Orders sent with `reduce_only` are not affected, so an
+existing position can always be closed, and stocks you could already trade
+stay tradable. `403 stock_perps_insider_blocked` is unchanged and takes
+precedence. This is not live yet. See
+[Order rejections](https://docs.kalshi.com/margin.md#order-rejections).
+
+**November 26, 2026**
+
+`GET /margin/corporate_action_payment_history` returns the cash your account received or paid
+for cash dividends, special dividends and cash spin-offs over an inclusive UTC date range,
+optionally filtered by `ticker` and `subaccount`. Each entry has the `corporate_action_id`
+(the `id` of the notice in `GET /margin/corporate_actions`), `type`, `market_ticker`,
+`payment_time`, `payment_amount` (positive when received) and `quantity`, the signed position
+the payment was computed on. Stock split adjustments are not listed. Subaccount-restricted API
+keys read their locked subaccount's payments, on the same terms as `GET /margin/funding_history`.
+See [Corporate Actions](https://docs.kalshi.com/margin/corporate-actions.md).
+
 **November 26, 2026**
 
 On-request concert markets (series starting with `KXRFQCONCERT`) now resolve on what the show's

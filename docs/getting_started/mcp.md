@@ -11,40 +11,42 @@ url: https://docs.kalshi.com/getting_started/mcp
 
 Kalshi's hosted connector lets your AI assistant find prediction markets and perps, read prices, market rules and orderbooks, and open markets on Kalshi. Connect your account to read your portfolio and manage price alerts.
 
-The connector uses the **Model Context Protocol (MCP)** over **Streamable HTTP**. You can use it with apps that support custom remote MCP servers, without installing a local Kalshi server.
-
 ## Connect your assistant
 
-The connector URL is:
+> [tab] Connect with ChatGPT
+>
+> **1. Install the Kalshi plugin**
+>
+> Open the [Kalshi plugin in ChatGPT](https://chatgpt.com/plugins/plugin_asdk_app_6aff19a0b84881918ec0862c8c95df5e) and select **Install plugin** if shown.
+>
+> **2. Choose your access**
+>
+> * **Use without an account** to search markets and check prices.
+> * **Sign in with Kalshi** to read your portfolio or manage price alerts. Sign in to your primary Kalshi account if prompted. On **Allow access to your Kalshi account?**, check the account and permissions, then select **Authorize** to return to ChatGPT.
+>
+> To link an account later, open **Settings** on the Kalshi plugin page. Under **Connected accounts**, select **Connect another account**, then **Continue to Kalshi** to review and authorize access.
 
-```text theme={null}
-https://api.elections.kalshi.com/mcp
-```
-
-**1. Add a remote MCP server**
-
-Open your app's connector or MCP server settings and add a custom server named **Kalshi**. Paste the URL above. If your app asks for a transport, choose **Streamable HTTP**.
-
-**2. Choose your access**
-
-Public market tools work without connecting a Kalshi account.
-
-For portfolio or price-alert tools, choose **OAuth** if your app asks for an authentication method. Follow the browser prompt to sign in to Kalshi, review the requested permissions, and authorize the connection. Use your primary Kalshi account.
-
-Account access uses this authorization flow; you do not need to paste a Kalshi API key or private key into your assistant.
-
-**3. Try a question**
-
-Ask your assistant to use Kalshi, for example:
-
-* "Find markets about the next Fed meeting and show me the outcomes."
-* "Show the rules and current bid and ask for this market."
-* "Show the BTC perp's mark price and orderbook."
-* "Show my current Kalshi balance and unsettled positions."
-
-The last example requires portfolio permission. Your app may ask you to enable the connector for the conversation.
-
-Account connection requires an app that supports Kalshi's OAuth flow. If setup fails or your app asks for client credentials, see [Connection help](#connection-help).
+> [tab] Connect with server URL
+>
+> **1. Add a remote MCP server**
+>
+> In your assistant’s MCP settings or configuration file, add **Kalshi** as a remote MCP server.
+>
+> **2. Enter the server URL**
+>
+> Use the following server URL. If your assistant asks for a transport, choose **Streamable HTTP**.
+>
+> ```text theme={null}
+> https://api.elections.kalshi.com/mcp
+> ```
+>
+> **3. Choose your access**
+>
+> Public market data is available without authentication. For portfolio or price-alert tools, use **OAuth**. When prompted, sign in to your primary Kalshi account and review the requested permissions. If your assistant asks for client credentials, see [Connection help](#connection-help).
+>
+> **4. Save the connection**
+>
+> Save the configuration and enable the Kalshi tools if your assistant prompts you.
 
 ## Available tools
 
