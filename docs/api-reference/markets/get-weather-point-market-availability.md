@@ -26,7 +26,7 @@ when its grid cell is entirely over open water or outside US land.
 openapi: 3.0.0
 info:
   title: Kalshi Trade API Manual Endpoints
-  version: 3.37.0
+  version: 3.38.0
   description: >-
     Manually defined OpenAPI spec for endpoints being migrated to spec-first
     approach

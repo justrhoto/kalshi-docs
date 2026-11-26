@@ -192,7 +192,8 @@ components:
           $ref: '#/components/schemas/FixedPointCount'
           description: >-
             Contracts this trigger closes when it fires. `0` means the whole
-            position.
+            position, except on an order-anchored trigger whose order has not
+            filled, which covers nothing.
         filled_count:
           $ref: '#/components/schemas/FixedPointCount'
           description: Contracts closed so far across fire attempts.

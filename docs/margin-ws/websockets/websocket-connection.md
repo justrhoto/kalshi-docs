@@ -93,6 +93,7 @@ operations:
                           - order_group_updates
                           - corporate_actions
                           - market_lifecycle_v2
+                          - exchange_status
                         required: false
                   - name: market_ticker
                     type: string
@@ -197,6 +198,7 @@ operations:
                       - order_group_updates
                       - corporate_actions
                       - market_lifecycle_v2
+                      - exchange_status
                     x-parser-schema-id: <anonymous-schema-4>
                   x-parser-schema-id: <anonymous-schema-3>
                 market_ticker:

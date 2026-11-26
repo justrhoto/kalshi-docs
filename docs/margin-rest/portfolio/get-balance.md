@@ -138,7 +138,9 @@ components:
       properties:
         subaccount:
           type: integer
-          description: The subaccount number (0 for primary, 1-63 for subaccounts)
+          description: >-
+            The subaccount number (0 for primary, 1-63 for subaccounts, 64-4095
+            for a market's isolated subaccount)
         subaccount_type:
           $ref: '#/components/schemas/SubaccountType'
         position_value:

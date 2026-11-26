@@ -15,7 +15,7 @@ url: https://docs.kalshi.com/fix-margin/order-entry
 | - | - | - | - | - |
 | 11 | ClOrderID | String | Y | Client order identifier for idempotency. UUID format is preferred. |
 | 18 | ExecInst | Char | N | Execution instruction flags. Supported values: `6 = Post Only`, `E = Reduce Only` (IOC or FOK only) |
-| 38 | OrderQty | Decimal | Y | Quantity of contracts to trade. Only whole-number quantities are supported. |
+| 38 | OrderQty | Decimal | Y | Markets with [decimal order entry](https://docs.kalshi.com/margin/decimal-order-entry.md#rollout-timeline) accept quantities in increments of 0.01 contracts. Other markets require whole contracts. |
 | 40 | OrdType | Char | Y | Supported values: `2 = Limit` |
 | 44 | Price | Decimal | Y | Price per contract in fixed-point dollars, up to 4 decimal places. |
 | 50 | SenderSubID | String | N | Header field identifying the operator for this order; printable ASCII, max 16 characters. |

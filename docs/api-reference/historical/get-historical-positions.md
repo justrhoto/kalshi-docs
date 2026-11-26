@@ -17,7 +17,7 @@ url: https://docs.kalshi.com/api-reference/historical/get-historical-positions
 openapi: 3.0.0
 info:
   title: Kalshi Trade API Manual Endpoints
-  version: 3.37.0
+  version: 3.38.0
   description: >-
     Manually defined OpenAPI spec for endpoints being migrated to spec-first
     approach
@@ -209,7 +209,9 @@ components:
             current market value or realized loss.
         realized_pnl_dollars:
           $ref: '#/components/schemas/FixedPointDollars'
-          description: Locked in profit and loss, in dollars
+          description: >-
+            Locked in profit and loss, in dollars, before fees. Fees are
+            reported separately in `fees_paid_dollars`.
         fees_paid_dollars:
           $ref: '#/components/schemas/FixedPointDollars'
           description: Fees paid on fill orders, in dollars
@@ -248,7 +250,9 @@ components:
           description: Cost of the aggregate event position in dollars
         realized_pnl_dollars:
           $ref: '#/components/schemas/FixedPointDollars'
-          description: Locked in profit and loss, in dollars
+          description: >-
+            Locked in profit and loss, in dollars, before fees. Fees are
+            reported separately in `fees_paid_dollars`.
         fees_paid_dollars:
           $ref: '#/components/schemas/FixedPointDollars'
           description: Fees paid on fill orders, in dollars

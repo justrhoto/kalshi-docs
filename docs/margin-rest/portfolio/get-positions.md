@@ -74,9 +74,11 @@ paths:
           required: false
           description: >-
             Subaccount number (0 for primary, 1-63 for subaccounts). If omitted,
-            returns positions for all subaccounts. Subaccount-restricted API
-            keys must omit this or pass their locked subaccount, and read only
-            that subaccount's positions.
+            returns positions for all subaccounts. `0` returns only the primary
+            account's cross-margin positions; an isolated position is held in
+            its market's isolated subaccount, so omit this parameter to include
+            it. Subaccount-restricted API keys must omit this or pass their
+            locked subaccount, and read only that subaccount's positions.
           schema:
             type: integer
         - name: ticker
@@ -131,7 +133,7 @@ components:
           type: integer
           description: >-
             The subaccount number that holds this position (0 for primary, 1-63
-            for subaccounts)
+            for subaccounts, 64-4095 for a market's isolated subaccount)
         subaccount_type:
           $ref: '#/components/schemas/SubaccountType'
         market_ticker:
@@ -147,7 +149,9 @@ components:
           description: Weighted average entry price of the open position
         unrealized_pnl:
           $ref: '#/components/schemas/FixedPointDollars'
-          description: Mark-to-market unrealized PnL for the open position
+          description: >-
+            Mark-to-market unrealized PnL for the open position, before fees.
+            Fees are reported separately in `fees`.
         margin_used:
           $ref: '#/components/schemas/FixedPointDollars'
           nullable: true

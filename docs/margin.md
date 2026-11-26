@@ -73,7 +73,7 @@ The Perps API mirrors the event contract API (same auth, pagination, error forma
 
 **Margin-specific additions:** beyond the mirrored order, market, and order-group endpoints, margin adds endpoints for account balance and risk, funding (estimated and historical rates, plus payment history), fee tiers, subaccounts, and transfers between your event-contract and margin balances. See the **REST** reference for the full list. Two things to know up front: the event-contract ↔ margin transfer (`/portfolio/intra_exchange_instance_transfer`) is **not yet available** (enabled with the production rollout), and you can call `/margin/enabled` to check whether margin is on for your account in a given environment.
 
-**Dollar precision:** existing fixed-point dollar response fields support up to 6 decimal places and retain their names. See [Fixed-Point Representation](https://docs.kalshi.com/getting_started/fixed_point_migration.md#margin-markets).
+**Dollar precision:** existing fixed-point dollar response fields support up to 6 decimal places and retain their names. See [Perps Decimal Order Entry](https://docs.kalshi.com/margin/decimal-order-entry.md#api-changes).
 
 **Not available on margin:**
 
@@ -155,6 +155,14 @@ A rejected create, amend, decrease or cancel returns the standard error body. Th
 
 A market whose `fractional_trading_enabled` is `false` trades whole contracts only. Count fields still use the two-decimal fixed-point format, so send `"3"` or `"3.00"`, never `"2.50"`.
 
+### Prices and contract size
+
+Prices in the Perps API are in dollars per contract, not per unit of the underlying. A contract is `contract_size` units of the market's underlying, and each unit is `underlying_multiplier` of the underlying asset, so a contract's price tracks the asset's price × `underlying_multiplier` × `contract_size`. Read both from the market (`GET /margin/markets/{ticker}`).
+
+For example, with Bitcoin at \$64,000, a market with an `underlying_multiplier` of `1` and a `contract_size` of `0.0001` is priced near `6.4000`. With SHIB at \$0.00002, a market with an `underlying_multiplier` of `1000` and a `contract_size` of `1000` is priced near `20.0000`.
+
+This covers order, fill and trade prices, orderbook levels, `tick_size`, `bid` and `ask`, mark prices, `entry_price`, `estimated_liquidation_price`, and exit trigger prices, including `trail_amount`. A field that is not per contract says so in its name, such as `settlement_price_per_share`.
+
 ### Trading sessions
 
 Some markets do not trade around the clock. A market's `schedule` object says whether it is open now and gives the next scheduled open or close; it is `null` for markets that trade 24/7. An order sent while the market is outside its session is rejected with `409` `market_inactive`, the same response as for a halted market.
@@ -176,7 +184,9 @@ Transfers out of your margin balance, and transfers between margin subaccounts, 
 * A fired trigger places a reduce-only, immediate-or-cancel **limit** order near the stop price, not a market order. In a fast market it can fill partially or not at all.
 * If the fire order cannot be placed because the exchange is paused, the market is halted or outside its session, or a price band refuses the price, the trigger stays `active`. It is checked again against the current mark, and fires only if its condition is still met at a time when the order can be placed. A crossing that happened while the order could not be placed is not remembered, so if the mark has moved back the trigger does not fire.
 * A stop-loss that would not fire before the position's estimated liquidation price is rejected with `400` `stop_loss_past_liquidation`. The check is best effort: it runs only when a liquidation price estimate is available for the position, so an accepted stop-loss is not a guarantee that it fires before liquidation.
-* A trigger that conflicts with a resting closing order on the same position is rejected with `400` `close_order_blocks_exit_trigger`.
+* On an isolated position, creating a trigger while a resting order would close the position is rejected with `400` `close_order_blocks_exit_trigger`. Cross-margin positions have no such restriction.
+* A cross-margin bracket with a `count` or an `anchor_order_id` is added beside the position's other brackets. It is rejected with `400` if the position has a whole-position bracket, already has 20 brackets, or has an order-anchored bracket that went back to `pending_on_entry` after closing what its order had filled. It is also rejected if it would cover more than the position less what the other brackets have left to close (each one's `count` less its `filled_count`).
+* A position holds one trailing stop. Setting it again changes it in place and keeps its `watermark_price`, so the new stop is measured from that watermark.
 * A take-profit or stop-loss price that the current mark has already passed by more than 2% is rejected with `400` `take_profit_already_breached` or `stop_loss_already_breached`, when a fresh mark price is available. If the mark is missing or stale, this check is skipped; the trigger may still be accepted if its other validations pass, so a successful create does not prove the price was checked against the mark.
 * A stop-loss equal to the take-profit, and legs on the wrong side of each other for the position's direction, are always rejected with `400`. For these the `message` describes the problem and the `code` is not a stable identifier, so branch on the HTTP status.
 * A trigger canceled by a corporate action reports `status` `canceled` with no `status_reason`.

@@ -192,7 +192,7 @@ components:
           type: string
           description: >-
             Incremental realized PnL contributed by this fill, in fixed-point
-            dollars
+            dollars, before fees
         order_source:
           $ref: '#/components/schemas/OrderSource'
           description: >-

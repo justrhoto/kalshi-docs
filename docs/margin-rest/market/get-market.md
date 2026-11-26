@@ -136,10 +136,17 @@ components:
             will be removed.
         contract_size:
           type: string
-          description: Fixed-point number with 6 decimal places
+          description: >-
+            Size of one contract in the market's underlying units, as a
+            fixed-point number with 6 decimal places. Prices are per contract,
+            and track the underlying asset's price × `underlying_multiplier` ×
+            `contract_size`.
         underlying_multiplier:
           type: string
-          description: Underlying units per contract-size unit.
+          description: >-
+            How many of the underlying asset make up one underlying unit, as a
+            fixed-point number with 6 decimal places. For example, `1000.000000`
+            on a market whose unit is a thousand of the asset.
         tick_size:
           $ref: '#/components/schemas/FixedPointDollars'
           description: Minimum price increment in dollars.
@@ -213,7 +220,9 @@ components:
             in dollars.
         bid:
           $ref: '#/components/schemas/FixedPointDollars'
-          description: Best bid price in dollars.
+          description: >-
+            Best bid price in dollars. `0.0000` when there is no bid, so check
+            `bid_size_fp` before using it.
         bid_size_fp:
           $ref: '#/components/schemas/FixedPointCount'
           description: >-
@@ -222,7 +231,10 @@ components:
             market stats are unavailable.
         ask:
           $ref: '#/components/schemas/FixedPointDollars'
-          description: Best ask price in dollars.
+          description: >-
+            Best ask price in dollars. When there is no ask this is a
+            placeholder, not a price (`922337203685477.5807` or `0.0000`), so
+            check `ask_size_fp` before using it.
         ask_size_fp:
           $ref: '#/components/schemas/FixedPointCount'
           description: >-
@@ -327,7 +339,7 @@ components:
       enum:
         - inactive
         - active
-        - closed
+        - finalized
       description: The status of a margin market
     FixedPointCount:
       type: string
