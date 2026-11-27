@@ -44,7 +44,8 @@ Market makers can disable this feature on the
 * Users may opt in to automatic rebalancing between exchange shards.
 * The customer supplies a target balance allocation as a percentage of their balance across exchange shards. For example, `{Default: 80, Combos: 20}`.
 * Every 10 seconds, Kalshi computes the customer's balance on each exchange shard as its account balance minus the value of its resting orders.
-* If the balance has drifted from the target allocation, Kalshi executes an intra-exchange account transfer on the customer's behalf to restore the target allocation.
+* If the balance has drifted from the target allocation, Kalshi creates an automatic transfer only when the amount to move is at least **\$100 per transfer**. Smaller adjustments are skipped, so balances can remain away from the target even after the target allocation is saved successfully.
+* For a smaller adjustment, use the [Intra Account Transfer API](https://docs.kalshi.com/api-reference/portfolio/intra-account-transfer.md) or transfer funds manually on the [Exchange Indexes settings page](https://kalshi.com/account/exchange-indexes).
 * Target balance allocations can be configured through the [REST API](https://docs.kalshi.com/api-reference/portfolio/set-target-balance-allocation.md) and the clearing portal.
 
 ## Order routing
