@@ -59,17 +59,9 @@ Only one FIX connection is allowed per API key. Separate API keys are required f
 
 You must use TLS 1.2 or higher (not plain TCP) to connect to the FIX gateway. Cipher suites follow [AWS Network Load Balancer TLS policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#describe-ssl-policies). If your FIX implementation does not support native TLS connections, use a local proxy such as [stunnel](https://www.stunnel.org/).
 
-To obtain the server certificate for pinning on the initiator side:
+Configure your FIX engine or TLS proxy to verify the gateway hostname and certificate chain using your system's trusted CA store. If your engine requires an explicit CA file, the public endpoints listed above currently chain to [Amazon Root CA 1](https://www.amazontrust.com/repository/AmazonRootCA1.pem).
 
-```bash theme={null}
-openssl s_client -showcerts -connect <host>:<port> < /dev/null | openssl x509 > kalshi-fix.pem
-```
-
-For example, to pin against the demo order entry endpoint:
-
-```bash theme={null}
-openssl s_client -showcerts -connect fix.demo.kalshi.co:8228 < /dev/null | openssl x509 > kalshi-fix.pem
-```
+The gateway supplies its server and intermediate certificates during the TLS handshake. Avoid pinning either certificate, since renewal or rotation can break the connection. Use your FIX API key to sign the [Logon message](https://docs.kalshi.com/fix/authentication.md).
 
 ## Private Connectivity
 

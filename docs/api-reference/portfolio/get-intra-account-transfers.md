@@ -203,9 +203,11 @@ components:
       enum:
         - pending
         - complete
+        - failed
       x-enum-varnames:
         - IntraExchangeInstanceTransferStatusPending
         - IntraExchangeInstanceTransferStatusComplete
+        - IntraExchangeInstanceTransferStatusFailed
       description: Transfer status.
   responses:
     BadRequestError:
